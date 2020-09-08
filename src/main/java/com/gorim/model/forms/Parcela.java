@@ -1,65 +1,65 @@
 package com.gorim.model.forms;
 
 public class Parcela {
-	private final int seed;
-	private final int seedPrice;
-	private final int fertilizer;
-	private final int fertilizerPrice;
-	private final int pesticideMachine;
-	private final int pesticideMachinePrice;
-	private final boolean sprayer;
-	private final int sprayerPrice;
+	private final int semente;
+	private final int sementePreco;
+	private final int fertilizante;
+	private final int fertilizantePreco;
+	private final int agrotoxicoMaquina;
+	private final int agrotoxicoMaquinaPreco;
+	private final boolean pulverizador;
+	private final int pulverizadorPreco;
 	
 	public Parcela(
-			int seed,
-			int seedPrice,
-			int fertilizer,
-			int fertilizerPrice,
-			int pesticideMachine,
-			int pesticideMachinePrice,
-			boolean sprayer,
-			int sprayerPrice
+			int semente,
+			int sementePreco,
+			int fertilizante,
+			int fertilizantePreco,
+			int agrotoxicoMaquina,
+			int agrotoxicoMaquinaPreco,
+			boolean pulverizador,
+			int pulverizadorPreco
 	) {
-		this.seed = seed;
-		this.seedPrice = seedPrice;
-		this.fertilizer = fertilizer;
-		this.fertilizerPrice = fertilizerPrice;
-		this.pesticideMachine = pesticideMachine;
-		this.pesticideMachinePrice = pesticideMachinePrice;
-		this.sprayer = sprayer;
-		this.sprayerPrice = sprayerPrice;
+		this.semente = semente;
+		this.sementePreco = sementePreco;
+		this.fertilizante = fertilizante;
+		this.fertilizantePreco = fertilizantePreco;
+		this.agrotoxicoMaquina = agrotoxicoMaquina;
+		this.agrotoxicoMaquinaPreco = agrotoxicoMaquinaPreco;
+		this.pulverizador = pulverizador;
+		this.pulverizadorPreco = pulverizadorPreco;
 	}
 
-	public int getSeed() {
-		return seed;
+	public int getSemente() {
+		return semente;
 	}
 
-	public int getSeedPrice() {
-		return seedPrice;
+	public int getSementePreco() {
+		return sementePreco;
 	}
 
-	public int getFertilizer() {
-		return fertilizer;
+	public int getFertilizante() {
+		return fertilizante;
 	}
 
-	public int getFertilizerPrice() {
-		return fertilizerPrice;
+	public int getFetilizantePreco() {
+		return fertilizantePreco;
 	}
 
-	public int getPesticideMachine() {
-		return pesticideMachine;
+	public int getAgrotoxicoMaquina() {
+		return agrotoxicoMaquina;
 	}
 
-	public int getPesticideMachinePrice() {
-		return pesticideMachinePrice;
+	public int getAgrotoxicoMaquinaPreco() {
+		return agrotoxicoMaquinaPreco;
 	}
 
-	public boolean isSprayer() {
-		return sprayer;
+	public boolean isPulverizador() {
+		return pulverizador;
 	}
 	
-	public int getSprayerPrice() {
-		return sprayerPrice;
+	public int getPulverizadorPreco() {
+		return pulverizadorPreco;
 	}
 	
 }

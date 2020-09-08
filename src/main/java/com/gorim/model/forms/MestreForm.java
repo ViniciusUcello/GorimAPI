@@ -3,16 +3,16 @@ package com.gorim.model.forms;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MestreForm {
-	private final int playerQuantity;
+	private final int quantidadeJogadores;
 
 	public MestreForm(
-			@JsonProperty("playerQuantity") int playerQuantity
+			@JsonProperty("quantidadeJogadores") int quantidadeJogadores
 	) {
-		this.playerQuantity = playerQuantity;
+		this.quantidadeJogadores = quantidadeJogadores;
 	}
 
-	public int getPlayerQuantity() {
-		return playerQuantity;
+	public int getQuantidadeJogadores() {
+		return quantidadeJogadores;
 	}
 	
 	

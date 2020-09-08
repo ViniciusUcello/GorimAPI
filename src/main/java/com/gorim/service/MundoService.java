@@ -30,8 +30,8 @@ public class MundoService {
 	}
 	
 	public void processaMestre(MestreForm mestreForm) {
-		this.mundo.setPlayerQuantity(mestreForm.getPlayerQuantity());
-		this.et1 = new boolean[mestreForm.getPlayerQuantity()];
+		this.mundo.setPlayerQuantity(mestreForm.getQuantidadeJogadores());
+		this.et1 = new boolean[mestreForm.getQuantidadeJogadores()];
 		this.et2 = new boolean[6];
 		this.limpaEts();
 		this.mundo.iniciarJogo();
@@ -60,12 +60,12 @@ public class MundoService {
 	}*/
 	
 	public void processaJogadaEmpresario(EmpresarioForm empForm) throws IOException {
-		if(empForm.hasTransfers()) {
-			for (Transfer transfer : empForm.getTransfers() ) {
+		if(empForm.temTransferencias()) {
+			for (Transfer transfer : empForm.getTransferencias() ) {
 				this.mundo.transferirDinheiros(
 						empForm.getId(),
-						transfer.getTo(),
-						transfer.getQuantity()
+						transfer.getDestinatario(),
+						transfer.getValor()
 				);
 			}
 		}
@@ -88,19 +88,19 @@ public class MundoService {
 	
 	public void processaJogadaAgricultor(AgricultorForm agrForm) throws IOException {
 		
-		if(agrForm.hasTransfers()) {
-			for (Transfer transfer : agrForm.getTransfers() ) {
+		if(agrForm.temTransferencias()) {
+			for (Transfer transfer : agrForm.getTranferencias() ) {
 				this.mundo.transferirDinheiros(
 						agrForm.getId(),
-						transfer.getTo(),
-						transfer.getQuantity()
+						transfer.getDestinatario(),
+						transfer.getValor()
 				);
 			}
 		}
 		
 		// CONTINUAR AQUI pedidos
 		
-		if(agrForm.hasPedidos()) {
+		if(agrForm.temPedidos()) {
 			for(Pedido pedido : agrForm.getPedidos() ) {
 				this.mundo.setPedidoFiscal(
 						agrForm.getId(),

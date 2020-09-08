@@ -7,25 +7,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EmpresarioForm {
 	private final int id;
-	private final List<Transfer> transfers;
+	private final List<Transfer> transferencias;
 	
 	public EmpresarioForm(
 			@JsonProperty("id") int id,
-			@JsonProperty("transfers") List<Transfer> transfers) {
+			@JsonProperty("transferencias") List<Transfer> transferencias) {
 		this.id = id;
-		this.transfers = transfers;
+		this.transferencias = transferencias;
 	}
 
 	public int getId() {
 		return id;
 	}
 
-	public List<Transfer> getTransfers() {
-		return transfers;
+	public List<Transfer> getTransferencias() {
+		return transferencias;
 	}
 	
-	public boolean hasTransfers() {
-		if(this.transfers.isEmpty()) return false;
+	public boolean temTransferencias() {
+		if(this.transferencias.isEmpty()) return false;
 		return true;
 	}
 	

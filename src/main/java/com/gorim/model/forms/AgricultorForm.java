@@ -14,7 +14,7 @@ public class AgricultorForm {
 	 * private final Parcela p4; private final Parcela p5; private final Parcela p6;
 	 */
 
-	private final List<Transfer> transfers;
+	private final List<Transfer> transferencias;
 	private final List<Pedido> pedidos;
 	
 	public AgricultorForm(
@@ -32,7 +32,7 @@ public class AgricultorForm {
 			 * 
 			 * @JsonProperty("p6") Parcela p6,
 			 */
-			@JsonProperty("transfers") List<Transfer> transfers,
+			@JsonProperty("transferencias") List<Transfer> transferencias,
 			@JsonProperty("pedidos") List<Pedido> pedidos
 	) {
 		this.id = id;
@@ -40,7 +40,7 @@ public class AgricultorForm {
 		 * this.p1 = p1; this.p2 = p2; this.p3 = p3; this.p4 = p4; this.p5 = p5; this.p6
 		 * = p6;
 		 */
-		this.transfers = transfers;
+		this.transferencias = transferencias;
 		this.pedidos = pedidos;
 	}
 
@@ -62,20 +62,20 @@ public class AgricultorForm {
 	 * public Parcela getP6() { return p6; }
 	 */
 
-	public List<Transfer> getTransfers() {
-		return transfers;
+	public List<Transfer> getTranferencias() {
+		return transferencias;
 	}
 
 	public List<Pedido> getPedidos() {
 		return pedidos;
 	}
 	
-	public boolean hasTransfers() {
-		if(this.transfers.isEmpty()) return false;
+	public boolean temTransferencias() {
+		if(this.transferencias.isEmpty()) return false;
 		return true;
 	}
 	
-	public boolean hasPedidos() {
+	public boolean temPedidos() {
 		if(this.pedidos.isEmpty()) return false;
 		return true;
 	}
