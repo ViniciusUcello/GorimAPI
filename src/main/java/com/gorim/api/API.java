@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import com.gorim.motorJogo.Agricultor;
 import com.gorim.motorJogo.Empresario;
 import com.gorim.service.MundoService;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("request/api")
 @RestController
 public class API {
