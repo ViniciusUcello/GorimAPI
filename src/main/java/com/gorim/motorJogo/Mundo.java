@@ -77,6 +77,24 @@ public class Mundo {
     	return this.etapa;
     }
     
+    public String getIdJogo() {
+    	return "semId";
+    }
+    
+    public double calculaProdutividadeMundo() {
+    	double peso = 0;
+        if(this.poluicaoMundo < 0.3) peso = 1;
+        else if(this.poluicaoMundo >= 0.3 && this.poluicaoMundo < 0.4) peso = 0.9;
+        else if(this.poluicaoMundo >= 0.4 && this.poluicaoMundo < 0.5) peso = 0.8;
+        else if(this.poluicaoMundo >= 0.5 && this.poluicaoMundo < 0.6) peso = 0.7;
+        else if(this.poluicaoMundo >= 0.7 && this.poluicaoMundo < 0.8) peso = 0.6;
+        else if(this.poluicaoMundo >= 0.8 && this.poluicaoMundo < 0.9) peso = 0.4;
+        else if(this.poluicaoMundo >= 0.9 && this.poluicaoMundo < 0.99) peso = 0.2;
+        else peso = 0;
+        
+        return peso;
+    }
+    
     public void iniciarJogo() {
     	String[] nomes = {"EmpSem", "EmpFer", "EmpMaq", "EmpAgr"};
     	String setor;

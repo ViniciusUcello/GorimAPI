@@ -138,7 +138,9 @@ public class MundoService {
 		return new MundoModel(
 				this.mundo.getRodada(),
 				this.mundo.getEtapa(),
-				this.mundo.getPoluicaoMundo()
+				this.mundo.getPoluicaoMundo(),
+				this.mundo.getIdJogo(),
+				this.mundo.calculaProdutividadeMundo()
 		);
 	}
 	
