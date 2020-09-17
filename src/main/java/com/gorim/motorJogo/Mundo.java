@@ -69,6 +69,14 @@ public class Mundo {
 
     }
     
+    public int getRodada() {
+    	return this.rodada;
+    }
+    
+    public int getEtapa() {
+    	return this.etapa;
+    }
+    
     public void iniciarJogo() {
     	String[] nomes = {"EmpSem", "EmpFer", "EmpMaq", "EmpAgr"};
     	String setor;

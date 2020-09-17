@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gorim.model.MundoModel;
 import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
 import com.gorim.model.forms.EmpresarioSellFormParcel;
@@ -24,7 +24,7 @@ import com.gorim.motorJogo.Agricultor;
 import com.gorim.motorJogo.Empresario;
 import com.gorim.service.MundoService;
 
-@CrossOrigin
+
 @RequestMapping("request/api")
 @RestController
 public class API {
@@ -38,6 +38,11 @@ public class API {
 	@PostMapping(path = "/mestre")
 	public void postForm(@RequestBody MestreForm mestreForm) {
 		this.mundoService.processaMestre(mestreForm);
+	}
+	
+	@GetMapping(path = "/mestre/infoMundo")
+	public MundoModel infoMundo() {
+		return this.mundoService.getInfoMundo();
 	}
 	
 	@PostMapping(path = "/mestre/finalizaEtapa")

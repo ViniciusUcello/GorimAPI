@@ -8,6 +8,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.gorim.model.MundoModel;
 import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
 import com.gorim.model.forms.EmpresarioSellFormParcel;
@@ -131,6 +132,14 @@ public class MundoService {
 	
 	public ResponseEntity<ByteArrayResource> getFilePessoaById(int id) throws IOException{
 		return this.mundo.getFilePessoaById(id);
+	}
+	
+	public MundoModel getInfoMundo() {
+		return new MundoModel(
+				this.mundo.getRodada(),
+				this.mundo.getEtapa(),
+				this.mundo.getPoluicaoMundo()
+		);
 	}
 	
 }
