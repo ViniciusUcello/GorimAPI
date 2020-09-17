@@ -24,7 +24,7 @@ import com.gorim.motorJogo.Agricultor;
 import com.gorim.motorJogo.Empresario;
 import com.gorim.service.MundoService;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 @RequestMapping("request/api")
 @RestController
 public class API {
