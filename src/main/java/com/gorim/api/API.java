@@ -2,6 +2,7 @@ package com.gorim.api;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -20,6 +21,7 @@ import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
 import com.gorim.model.forms.EmpresarioSellFormParcel;
 import com.gorim.model.forms.MestreForm;
+import com.gorim.model.forms.Venda;
 import com.gorim.motorJogo.Agricultor;
 import com.gorim.motorJogo.Empresario;
 import com.gorim.service.MundoService;
@@ -36,13 +38,14 @@ public class API {
 	}
 	
 	@PostMapping(path = "/mestre")
-	public void postForm(@RequestBody MestreForm mestreForm) {
+	public int postForm(@RequestBody MestreForm mestreForm) {
 		this.mundoService.processaMestre(mestreForm);
+		return 1;
 	}
 	
-	@GetMapping(path = "/mestre/infoMundo")
-	public MundoModel infoMundo() {
-		return this.mundoService.getInfoMundo();
+	@GetMapping(path = "/mestre/infoMundo/{idJogo}")
+	public MundoModel infoMundo(@PathVariable("idJogo") int idJogo) {
+		return this.mundoService.getInfoMundo(idJogo);
 	}
 	
 	@PostMapping(path = "/mestre/finalizaEtapa")
@@ -78,6 +81,11 @@ public class API {
 		return this.mundoService.getEmpresarioById(id);
 	}
 	
+	@PostMapping(path = "/empresario/venda/{idAgr}")
+	public void adicionaOrcamentoById(@PathVariable("idAgr") int idAgr, @RequestBody Venda venda) {
+		this.mundoService.adicionaOrcamentoById(idAgr, venda);
+	}
+	
 	@PostMapping(path = "/empresario/{id}/venda")
 	public void postEmpresarioSellFormParcel(
 			@PathVariable("id") int id,
@@ -86,9 +94,28 @@ public class API {
 		this.mundoService.empresarioSellFormParcel(id, empSellForm);
 	}
 	
+	@GetMapping(path = "/empresario/venda/{idEmp}")
+	public List<Venda> getVendas(@PathVariable("idEmp") int idEmp) {
+		return this.mundoService.getVendas(idEmp);
+	}
+	
 	@PostMapping(path = "/agricultor")
 	public void postForm(@RequestBody AgricultorForm agricultorForm) throws IOException {
 		this.mundoService.processaJogadaAgricultor(agricultorForm);
+	}
+	
+	@PostMapping(path = "/agricultor/{idAgr}/venda/{idEmp}")
+	public void adicionaVendaById(
+		@PathVariable("idEmp") int idEmp,
+		@PathVariable("idAgr") int idAgr,
+		@RequestBody Venda venda
+	) {
+		this.mundoService.adicionaVendaById(idEmp, idAgr, venda);
+	}
+	
+	@GetMapping(path = "/agricultor/venda/{idAgr}")
+	public List<Venda> getOrcamentos(@PathVariable("idAgr") int idAgr) {
+		return this.mundoService.getOrcamentos(idAgr);
 	}
 	
 	@GetMapping(path = "/agricultor/{id}")

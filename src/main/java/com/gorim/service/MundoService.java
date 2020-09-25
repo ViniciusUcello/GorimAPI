@@ -2,6 +2,7 @@ package com.gorim.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -13,8 +14,9 @@ import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
 import com.gorim.model.forms.EmpresarioSellFormParcel;
 import com.gorim.model.forms.MestreForm;
-import com.gorim.model.forms.Pedido;
+import com.gorim.model.forms.PedidoFiscal;
 import com.gorim.model.forms.Transfer;
+import com.gorim.model.forms.Venda;
 import com.gorim.motorJogo.Agricultor;
 import com.gorim.motorJogo.Empresario;
 import com.gorim.motorJogo.Mundo;
@@ -27,11 +29,12 @@ public class MundoService {
 	
 	@Autowired
 	public MundoService() {
-		this.mundo = new Mundo();
+		//this.mundo = new Mundo();
 	}
 	
 	public void processaMestre(MestreForm mestreForm) {
-		this.mundo.setPlayerQuantity(mestreForm.getQuantidadeJogadores());
+		this.mundo = new Mundo(mestreForm.getQuantidadeJogadores());
+		//this.mundo.setPlayerQuantity(mestreForm.getQuantidadeJogadores());
 		this.et1 = new boolean[mestreForm.getQuantidadeJogadores()];
 		this.et2 = new boolean[6];
 		this.limpaEts();
@@ -102,7 +105,7 @@ public class MundoService {
 		// CONTINUAR AQUI pedidos
 		
 		if(agrForm.temPedidos()) {
-			for(Pedido pedido : agrForm.getPedidos() ) {
+			for(PedidoFiscal pedido : agrForm.getPedidosFiscal() ) {
 				this.mundo.setPedidoFiscal(
 						agrForm.getId(),
 						pedido.toString()
@@ -134,14 +137,31 @@ public class MundoService {
 		return this.mundo.getFilePessoaById(id);
 	}
 	
-	public MundoModel getInfoMundo() {
+	public MundoModel getInfoMundo(int idJogo) {
 		return new MundoModel(
 				this.mundo.getRodada(),
 				this.mundo.getEtapa(),
 				this.mundo.getPoluicaoMundo(),
 				this.mundo.getIdJogo(),
-				this.mundo.calculaProdutividadeMundo()
+				this.mundo.calculaProdutividadeMundo(),
+				this.mundo.getQuantidadeJogadores()
 		);
+	}
+	
+	public void adicionaOrcamentoById(int idAgr, Venda venda) {
+		this.mundo.adicionaOrcamentoById(idAgr, venda);
+	}
+	
+	public List<Venda> getOrcamentos(int idAgr){
+		return this.mundo.getOrcamentos(idAgr);
+	}
+	
+	public void adicionaVendaById(int idEmp, int idAgr, Venda venda) {
+		this.mundo.adicionaVendaById(idEmp, idAgr, venda);
+	}
+	
+	public List<Venda> getVendas(int idEmp){
+		return this.mundo.getVendas(idEmp);
 	}
 	
 }

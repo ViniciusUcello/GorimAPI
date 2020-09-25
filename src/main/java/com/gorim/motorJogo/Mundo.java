@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -23,6 +24,8 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+
+import com.gorim.model.forms.Venda;
 
 public class Mundo {
 
@@ -47,13 +50,14 @@ public class Mundo {
     private ArrayList<JSONObject> transferenciasSent;
     private ArrayList<JSONObject> transferenciasReceived;
     
-    
+    private List<List<Venda>> vendas;
+    //private ArrayList<Venda>[] vendas;
 
-    public Mundo() {
+    public Mundo(int quantidadeJogadores) {
         this.idPessoa = 1;
         this.idParcelas = 1;
         this.qntdParcelasPorAgricultor = 6;
-        // this.quantidadeJogadores = quantidadeJogadores;
+        this.quantidadeJogadores = quantidadeJogadores;
         this.rodada = 1;
         this.etapa = 1;
         this.poluicaoMundo = (double) 0.2;
@@ -66,6 +70,8 @@ public class Mundo {
 
         this.separadorCSV = ";";
         this.saldosAnteriores = new ArrayList<>();
+        
+        //this.vendas = new ArrayList<ArrayList<Venda>>();
 
     }
     
@@ -77,8 +83,8 @@ public class Mundo {
     	return this.etapa;
     }
     
-    public String getIdJogo() {
-    	return "semId";
+    public int getIdJogo() {
+    	return 1;
     }
     
     public double calculaProdutividadeMundo() {
@@ -126,6 +132,17 @@ public class Mundo {
         
         this.criaCargosPoliticos();
         
+        System.out.println(">> " + this.quantidadeJogadores);
+        
+        //this.vendas = new ArrayList<List<Venda>>();
+        
+        
+        this.vendas = new ArrayList<>();
+        while(this.vendas.size() < this.quantidadeJogadores)
+        	this.vendas.add(new ArrayList<Venda>());
+        
+        System.out.println(this.vendas.size());
+        
         int qnt = this.quantidadeJogadores + 6;
         this.transferenciasSent = new ArrayList<JSONObject>(qnt);
         this.transferenciasReceived = new ArrayList<JSONObject>(qnt);
@@ -136,6 +153,7 @@ public class Mundo {
         }
 
         this.criaHistoricoSaldos();
+        
     }
     
     public void setPlayerQuantity(int quantity) {
@@ -1150,6 +1168,9 @@ public class Mundo {
                 if( (this.rodada+1)%2 == 0 ) pref.setNome("");
             }
             */
+            
+            this.limpaVendas();
+            
             this.etapa = 1;
 	    }
     }
@@ -1211,6 +1232,44 @@ public class Mundo {
     	int cidade = (agr.getCidade().equals("Atlantis")) ? 0 : 1;
     	
     	this.fiscais.get(cidade).adicionaPedido(agr.getNome(), pedido);
+    }
+    
+    public void adicionaOrcamentoById(int idAgr, Venda venda) {
+    	
+    	System.out.println("IdAgr " + venda.getIdAgr());
+    	
+    	if(this.vendas.get(idAgr-1) == null) System.out.println("1");
+    	else System.out.println("0");
+    	
+    	this.vendas.get(idAgr-1).add(venda);
+    	
+    	//if(this.vendas[idAgr-1] == null) System.out.println("1");
+    	//else System.out.println("0");
+    	
+    	//this.vendas[idAgr-1].add(venda);
+    }
+    
+    public List<Venda> getOrcamentos(int idAgr){
+    	return this.vendas.get(idAgr-1);
+    	//return this.vendas[idAgr-1];
+    }
+    
+    public void adicionaVendaById(int idEmp, int idAgr, Venda venda) {
+    	// remover aqui orcamento feito para agricultor
+    	
+    	this.vendas.get(idEmp).add(venda);
+    	//this.vendas[idEmp-1].add(venda);
+    }
+    
+    public List<Venda> getVendas(int idEmp){
+    	return this.vendas.get(idEmp);
+    	//return this.vendas[idEmp-1];
+    }
+    
+    public void limpaVendas() {
+    	/*this.vendas.forEach(
+			x -> x.clear()
+    	);*/
     }
     
 }
