@@ -148,16 +148,21 @@ public class MundoService {
 		);
 	}
 	
-	public void adicionaOrcamentoById(int idAgr, Venda venda) {
-		this.mundo.adicionaOrcamentoById(idAgr, venda);
+	public void adicionaOrcamentoById(Venda venda) {
+		this.mundo.adicionaOrcamentoById(venda);
 	}
 	
 	public List<Venda> getOrcamentos(int idAgr){
 		return this.mundo.getOrcamentos(idAgr);
 	}
 	
-	public void adicionaVendaById(int idEmp, int idAgr, Venda venda) {
-		this.mundo.adicionaVendaById(idEmp, idAgr, venda);
+	public void removeOrcamentoById(Venda venda) {
+		this.mundo.removeOrcamentoById(venda);
+	}
+	
+	public void adicionaVendaById(Venda venda) {
+    	System.out.println("Entrou MundoService.adicionaVendaById()");
+		this.mundo.adicionaVendaById(venda);
 	}
 	
 	public List<Venda> getVendas(int idEmp){

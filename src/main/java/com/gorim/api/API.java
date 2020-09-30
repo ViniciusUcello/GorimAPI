@@ -81,17 +81,17 @@ public class API {
 		return this.mundoService.getEmpresarioById(id);
 	}
 	
-	@PostMapping(path = "/empresario/venda/{idAgr}")
-	public void adicionaOrcamentoById(@PathVariable("idAgr") int idAgr, @RequestBody Venda venda) {
-		this.mundoService.adicionaOrcamentoById(idAgr, venda);
-	}
-	
 	@PostMapping(path = "/empresario/{id}/venda")
 	public void postEmpresarioSellFormParcel(
 			@PathVariable("id") int id,
 			@RequestBody EmpresarioSellFormParcel empSellForm
 	) {
 		this.mundoService.empresarioSellFormParcel(id, empSellForm);
+	}
+	
+	@PostMapping(path = "/empresario/venda/{idAgr}")
+	public void adicionaOrcamentoById(@RequestBody Venda venda) {
+		this.mundoService.adicionaOrcamentoById(venda);
 	}
 	
 	@GetMapping(path = "/empresario/venda/{idEmp}")
@@ -104,18 +104,20 @@ public class API {
 		this.mundoService.processaJogadaAgricultor(agricultorForm);
 	}
 	
-	@PostMapping(path = "/agricultor/{idAgr}/venda/{idEmp}")
-	public void adicionaVendaById(
-		@PathVariable("idEmp") int idEmp,
-		@PathVariable("idAgr") int idAgr,
-		@RequestBody Venda venda
-	) {
-		this.mundoService.adicionaVendaById(idEmp, idAgr, venda);
+	@PostMapping(path = "/agricultor/venda/{idEmp}")
+	public void adicionaVendaById(@RequestBody Venda venda) {
+		System.out.println("Entrou API.adicionavendaById()");
+		this.mundoService.adicionaVendaById(venda);
 	}
 	
 	@GetMapping(path = "/agricultor/venda/{idAgr}")
 	public List<Venda> getOrcamentos(@PathVariable("idAgr") int idAgr) {
 		return this.mundoService.getOrcamentos(idAgr);
+	}
+	
+	@PostMapping(path = "/agricultor/venda/delete/{idAgr}")
+	public void removeOrcamento(@RequestBody Venda venda) {
+		this.mundoService.removeOrcamentoById(venda);
 	}
 	
 	@GetMapping(path = "/agricultor/{id}")

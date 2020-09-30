@@ -3,27 +3,68 @@ package com.gorim.model.forms;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Venda {
+	private String nomeAgr;
 	private int idAgr;
+	private String nomeEmp;
 	private int idEmp;
 	private boolean sucesso;
-	private int idProduto;
+	private String nomeProduto;
 	private int quantidade;
 	private String preco;
+	private int idJava;
 	
 	public Venda(
+			@JsonProperty("nomeAgr") String nomeAgr,
 			@JsonProperty("idAgr") int idAgr,
+			@JsonProperty("nomeEmp") String nomeEmp,
 			@JsonProperty("idEmp") int idEmp,
 			@JsonProperty("sucesso") boolean sucesso,
-			@JsonProperty("idProduto") int idProduto,
+			@JsonProperty("nomeProduto") String nomeProduto,
 			@JsonProperty("quantidade") int quantidade,
-			@JsonProperty("preco") String preco
+			@JsonProperty("preco") String preco,
+			@JsonProperty("idJava") int idJava
 	) {
+		this.nomeAgr = nomeAgr;
 		this.idAgr = idAgr;
+		this.nomeEmp = nomeEmp;
 		this.idEmp = idEmp;
 		this.sucesso = sucesso;
-		this.idProduto = idProduto;
+		this.nomeProduto = nomeProduto;
 		this.quantidade = quantidade;
 		this.preco = preco;
+		this.idJava =  idJava;
+	}
+
+	public int getIdJava() {
+		return idJava;
+	}
+
+	public void setIdJava(int idJava) {
+		this.idJava = idJava;
+	}
+
+	public String getNomeAgr() {
+		return nomeAgr;
+	}
+
+	public void setNomeAgr(String nomeAgr) {
+		this.nomeAgr = nomeAgr;
+	}
+
+	public String getNomeEmp() {
+		return nomeEmp;
+	}
+
+	public void setNomeEmp(String nomeEmp) {
+		this.nomeEmp = nomeEmp;
+	}
+
+	public String getNomeProduto() {
+		return nomeProduto;
+	}
+
+	public void setNomeProduto(String nomeProduto) {
+		this.nomeProduto = nomeProduto;
 	}
 
 	public int getIdAgr() {
@@ -48,14 +89,6 @@ public class Venda {
 
 	public void setSucesso(boolean sucesso) {
 		this.sucesso = sucesso;
-	}
-
-	public int getIdProduto() {
-		return idProduto;
-	}
-
-	public void setIdProduto(int idProduto) {
-		this.idProduto = idProduto;
 	}
 
 	public int getQuantidade() {

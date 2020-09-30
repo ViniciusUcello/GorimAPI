@@ -132,16 +132,10 @@ public class Mundo {
         
         this.criaCargosPoliticos();
         
-        System.out.println(">> " + this.quantidadeJogadores);
-        
-        //this.vendas = new ArrayList<List<Venda>>();
-        
-        
+        // Inicia Array auxiliar de orcamento
         this.vendas = new ArrayList<>();
         while(this.vendas.size() < this.quantidadeJogadores)
         	this.vendas.add(new ArrayList<Venda>());
-        
-        System.out.println(this.vendas.size());
         
         int qnt = this.quantidadeJogadores + 6;
         this.transferenciasSent = new ArrayList<JSONObject>(qnt);
@@ -1234,42 +1228,43 @@ public class Mundo {
     	this.fiscais.get(cidade).adicionaPedido(agr.getNome(), pedido);
     }
     
-    public void adicionaOrcamentoById(int idAgr, Venda venda) {
+    public void adicionaOrcamentoById(Venda venda) {
+    	System.out.println("Entrou Mundo.adicionaOrcamentoById()");
+    	venda.setNomeAgr(this.agricultores.get(venda.getIdAgr()-1-4).getNome());
+    	venda.setNomeEmp(this.empresarios.get(venda.getIdEmp()-1).getNome());
     	
-    	System.out.println("IdAgr " + venda.getIdAgr());
-    	
-    	if(this.vendas.get(idAgr-1) == null) System.out.println("1");
-    	else System.out.println("0");
-    	
-    	this.vendas.get(idAgr-1).add(venda);
-    	
-    	//if(this.vendas[idAgr-1] == null) System.out.println("1");
-    	//else System.out.println("0");
-    	
-    	//this.vendas[idAgr-1].add(venda);
+    	this.vendas.get(venda.getIdAgr()-1).add(venda);
     }
     
     public List<Venda> getOrcamentos(int idAgr){
+    	System.out.println("Entrou Mundo.getOrcamentos()");
+    	int i = 0;
+    	for(Venda orcamento: this.vendas.get(idAgr-1)) {
+    		orcamento.setIdJava(i);
+    		i++;
+    	}
     	return this.vendas.get(idAgr-1);
-    	//return this.vendas[idAgr-1];
     }
     
-    public void adicionaVendaById(int idEmp, int idAgr, Venda venda) {
-    	// remover aqui orcamento feito para agricultor
-    	
-    	this.vendas.get(idEmp).add(venda);
-    	//this.vendas[idEmp-1].add(venda);
+    public void adicionaVendaById(Venda venda) {
+    	System.out.println("Entrou Mundo.adicionaVendaById()");
+    	this.vendas.get(venda.getIdEmp()-1).add(venda);
+    }
+    
+    public void removeOrcamentoById(Venda venda) {
+    	System.out.println("Entrou Mundo.removeOrcamentoById()");
+    	this.vendas.get(venda.getIdAgr()-1).remove(venda.getIdJava());
     }
     
     public List<Venda> getVendas(int idEmp){
-    	return this.vendas.get(idEmp);
-    	//return this.vendas[idEmp-1];
+    	System.out.println("Entrou Mundo.getVendas()");
+    	return this.vendas.get(idEmp-1);
     }
     
     public void limpaVendas() {
-    	/*this.vendas.forEach(
+    	this.vendas.forEach(
 			x -> x.clear()
-    	);*/
+    	);
     }
     
 }
