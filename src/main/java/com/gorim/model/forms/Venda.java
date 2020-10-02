@@ -11,7 +11,7 @@ public class Venda {
 	private String nomeProduto;
 	private int quantidade;
 	private String preco;
-	private int idJava;
+	private int idOrcamento;
 	
 	public Venda(
 			@JsonProperty("nomeAgr") String nomeAgr,
@@ -22,7 +22,7 @@ public class Venda {
 			@JsonProperty("nomeProduto") String nomeProduto,
 			@JsonProperty("quantidade") int quantidade,
 			@JsonProperty("preco") String preco,
-			@JsonProperty("idJava") int idJava
+			@JsonProperty("idOrcamento") int idOrcamento
 	) {
 		this.nomeAgr = nomeAgr;
 		this.idAgr = idAgr;
@@ -32,15 +32,15 @@ public class Venda {
 		this.nomeProduto = nomeProduto;
 		this.quantidade = quantidade;
 		this.preco = preco;
-		this.idJava =  idJava;
+		this.idOrcamento =  idOrcamento;
 	}
 
-	public int getIdJava() {
-		return idJava;
+	public int getIdOrcamento() {
+		return idOrcamento;
 	}
 
-	public void setIdJava(int idJava) {
-		this.idJava = idJava;
+	public void setIdOrcamento(int idOrcamento) {
+		this.idOrcamento = idOrcamento;
 	}
 
 	public String getNomeAgr() {

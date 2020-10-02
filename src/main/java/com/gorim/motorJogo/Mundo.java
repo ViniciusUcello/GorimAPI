@@ -25,6 +25,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import com.gorim.model.PessoaModel;
 import com.gorim.model.forms.Venda;
 
 public class Mundo {
@@ -1177,6 +1178,15 @@ public class Mundo {
     	return this.agricultores;
     }
     
+    public List<PessoaModel> getInfoAgricultores(){
+    	List<PessoaModel> agrs = new ArrayList<PessoaModel>();
+    	for (Agricultor agricultor : this.agricultores) {
+    		PessoaModel aux = new PessoaModel(agricultor.getNome(), agricultor.getId());
+    		agrs.add(aux);
+    	}
+    	return agrs;
+    }
+    
     public ResponseEntity<ByteArrayResource> getFilePessoaById(int id) throws IOException {
     	int tipoPessoa = this.getTipoPessoaById(id);
     	File file = null;
@@ -1238,11 +1248,6 @@ public class Mundo {
     
     public List<Venda> getOrcamentos(int idAgr){
     	System.out.println("Entrou Mundo.getOrcamentos()");
-    	int i = 0;
-    	for(Venda orcamento: this.vendas.get(idAgr-1)) {
-    		orcamento.setIdJava(i);
-    		i++;
-    	}
     	return this.vendas.get(idAgr-1);
     }
     
@@ -1251,9 +1256,17 @@ public class Mundo {
     	this.vendas.get(venda.getIdEmp()-1).add(venda);
     }
     
-    public void removeOrcamentoById(Venda venda) {
+    public void removeOrcamentoById(int idAgr, int idEmp, int idOrcamento) {
     	System.out.println("Entrou Mundo.removeOrcamentoById()");
-    	this.vendas.get(venda.getIdAgr()-1).remove(venda.getIdJava());
+    	System.out.println(this.vendas.get(idAgr-1).size());
+    	for (Venda orcamento : this.vendas.get(idAgr-1)) {
+			if(orcamento.getIdOrcamento() == idOrcamento && orcamento.getIdEmp() == idEmp) {
+				this.vendas.get(idAgr-1).remove(orcamento);
+				break;
+			}
+		}
+    	System.out.println(this.vendas.get(idAgr-1).size());
+    	//this.vendas.get(venda.getIdAgr()-1).remove(venda.getIdJava());
     }
     
     public List<Venda> getVendas(int idEmp){

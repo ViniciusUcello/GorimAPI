@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gorim.model.MundoModel;
+import com.gorim.model.PessoaModel;
 import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
 import com.gorim.model.forms.EmpresarioSellFormParcel;
@@ -39,8 +40,7 @@ public class API {
 	
 	@PostMapping(path = "/mestre")
 	public int postForm(@RequestBody MestreForm mestreForm) {
-		this.mundoService.processaMestre(mestreForm);
-		return 1;
+		return this.mundoService.processaMestre(mestreForm);
 	}
 	
 	@GetMapping(path = "/mestre/infoMundo/{idJogo}")
@@ -61,6 +61,11 @@ public class API {
 	@GetMapping(path = "/mestre/agricultores")
 	public ArrayList<Agricultor> getListaAgricultor(){
 		return this.mundoService.getListaAgricultor();
+	}
+	
+	@GetMapping(path = "/mestre/infoAgricultores")
+	public List<PessoaModel> getInfoAgricultores(){
+		return this.mundoService.getInfoAgricultores();
 	}
 	
 	@GetMapping(
@@ -115,9 +120,9 @@ public class API {
 		return this.mundoService.getOrcamentos(idAgr);
 	}
 	
-	@PostMapping(path = "/agricultor/venda/delete/{idAgr}")
-	public void removeOrcamento(@RequestBody Venda venda) {
-		this.mundoService.removeOrcamentoById(venda);
+	@PostMapping(path = "/agricultor/venda/delete/{idEmp}/{idAgr}")
+	public void removeOrcamento(@PathVariable("idAgr") int idAgr, @PathVariable("idEmp") int idEmp, @RequestBody int idOrcamento) {
+		this.mundoService.removeOrcamentoById(idAgr, idEmp, idOrcamento);
 	}
 	
 	@GetMapping(path = "/agricultor/{id}")

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gorim.model.MundoModel;
+import com.gorim.model.PessoaModel;
 import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
 import com.gorim.model.forms.EmpresarioSellFormParcel;
@@ -32,13 +33,13 @@ public class MundoService {
 		//this.mundo = new Mundo();
 	}
 	
-	public void processaMestre(MestreForm mestreForm) {
+	public int processaMestre(MestreForm mestreForm) {
 		this.mundo = new Mundo(mestreForm.getQuantidadeJogadores());
-		//this.mundo.setPlayerQuantity(mestreForm.getQuantidadeJogadores());
 		this.et1 = new boolean[mestreForm.getQuantidadeJogadores()];
 		this.et2 = new boolean[6];
 		this.limpaEts();
 		this.mundo.iniciarJogo();
+		return 1;
 	}
 	
 	private void setJaJogou(int tipoJogador, int idJogador) {
@@ -129,6 +130,10 @@ public class MundoService {
 		return this.mundo.getListaAgricultor();
 	}
 	
+	public List<PessoaModel> getInfoAgricultores(){
+		return this.mundo.getInfoAgricultores();
+	}
+	
 	public void testeFinalizaEtapa() throws IOException{
 		this.mundo.finalizaEtapa();
 	}
@@ -156,8 +161,8 @@ public class MundoService {
 		return this.mundo.getOrcamentos(idAgr);
 	}
 	
-	public void removeOrcamentoById(Venda venda) {
-		this.mundo.removeOrcamentoById(venda);
+	public void removeOrcamentoById(int idAgr, int idEmp, int idOrcamento) {
+		this.mundo.removeOrcamentoById(idAgr, idEmp, idOrcamento);
 	}
 	
 	public void adicionaVendaById(Venda venda) {
