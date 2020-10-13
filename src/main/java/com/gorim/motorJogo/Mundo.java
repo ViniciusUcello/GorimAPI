@@ -26,6 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import com.gorim.model.PessoaModel;
+import com.gorim.model.ProdutoSimplifiedModel;
 import com.gorim.model.forms.Venda;
 
 public class Mundo {
@@ -235,6 +236,18 @@ public class Mundo {
             return 4;
         }
         return 0;
+    }
+    
+    public List<ProdutoSimplifiedModel> getProdutosEmpresarios() {
+    	List<ProdutoSimplifiedModel> produtos = new ArrayList<ProdutoSimplifiedModel>();
+
+    	for (Empresario emp : this.empresarios) {
+    		for (ProdutoSimplifiedModel prod : emp.getTipoPrecoProdutos()) {
+				produtos.add(prod);
+			}
+		}
+    	
+    	return produtos;
     }
 
     /**
@@ -1242,6 +1255,10 @@ public class Mundo {
     	System.out.println("Entrou Mundo.adicionaOrcamentoById()");
     	venda.setNomeAgr(this.agricultores.get(venda.getIdAgr()-1-4).getNome());
     	venda.setNomeEmp(this.empresarios.get(venda.getIdEmp()-1).getNome());
+    	
+    	venda.setNomeProduto(
+    			this.empresarios.get(venda.getIdEmp()-1).getTipoProdutoById(venda.getIdProduto())
+    	);
     	
     	this.vendas.get(venda.getIdAgr()-1).add(venda);
     }

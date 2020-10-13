@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gorim.model.MundoModel;
 import com.gorim.model.PessoaModel;
+import com.gorim.model.ProdutoSimplifiedModel;
 import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
 import com.gorim.model.forms.EmpresarioSellFormParcel;
@@ -128,6 +129,11 @@ public class API {
 	@GetMapping(path = "/agricultor/{id}")
 	public Agricultor getAgricultor(@PathVariable("id") int id) {
 		return this.mundoService.getAgricultorById(id);
+	}
+	
+	@GetMapping(path = "/agricultor/empresarios/produtos")
+	public List<ProdutoSimplifiedModel> getProdutosEmpresarios(){
+		return this.mundoService.getProdutosEmpresarios();
 	}
 	
 }

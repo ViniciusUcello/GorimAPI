@@ -8,6 +8,7 @@ public class Venda {
 	private String nomeEmp;
 	private int idEmp;
 	private boolean sucesso;
+	private int idProduto;
 	private String nomeProduto;
 	private int quantidade;
 	private String preco;
@@ -19,6 +20,7 @@ public class Venda {
 			@JsonProperty("nomeEmp") String nomeEmp,
 			@JsonProperty("idEmp") int idEmp,
 			@JsonProperty("sucesso") boolean sucesso,
+			@JsonProperty("idProduto") int idProduto,
 			@JsonProperty("nomeProduto") String nomeProduto,
 			@JsonProperty("quantidade") int quantidade,
 			@JsonProperty("preco") String preco,
@@ -29,10 +31,19 @@ public class Venda {
 		this.nomeEmp = nomeEmp;
 		this.idEmp = idEmp;
 		this.sucesso = sucesso;
+		this.idProduto = idProduto;
 		this.nomeProduto = nomeProduto;
 		this.quantidade = quantidade;
 		this.preco = preco;
 		this.idOrcamento =  idOrcamento;
+	}
+
+	public int getIdProduto() {
+		return idProduto;
+	}
+
+	public void setIdProduto(int idProduto) {
+		this.idProduto = idProduto;
 	}
 
 	public int getIdOrcamento() {

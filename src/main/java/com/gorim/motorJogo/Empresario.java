@@ -1,8 +1,11 @@
 package com.gorim.motorJogo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.simple.JSONArray;
+
+import com.gorim.model.ProdutoSimplifiedModel;
 
 /**
  * Empresario
@@ -207,6 +210,28 @@ public class Empresario extends Pessoa {
         this.setPoluicao(0);
         this.setMulta(0);
 
+    }
+    
+    public String getTipoProdutoById(int id) {
+    	String aux = "";
+    	for (Produto produto : this.produtos) {
+			if(produto.getId() == id) aux = produto.getTipo().substring(0, 1).toUpperCase() + produto.getTipo().substring(1).toLowerCase();
+		}
+    	return aux;
+    }
+    
+    public List<ProdutoSimplifiedModel> getTipoPrecoProdutos(){
+    	List<ProdutoSimplifiedModel> produtos = new ArrayList<ProdutoSimplifiedModel>();
+    	
+    	for (Produto prod : this.produtos) {
+    		produtos.add(new ProdutoSimplifiedModel(
+    				prod.getTipo(),
+    				prod.getCusto(),
+    				this.setor
+    				));
+		}
+    	
+    	return produtos;
     }
     
     @SuppressWarnings( "unchecked" )

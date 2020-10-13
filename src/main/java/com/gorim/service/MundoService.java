@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.gorim.model.MundoModel;
 import com.gorim.model.PessoaModel;
+import com.gorim.model.ProdutoSimplifiedModel;
 import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
 import com.gorim.model.forms.EmpresarioSellFormParcel;
@@ -80,6 +81,10 @@ public class MundoService {
 	
 	public Empresario getEmpresarioById(int id) {
 		return this.mundo.getEmpresarioById(id);
+	}
+	
+	public List<ProdutoSimplifiedModel> getProdutosEmpresarios(){
+		return this.mundo.getProdutosEmpresarios();
 	}
 	
 	public void empresarioSellFormParcel(int idEmp, EmpresarioSellFormParcel empSellForm) {
