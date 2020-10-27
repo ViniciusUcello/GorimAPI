@@ -1,32 +1,19 @@
 package com.gorim.model.forms;
 
-//import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EmpresarioForm {
-	private final int id;
-	private final List<Transfer> transferencias;
+	private final int idEmp;
 	
 	public EmpresarioForm(
-			@JsonProperty("id") int id,
-			@JsonProperty("transferencias") List<Transfer> transferencias) {
-		this.id = id;
-		this.transferencias = transferencias;
+			@JsonProperty("idEmp") int idEmp
+			) {
+		this.idEmp = idEmp;
 	}
 
-	public int getId() {
-		return id;
+	public int getIdEmp() {
+		return idEmp;
 	}
 
-	public List<Transfer> getTransferencias() {
-		return transferencias;
-	}
-	
-	public boolean temTransferencias() {
-		if(this.transferencias.isEmpty()) return false;
-		return true;
-	}
 	
 }

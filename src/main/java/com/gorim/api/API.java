@@ -23,6 +23,7 @@ import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
 import com.gorim.model.forms.EmpresarioSellFormParcel;
 import com.gorim.model.forms.MestreForm;
+import com.gorim.model.forms.Transfer;
 import com.gorim.model.forms.Venda;
 import com.gorim.motorJogo.Agricultor;
 import com.gorim.motorJogo.Empresario;
@@ -49,9 +50,14 @@ public class API {
 		return this.mundoService.getInfoMundo(idJogo);
 	}
 	
-	@PostMapping(path = "/mestre/finalizaEtapa")
-	public void testeFinalizaEtapa() throws IOException{
-		this.mundoService.testeFinalizaEtapa();
+	@PostMapping(path = "/mestre/changeFlagFimEtapa")
+	public void changeFlagFimEtapa() {
+		this.mundoService.changeFlagFimEtapa();
+	}
+	
+	@PostMapping(path = "/mestre/finalizarEtapa")
+	public void finalizarEtapa() throws IOException{
+		this.mundoService.finalizarEtapa();
 	}
 	
 	@GetMapping(path = "/mestre/empresarios")
@@ -64,9 +70,34 @@ public class API {
 		return this.mundoService.getListaAgricultor();
 	}
 	
-	@GetMapping(path = "/mestre/infoAgricultores")
-	public List<PessoaModel> getInfoAgricultores(){
-		return this.mundoService.getInfoAgricultores();
+	@PostMapping(path = "/mestre/infoPessoasByEtapa")
+	public List<PessoaModel> getInfoPessoasByEtapa(@RequestBody int etapa){
+		return this.mundoService.getInfoPessoasByEtapa(etapa);
+	}
+	
+	@PostMapping(path = "/mestre/infoPessoasByClasse")
+	public List<PessoaModel> getInfoPessoasByClasse(@RequestBody int classe){
+		return this.mundoService.getInfoPessoasByClasse(classe);
+	}
+	
+	@PostMapping(path = "/mestre/adicionaTransferencia")
+	public void adicionaTransferencia(@RequestBody Transfer transferencia){
+		this.mundoService.adicionaTransferencia(transferencia);
+	}
+	
+	@PostMapping(path = "/mestre/verificaFinalizados")
+	public boolean[] verificaFinalizados(@RequestBody int etapa) {
+		return this.mundoService.verificaFinalizados(etapa);
+	}
+	
+	@GetMapping(path = "/mestre/verificaFimEtapa/{etapa}")
+	public int verificaFimEtapa(@PathVariable("etapa") int etapa) {
+		return this.mundoService.verificaFimEtapa(etapa);
+	}
+	
+	@GetMapping(path = "/mestre/papelSegundaEtapa/{idPessoa}")
+	public int papelSegundaEtapa(@PathVariable("idPessoa") int idPessoa) {
+		return this.mundoService.papelSegundaEtapa(idPessoa);
 	}
 	
 	@GetMapping(
@@ -77,22 +108,14 @@ public class API {
 		return this.mundoService.getFilePessoaById(id);
 	}
 
-	@PostMapping(path = "/empresario")
-	public void postForm(@RequestBody EmpresarioForm empresarioForm) throws IOException {
-		this.mundoService.processaJogadaEmpresario(empresarioForm);
+	@PostMapping(path = "/empresario/{idEmp}")
+	public void finalizaJogada(@PathVariable("idEmp") int idEmp, @RequestBody EmpresarioForm empForm) throws IOException {
+		this.mundoService.processaJogadaEmpresario(idEmp, empForm);
 	}
 	
 	@GetMapping(path = "/empresario/{id}")
 	public Empresario getEmpresario(@PathVariable("id") int id) {
 		return this.mundoService.getEmpresarioById(id);
-	}
-	
-	@PostMapping(path = "/empresario/{id}/venda")
-	public void postEmpresarioSellFormParcel(
-			@PathVariable("id") int id,
-			@RequestBody EmpresarioSellFormParcel empSellForm
-	) {
-		this.mundoService.empresarioSellFormParcel(id, empSellForm);
 	}
 	
 	@PostMapping(path = "/empresario/venda/{idAgr}")
@@ -105,14 +128,21 @@ public class API {
 		return this.mundoService.getVendas(idEmp);
 	}
 	
-	@PostMapping(path = "/agricultor")
-	public void postForm(@RequestBody AgricultorForm agricultorForm) throws IOException {
-		this.mundoService.processaJogadaAgricultor(agricultorForm);
+	@PostMapping(path = "/agricultor/{idAgr}")
+	public void postForm(
+			@PathVariable("idAgr") int idAgr,
+			@RequestBody AgricultorForm postForm
+	) throws IOException {
+		this.mundoService.processaJogadaAgricultor(idAgr, postForm);
+	}
+	
+	@GetMapping(path = "/agricultor/{id}")
+	public Agricultor getAgricultor(@PathVariable("id") int id) {
+		return this.mundoService.getAgricultorById(id);
 	}
 	
 	@PostMapping(path = "/agricultor/venda/{idEmp}")
 	public void adicionaVendaById(@RequestBody Venda venda) {
-		System.out.println("Entrou API.adicionavendaById()");
 		this.mundoService.adicionaVendaById(venda);
 	}
 	
@@ -124,11 +154,6 @@ public class API {
 	@PostMapping(path = "/agricultor/venda/delete/{idEmp}/{idAgr}")
 	public void removeOrcamento(@PathVariable("idAgr") int idAgr, @PathVariable("idEmp") int idEmp, @RequestBody int idOrcamento) {
 		this.mundoService.removeOrcamentoById(idAgr, idEmp, idOrcamento);
-	}
-	
-	@GetMapping(path = "/agricultor/{id}")
-	public Agricultor getAgricultor(@PathVariable("id") int id) {
-		return this.mundoService.getAgricultorById(id);
 	}
 	
 	@GetMapping(path = "/agricultor/empresarios/produtos")

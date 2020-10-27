@@ -25,12 +25,12 @@ public class MundoModel {
 		this.quantidadeJogadores = quantidadeJogadores;
 	}
 
-	public int getQuantidadejogadores() {
+	public int getQuantidadeJogadores() {
 		return quantidadeJogadores;
 	}
 
-	public void setQuantidadejogadores(int quantidadejogadores) {
-		this.quantidadeJogadores = quantidadejogadores;
+	public void setQuantidadejogadores(int quantidadeJogadores) {
+		this.quantidadeJogadores = quantidadeJogadores;
 	}
 
 	public int getIdJogo() {

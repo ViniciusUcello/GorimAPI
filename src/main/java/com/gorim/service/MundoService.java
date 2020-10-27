@@ -16,7 +16,9 @@ import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
 import com.gorim.model.forms.EmpresarioSellFormParcel;
 import com.gorim.model.forms.MestreForm;
+import com.gorim.model.forms.Parcela;
 import com.gorim.model.forms.PedidoFiscal;
+import com.gorim.model.forms.Produto;
 import com.gorim.model.forms.Transfer;
 import com.gorim.model.forms.Venda;
 import com.gorim.motorJogo.Agricultor;
@@ -26,8 +28,6 @@ import com.gorim.motorJogo.Mundo;
 @Service
 public class MundoService {
 	private Mundo mundo;
-	private boolean[] et1;
-	private boolean[] et2;
 	
 	@Autowired
 	public MundoService() {
@@ -36,95 +36,51 @@ public class MundoService {
 	
 	public int processaMestre(MestreForm mestreForm) {
 		this.mundo = new Mundo(mestreForm.getQuantidadeJogadores());
-		this.et1 = new boolean[mestreForm.getQuantidadeJogadores()];
-		this.et2 = new boolean[6];
-		this.limpaEts();
 		this.mundo.iniciarJogo();
 		return 1;
 	}
 	
-	private void setJaJogou(int tipoJogador, int idJogador) {
-		if(tipoJogador < 3) this.et1[idJogador-1] = true;
-		else this.et2[idJogador-this.mundo.getQuantidadeJogadores()] = true;
+	public void adicionaTransferencia(Transfer transferencia) {
+		this.mundo.adicionaTransferencia(transferencia);
 	}
 	
-	@SuppressWarnings("unused")
-	private void limpaEts() {
-		for (boolean et : this.et1) {
-			et = false;
-		}
-		
-		for (boolean et : this.et2) {
-			et = false;
-		}
+	public void changeFlagFimEtapa() {
+		this.mundo.changeFlagFimEtapa();
 	}
 	
-	/*private boolean verificaFimEtapa1() {
-		for (boolean et : this.et2)
-			if(!et) return false;
-		return true;
-	}*/
+	public boolean[] verificaFinalizados(int etapa) {
+		return this.mundo.verificaFinalizados(etapa);
+	}
 	
-	public void processaJogadaEmpresario(EmpresarioForm empForm) throws IOException {
-		if(empForm.temTransferencias()) {
-			for (Transfer transfer : empForm.getTransferencias() ) {
-				this.mundo.transferirDinheiros(
-						empForm.getId(),
-						transfer.getDestinatario(),
-						transfer.getValor()
-				);
-			}
-		}
-		this.setJaJogou(1, empForm.getId());
-		//if(this.verificaFimEtapa1()) this.mundo.finalizaEtapa();
+	public int verificaFimEtapa(int etapa) {
+		return this.mundo.verificaFimEtapa(etapa);
+	}
+	
+	public int papelSegundaEtapa(int idPessoa) {
+		return this.mundo.papelSegundaEtapa(idPessoa);
+	}
+	
+	public void processaJogadaEmpresario(int idEmp, EmpresarioForm empForm) throws IOException {
+		this.mundo.processaJogadaEmpresario(idEmp, empForm);
 	}
 	
 	public Empresario getEmpresarioById(int id) {
-		return this.mundo.getEmpresarioById(id);
+		return this.mundo.getEmpresarioById(id, true);
 	}
 	
 	public List<ProdutoSimplifiedModel> getProdutosEmpresarios(){
 		return this.mundo.getProdutosEmpresarios();
 	}
 	
-	public void empresarioSellFormParcel(int idEmp, EmpresarioSellFormParcel empSellForm) {
-		this.mundo.venda(
-				empSellForm.getIdAgr(),
-				empSellForm.getNumParcela(),
-				empSellForm.getIdProd(),
-				empSellForm.getPrecoProd()
-		);
-	}
-	
-	public void processaJogadaAgricultor(AgricultorForm agrForm) throws IOException {
-		
-		if(agrForm.temTransferencias()) {
-			for (Transfer transfer : agrForm.getTranferencias() ) {
-				this.mundo.transferirDinheiros(
-						agrForm.getId(),
-						transfer.getDestinatario(),
-						transfer.getValor()
-				);
-			}
-		}
-		
-		// CONTINUAR AQUI pedidos
-		
-		if(agrForm.temPedidos()) {
-			for(PedidoFiscal pedido : agrForm.getPedidosFiscal() ) {
-				this.mundo.setPedidoFiscal(
-						agrForm.getId(),
-						pedido.toString()
-				);
-			}
-		}
+	public void processaJogadaAgricultor(int idAgr, AgricultorForm agrForm) throws IOException {
+		this.mundo.processaJogadaAgricultor(idAgr, agrForm);
 
-		this.setJaJogou(2, agrForm.getId());
+		//this.setJaJogou(2, agrForm.getId());
 		//if(this.verificaFimEtapa1()) this.mundo.finalizaEtapa();
 	}
 	
 	public Agricultor getAgricultorById(int id) {
-		return this.mundo.getAgricultorById(id);
+		return this.mundo.getAgricultorById(id, true);
 	}
 	
 	public ArrayList<Empresario> getListaEmpresario(){
@@ -135,12 +91,16 @@ public class MundoService {
 		return this.mundo.getListaAgricultor();
 	}
 	
-	public List<PessoaModel> getInfoAgricultores(){
-		return this.mundo.getInfoAgricultores();
+	public List<PessoaModel> getInfoPessoasByClasse(int classe){
+		return this.mundo.getInfoPessoasByClasse(classe);
 	}
 	
-	public void testeFinalizaEtapa() throws IOException{
-		this.mundo.finalizaEtapa();
+	public List<PessoaModel> getInfoPessoasByEtapa(int etapa){
+		return this.mundo.getInfoPessoas(etapa);
+	}
+	
+	public void finalizarEtapa() throws IOException{
+		this.mundo.finalizarEtapa();
 	}
 	
 	public ResponseEntity<ByteArrayResource> getFilePessoaById(int id) throws IOException{
@@ -171,7 +131,6 @@ public class MundoService {
 	}
 	
 	public void adicionaVendaById(Venda venda) {
-    	System.out.println("Entrou MundoService.adicionaVendaById()");
 		this.mundo.adicionaVendaById(venda);
 	}
 	

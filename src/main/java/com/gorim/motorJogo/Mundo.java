@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -27,6 +28,11 @@ import org.springframework.http.ResponseEntity;
 
 import com.gorim.model.PessoaModel;
 import com.gorim.model.ProdutoSimplifiedModel;
+import com.gorim.model.forms.AgricultorForm;
+import com.gorim.model.forms.EmpresarioForm;
+import com.gorim.model.forms.Parcela;
+import com.gorim.model.forms.Produto;
+import com.gorim.model.forms.Transfer;
 import com.gorim.model.forms.Venda;
 
 public class Mundo {
@@ -53,7 +59,12 @@ public class Mundo {
     private ArrayList<JSONObject> transferenciasReceived;
     
     private List<List<Venda>> vendas;
-    //private ArrayList<Venda>[] vendas;
+    
+    private ArrayList<Transfer> transferencias;
+
+	private boolean[] et1;
+	private boolean[] et2;
+	private boolean fimEtapa;
 
     public Mundo(int quantidadeJogadores) {
         this.idPessoa = 1;
@@ -73,34 +84,12 @@ public class Mundo {
         this.separadorCSV = ";";
         this.saldosAnteriores = new ArrayList<>();
         
-        //this.vendas = new ArrayList<ArrayList<Venda>>();
-
-    }
-    
-    public int getRodada() {
-    	return this.rodada;
-    }
-    
-    public int getEtapa() {
-    	return this.etapa;
-    }
-    
-    public int getIdJogo() {
-    	return 1;
-    }
-    
-    public double calculaProdutividadeMundo() {
-    	double peso = 0;
-        if(this.poluicaoMundo < 0.3) peso = 1;
-        else if(this.poluicaoMundo >= 0.3 && this.poluicaoMundo < 0.4) peso = 0.9;
-        else if(this.poluicaoMundo >= 0.4 && this.poluicaoMundo < 0.5) peso = 0.8;
-        else if(this.poluicaoMundo >= 0.5 && this.poluicaoMundo < 0.6) peso = 0.7;
-        else if(this.poluicaoMundo >= 0.7 && this.poluicaoMundo < 0.8) peso = 0.6;
-        else if(this.poluicaoMundo >= 0.8 && this.poluicaoMundo < 0.9) peso = 0.4;
-        else if(this.poluicaoMundo >= 0.9 && this.poluicaoMundo < 0.99) peso = 0.2;
-        else peso = 0;
+        this.transferencias = new ArrayList<>();
         
-        return peso;
+		this.et1 = new boolean[this.quantidadeJogadores];
+		this.et2 = new boolean[6];
+		this.fimEtapa = false;
+
     }
     
     public void iniciarJogo() {
@@ -133,6 +122,7 @@ public class Mundo {
         }
         
         this.criaCargosPoliticos();
+        this.primeiraEleicao();
         
         // Inicia Array auxiliar de orcamento
         this.vendas = new ArrayList<>();
@@ -150,6 +140,206 @@ public class Mundo {
 
         this.criaHistoricoSaldos();
         
+    }
+    
+    public void primeiraEleicao() {
+    	Random rand = new Random();
+
+    	// Eleger em Atlantis
+    	int idFis = rand.nextInt(5)*2 + 1;
+    	
+    	int idPref;
+    	do {
+    		idPref = rand.nextInt(5)*2 + 1;
+    	} while(idPref == idFis);
+    	
+    	int idVer;
+    	do {
+    		idVer = rand.nextInt(5)*2 + 1;
+    	} while( (idVer == idFis) || (idVer == idPref) );
+    	
+    	this.eleger(idFis, 0);
+    	this.eleger(idPref, 1);
+    	this.eleger(idVer, 2);
+    	
+    	// Eleger em Cidadela
+    	idFis = (1+rand.nextInt(5))*2;
+    	
+    	do {
+    		idPref = (1+rand.nextInt(5))*2;
+    	} while(idPref == idFis);
+    	
+    	do {
+    		idVer = (1+rand.nextInt(5))*2;
+    	} while( (idVer == idFis) || (idVer == idPref) );
+    	
+    	this.eleger(idFis, 0);
+    	this.eleger(idPref, 1);
+    	this.eleger(idVer, 2);
+    	
+    }
+    
+    public int getRodada() {
+    	return this.rodada;
+    }
+    
+    public int getEtapa() {
+    	return this.etapa;
+    }
+    
+    public int getIdJogo() {
+    	return 1;
+    }
+    
+    public void changeFlagFimEtapa() {
+    	this.fimEtapa = !this.fimEtapa;
+    }
+	
+	@SuppressWarnings("unused")
+	private void setJaJogou(int tipoJogador, int idJogador) {
+		if(tipoJogador < 3) this.et1[idJogador-1] = true;
+		else this.et2[idJogador-this.quantidadeJogadores] = true;
+	}
+	
+	@SuppressWarnings("unused")
+	private void limpaEts() {
+		for (boolean et : this.et1) {
+			et = false;
+		}
+		
+		for (boolean et : this.et2) {
+			et = false;
+		}
+	}
+	
+	public boolean[] verificaFinalizados(int etapa) {
+		if(etapa == 1) return this.et1;
+		else if(etapa == 2) return this.et2;
+		return null;
+	}
+	
+	/*
+	 * Verifica a situação do término de jogada dos jogadores de uma determinada etapa.
+	 * 
+	 * Caso 0: todos marcaram que terminaram a jogada.
+	 * Caso 1: tem alguns que terminaram e outros que não.
+	 * Caso 2: nenhum terminou ainda
+	 * 
+	 */
+	public int hasUnfinishedPlayers(int etapa) {
+		int terminaram = 0;
+		boolean todosTerminaram = false;
+		
+		if(etapa == 1) {
+			for (boolean jogadaPessoa : this.et1) {
+				if(jogadaPessoa) terminaram++;
+			}
+			if(terminaram == this.quantidadeJogadores) todosTerminaram = true;
+		}
+		else {
+			for (boolean jogadaPessoa : this.et2) {
+				if(jogadaPessoa) terminaram++;
+			}
+			if(terminaram == 6) todosTerminaram = true;
+		}
+		
+		if(terminaram == 0) return 2;
+		else if(todosTerminaram) return 0;
+		return 1;
+		
+	}
+	
+	/*
+	 * Verifica qual a situação da etapa.
+	 * 
+	 * Caso 0: Significa que mestre acionou que terminou jogada e todos os jogadores da
+	 * etapa foram marcados que acabaram a jogada também.
+	 * Caso 1: Significa que está começando a etapa, ou seja, a etapa anterior foi finalizada,
+	 * mas nem todos os jogadores abriram a janela da nova etapa ainda.
+	 * Caso 2: Significa que todos os jogadores entraram na nova janela, mas o serviço
+	 * do mestre ainda não tirou a flag de término da jogada.
+	 * Caso 3: Significa que todos os jogadores terminaram a jogada e o mestre ainda não
+	 * apertou o botão de acabar a etapa.
+	 * Caso 4: Significa que está no meio da etapa, nem todos os jogadores terminaram a jogada,
+	 * e nem o mestre apertou o botão de finalizar etapa.
+	 * Caso 5: Significa que se iniciou a etapa. Se rodada == 1 & etapa == 2 || rodada > 1: todos
+	 * os jogadores entraram nas novas janelas e a flag de fimEtapa foi desativada pelo masterService.
+	 * 
+	 * Os botões de finalizar jogada só devem ser habilitados caso o retorno seja > 2.
+	 * 
+	 */
+	public int verificaFimEtapa(int etapa) {
+		int situacaoEtapa;
+		
+		if(this.fimEtapa) {
+			if(this.hasUnfinishedPlayers(etapa) == 0) situacaoEtapa = 0;
+			else if(this.hasUnfinishedPlayers(etapa) == 1) situacaoEtapa = 1;
+			else situacaoEtapa = 2;
+		}
+		else{
+			if(this.hasUnfinishedPlayers(etapa) == 0) situacaoEtapa = 3;
+			else if(this.hasUnfinishedPlayers(etapa) == 1) situacaoEtapa = 4;
+			else situacaoEtapa = 5;
+		}
+		
+		
+		return situacaoEtapa;
+	}
+	
+	/*
+	 * Retorna o id do do papel da pessoa na segunda etapa e o papel que ela vai jogar.
+	 * @param idPessoa: id da pessoa na primeira etapa
+	 * 
+	 * Caso 0: a pessoa do id informado não fará nenhum papel na segunda etapa.
+	 * Caso outro: retorno/10 = id do papel na segunda etapa. retorno%10 = papel da
+	 * pessoa na segunda etapa.
+	 * 		0: fiscal ambiental
+	 * 		1: prefeito
+	 * 		2: vereador
+	 */
+	public int papelSegundaEtapa(int idPessoa) {
+		int idSegundaEtapa = 0;
+		
+		for (FiscalAmbiental fis : this.fiscais) {
+			if(idPessoa == fis.getIdEleito()) {
+				idSegundaEtapa = fis.getId()*10;
+				break;
+			}
+		}
+		
+		if(idSegundaEtapa == 0) {
+			for (Prefeito pref : this.prefeitos) {
+				if(idPessoa == pref.getIdEleito()) {
+					idSegundaEtapa = pref.getId()*10 + 1;
+					break;
+				}
+			}
+		}
+		
+		if(idSegundaEtapa == 0) {
+			for (Vereador ver : this.vereadores) {
+				if(idPessoa == ver.getIdEleito()) {
+					idSegundaEtapa = ver.getId()*10 + 2;
+					break;
+				}
+			}
+		}
+		
+		return idSegundaEtapa;
+	}
+    
+    public double calculaProdutividadeMundo() {
+    	double peso = 0;
+        if(this.poluicaoMundo < 0.3) peso = 1;
+        else if(this.poluicaoMundo >= 0.3 && this.poluicaoMundo < 0.4) peso = 0.9;
+        else if(this.poluicaoMundo >= 0.4 && this.poluicaoMundo < 0.5) peso = 0.8;
+        else if(this.poluicaoMundo >= 0.5 && this.poluicaoMundo < 0.6) peso = 0.7;
+        else if(this.poluicaoMundo >= 0.7 && this.poluicaoMundo < 0.8) peso = 0.6;
+        else if(this.poluicaoMundo >= 0.8 && this.poluicaoMundo < 0.9) peso = 0.4;
+        else if(this.poluicaoMundo >= 0.9 && this.poluicaoMundo < 0.99) peso = 0.2;
+        else peso = 0;
+        
+        return peso;
     }
     
     public void setPlayerQuantity(int quantity) {
@@ -180,6 +370,24 @@ public class Mundo {
             return 0;
         }
     }
+    
+    public void adicionaTransferencia(Transfer transferencia) {
+    	this.transferencias.add(transferencia);
+    }
+    
+    public void executaTransferencias() {
+    	if(!this.transferencias.isEmpty())
+    		for(Transfer transfer: this.transferencias)
+				this.transferirDinheiros(
+					transfer.getRemetente(),
+					transfer.getDestinatario(),
+					transfer.getQuantia()
+    			);
+    }
+    
+    public void limpaTransferencias() {
+    	this.transferencias.clear();
+    }
 
     /**
      * Metodos referentes a classe de Empresario
@@ -202,26 +410,29 @@ public class Mundo {
         this.empresarios.add(emp);
         this.idPessoa++;
     }
-
-    public Empresario getEmpresarioById(int id) {
-        for (Empresario emp : this.empresarios) {
-            if (emp.getId() == id) {
-                return emp;
-            }
-        }
-        return null;
-    }
-
+    
     /*
-    public Empresario getEmpresarioByIdJSON(int id) {
+     * Retorna o objeto Empresario do id requerido
+     * 
+     * @param id: Id do empresario requerido
+     * @param chamadaFront: Caso a chamada de informações venha do
+     * frontend. Nesse caso, diz-se que começou uma nova etapa, logo
+     * marca "false" no vetor de jogadas.
+     */
+    public Empresario getEmpresarioById(int id, boolean chamadaFront) {
         for (Empresario emp : this.empresarios) {
             if (emp.getId() == id) {
+            	if(chamadaFront) this.et1[id-1] = false;
                 return emp;
             }
         }
         return null;
     }
-    */
+
+
+    public void processaJogadaEmpresario(int idEmp, EmpresarioForm empForm) {
+		this.et1[idEmp-1] = true;
+    }
 
     public int getTipoProdutoById(int id) {
         if (id <= 0) {
@@ -243,6 +454,8 @@ public class Mundo {
 
     	for (Empresario emp : this.empresarios) {
     		for (ProdutoSimplifiedModel prod : emp.getTipoPrecoProdutos()) {
+    			if(prod.getSetor() == "fertilizante") prod.setTipo("F. " + prod.getTipo());
+    			if(prod.getSetor() == "agrotoxico") prod.setTipo("A. " + prod.getTipo());
 				produtos.add(prod);
 			}
 		}
@@ -253,20 +466,48 @@ public class Mundo {
     /**
      * Metodos referentes a classe de Agricultor
      */
+    
     public void criaAgricultor(String nome, String cidade) {
         Agricultor agr = new Agricultor(this.idPessoa, this.qntdParcelasPorAgricultor, nome, cidade, this.idParcelas);
         this.agricultores.add(agr);
         this.idPessoa++;
         this.idParcelas += this.qntdParcelasPorAgricultor;
     }
-
-    public Agricultor getAgricultorById(int id) {
+    
+    /*
+     * Retorna o objeto Agricultor do id requerido
+     * 
+     * @param id: Id do agricultor requerido
+     * @param chamadaFront: Caso a chamada de informações venha do
+     * frontend. Nesse caso, diz-se que começou uma nova etapa, logo
+     * marca "false" no vetor de jogadas.
+     */
+    public Agricultor getAgricultorById(int id, boolean chamadaFront) {
         for (Agricultor agr : this.agricultores) {
             if (agr.getId() == id) {
+            	if(chamadaFront) this.et1[id-1] = false;
                 return agr;
             }
         }
         return null;
+    }
+    
+    public void processaJogadaAgricultor(int idAgr, AgricultorForm agrForm) {
+    	int i = 1;
+		for (Parcela parcela : agrForm.getParcelas()) {
+			for (Produto produto : parcela.getProdutos()) {
+				if(produto.getId() != 0)
+					this.venda(
+							idAgr,
+							i,
+							produto.getId(),
+							produto.getPreco()
+						);
+			}
+			i++;
+		}
+		this.et1[idAgr-1] = true;
+		
     }
 
     /**
@@ -318,10 +559,10 @@ public class Mundo {
 
         tipo = getTipoPessoaById(idEleito);
         if(tipo == 1) {
-            pessoa = getEmpresarioById(idEleito);
+            pessoa = getEmpresarioById(idEleito, false);
         }
         else if(tipo == 2) {
-            pessoa = getAgricultorById(idEleito);
+            pessoa = getAgricultorById(idEleito, false);
         }
 
         if (cargo == 0){
@@ -355,9 +596,9 @@ public class Mundo {
             cargoString = "Vereador";
         }
 
-        this.colocaArquivoLog("" + pessoa.getNome().substring(0, 1).toUpperCase() + pessoa.getNome().substring(1).toLowerCase() + " eleito como " + cargoString + " na cidade de " + cidade + "");
-        this.colocaLogCSV("eleicao" + this.separadorCSV + cargoString + this.separadorCSV + cidade + this.separadorCSV + pessoa.getNome());
-        System.out.println("\"" + pessoa.getNome().substring(0, 1).toUpperCase() + pessoa.getNome().substring(1).toLowerCase() + "\" eleito como " + cargoString + " na cidade de " + cidade + ".");
+        //this.colocaArquivoLog("" + pessoa.getNome().substring(0, 1).toUpperCase() + pessoa.getNome().substring(1).toLowerCase() + " eleito como " + cargoString + " na cidade de " + cidade + "");
+        //this.colocaLogCSV("eleicao" + this.separadorCSV + cargoString + this.separadorCSV + cidade + this.separadorCSV + pessoa.getNome());
+        //System.out.println("\"" + pessoa.getNome().substring(0, 1).toUpperCase() + pessoa.getNome().substring(1).toLowerCase() + "\" eleito como " + cargoString + " na cidade de " + cidade + ".");
 
         return true;
     }
@@ -418,7 +659,6 @@ public class Mundo {
      * Metodos em relacao do jogo
      */
     public void comecarJogo() {
-        System.out.println("COMECANDO");
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String data = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(timestamp.getTime());
@@ -1055,11 +1295,11 @@ public class Mundo {
     	
     	int tipoPessoaChamadora = this.getTipoPessoaById(idChamador);
     	if (tipoPessoaChamadora == 1) {
-            Empresario empresario = this.getEmpresarioById(idChamador);
+            Empresario empresario = this.getEmpresarioById(idChamador, false);
             nomePessoaChamadora = empresario.getNome();
             pessoaChamadora = empresario;
         } else if (tipoPessoaChamadora == 2) {
-            Agricultor agricultor = this.getAgricultorById(idChamador);
+            Agricultor agricultor = this.getAgricultorById(idChamador, false);
             nomePessoaChamadora = agricultor.getNome();
             pessoaChamadora = agricultor;
         } else if (tipoPessoaChamadora == 3) {
@@ -1079,11 +1319,11 @@ public class Mundo {
     	String nomePessoaRecebedora = "";    	
     	int tipoPessoaRecebedora = this.getTipoPessoaById(idRecebedor);
     	if (tipoPessoaRecebedora == 1) {
-            Empresario empresario = this.getEmpresarioById(idRecebedor);
+            Empresario empresario = this.getEmpresarioById(idRecebedor, false);
             nomePessoaRecebedora = empresario.getNome();
             pessoaRecebedora = empresario;
         } else if (tipoPessoaRecebedora == 2) {
-            Agricultor agricultor = this.getAgricultorById(idRecebedor);
+            Agricultor agricultor = this.getAgricultorById(idRecebedor, false);
             nomePessoaRecebedora = agricultor.getNome();
             pessoaRecebedora = agricultor;
         } else if (tipoPessoaRecebedora == 3) {
@@ -1107,7 +1347,7 @@ public class Mundo {
     
     public void venda(int idAgr, int numParcela, int idProduto, int preco) {
     	int tipoProduto = this.getTipoProdutoById(idProduto);
-    	Agricultor agricultor = this.getAgricultorById(idAgr);
+    	Agricultor agricultor = this.getAgricultorById(idAgr, false);
     	this.empresarios.get(tipoProduto-1).venderAlugar(
     			idProduto,
     			agricultor,
@@ -1129,13 +1369,17 @@ public class Mundo {
         return poluicaoCausada;
     }
     
-    public void finalizaEtapa() throws IOException {
+    public void finalizarEtapa() throws IOException {
+    	this.fimEtapa = true;
 	    if(this.etapa == 1) {
 	    	// Realizar eleição se rodada divisivel por 2
 	    	
-	    	this.poluicaoMundo += this.calcularPoluicaoCausada();
+	    	for (int i = 0; i < et1.length; i++) {
+				this.et1[i] = true;
+			}
+	    	//this.poluicaoMundo += this.calcularPoluicaoCausada();
 	        
-	        this.cobrarImpostos();
+	        //this.cobrarImpostos();
 	        /*
 	        for (Prefeito pref : this.prefeitos) {
 	            pref.receberContribuicoes();
@@ -1143,7 +1387,7 @@ public class Mundo {
 	        }
 	        */
 	
-	        this.setArquivosByRole(this.etapa);
+	        //this.setArquivosByRole(this.etapa);
 	        this.etapa = 2;
 	        
 	    }
@@ -1191,13 +1435,77 @@ public class Mundo {
     	return this.agricultores;
     }
     
-    public List<PessoaModel> getInfoAgricultores(){
-    	List<PessoaModel> agrs = new ArrayList<PessoaModel>();
-    	for (Agricultor agricultor : this.agricultores) {
-    		PessoaModel aux = new PessoaModel(agricultor.getNome(), agricultor.getId());
-    		agrs.add(aux);
+    public List<PessoaModel> getInfoPessoasByClasse(int classe){
+    	List<PessoaModel> pessoas = new ArrayList<PessoaModel>();
+    	if(classe == 1) {
+    		for (Empresario emp : this.empresarios) {
+        		pessoas.add(new PessoaModel(emp.getNome(), emp.getId()));
+        	}
     	}
-    	return agrs;
+    	else if(classe == 2) {
+    		for (Agricultor agricultor : this.agricultores) {
+        		PessoaModel aux = new PessoaModel(agricultor.getNome(), agricultor.getId());
+        		pessoas.add(aux);
+        	}
+    	}
+    	else if(classe == 3) {
+    		for (FiscalAmbiental fis : this.fiscais) {
+        		pessoas.add(new PessoaModel(fis.getNome(), fis.getId()));
+        	}
+    	}
+    	else if(classe == 4) {
+    		for (Prefeito pref : this.prefeitos) {
+        		pessoas.add(new PessoaModel(pref.getNome(), pref.getId()));
+        	}
+    	}
+    	else if(classe == 5) {
+    		for (Vereador ver : this.vereadores) {
+        		pessoas.add(new PessoaModel(ver.getNome(), ver.getId()));
+        	}
+    	}
+    	
+    	if(!pessoas.isEmpty()) return pessoas;
+    	else return null;
+    }
+    
+    public List<PessoaModel> getInfoPessoas(int etapa){
+    	List<PessoaModel> pessoas = new ArrayList<PessoaModel>();
+    	if(etapa == 1 || etapa == 0) {
+    		for (Empresario emp : this.empresarios) {
+        		pessoas.add(new PessoaModel(emp.getNome(), emp.getId()));
+        	}
+        	for (Agricultor agr : this.agricultores) {
+        		pessoas.add(new PessoaModel(agr.getNome(), agr.getId()));
+        	}
+    	}
+    	if(etapa == 2 || etapa == 0) {
+    		for (FiscalAmbiental fis : this.fiscais) {
+        		pessoas.add(
+        				new PessoaModel(
+    							("Fiscal " + fis.getNome() + " (" + fis.getCidade() + ")"),
+    							fis.getId()
+    						)
+    					);
+        	}
+        	for (Prefeito pref : this.prefeitos) {
+        		pessoas.add(
+        				new PessoaModel(
+        						("Prefeito " + pref.getNome() + " (" + pref.getCidade() + ")"),
+        						pref.getId()
+        					)
+        				);
+        	}
+        	for (Vereador ver : this.vereadores) {
+        		pessoas.add(
+        				new PessoaModel(
+        						("Vereador " + ver.getNome() + " (" + ver.getCidade() + ")"),
+        						ver.getId()
+        					)
+        				);
+        	}
+    	}
+    	    	
+    	return pessoas;
     }
     
     public ResponseEntity<ByteArrayResource> getFilePessoaById(int id) throws IOException {
@@ -1244,7 +1552,7 @@ public class Mundo {
     }
     
     public void setPedidoFiscal(int idAgr, String pedido) {
-    	Agricultor agr = getAgricultorById(idAgr);
+    	Agricultor agr = getAgricultorById(idAgr, false);
     	
     	int cidade = (agr.getCidade().equals("Atlantis")) ? 0 : 1;
     	
@@ -1252,7 +1560,6 @@ public class Mundo {
     }
     
     public void adicionaOrcamentoById(Venda venda) {
-    	System.out.println("Entrou Mundo.adicionaOrcamentoById()");
     	venda.setNomeAgr(this.agricultores.get(venda.getIdAgr()-1-4).getNome());
     	venda.setNomeEmp(this.empresarios.get(venda.getIdEmp()-1).getNome());
     	
@@ -1264,30 +1571,24 @@ public class Mundo {
     }
     
     public List<Venda> getOrcamentos(int idAgr){
-    	System.out.println("Entrou Mundo.getOrcamentos()");
     	return this.vendas.get(idAgr-1);
     }
     
     public void adicionaVendaById(Venda venda) {
-    	System.out.println("Entrou Mundo.adicionaVendaById()");
     	this.vendas.get(venda.getIdEmp()-1).add(venda);
     }
     
     public void removeOrcamentoById(int idAgr, int idEmp, int idOrcamento) {
-    	System.out.println("Entrou Mundo.removeOrcamentoById()");
-    	System.out.println(this.vendas.get(idAgr-1).size());
     	for (Venda orcamento : this.vendas.get(idAgr-1)) {
 			if(orcamento.getIdOrcamento() == idOrcamento && orcamento.getIdEmp() == idEmp) {
 				this.vendas.get(idAgr-1).remove(orcamento);
 				break;
 			}
 		}
-    	System.out.println(this.vendas.get(idAgr-1).size());
     	//this.vendas.get(venda.getIdAgr()-1).remove(venda.getIdJava());
     }
     
     public List<Venda> getVendas(int idEmp){
-    	System.out.println("Entrou Mundo.getVendas()");
     	return this.vendas.get(idEmp-1);
     }
     
