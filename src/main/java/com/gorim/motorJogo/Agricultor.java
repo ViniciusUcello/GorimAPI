@@ -1,5 +1,6 @@
 package com.gorim.motorJogo;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
@@ -297,13 +298,13 @@ public class Agricultor extends Pessoa {
     }
 
     @SuppressWarnings( "unchecked" )
-	public JSONObject contentParcelaJSON() {
-    	JSONObject content = new JSONObject();
+	public JSONArray contentParcelaJSON() {
+    	JSONArray content = new JSONArray();
     	
-    	int i = 1;
+    	//int i = 0;
     	for(Parcela parcela : this.parcelas) {
-    		content.put("" + i + "", parcela.produtoParcelaJSON());
-    		i++;
+    		content.add(parcela.produtoParcelaJSON());
+    		//i++;
     	}
     	
     	return content;

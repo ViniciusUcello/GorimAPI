@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
@@ -100,12 +102,17 @@ public class API {
 		return this.mundoService.papelSegundaEtapa(idPessoa);
 	}
 	
-	@GetMapping(
-			path = "/arquivoResumo/{id}",
-			produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
-	)
-	public @ResponseBody ResponseEntity<ByteArrayResource> getArquivoResumo(@PathVariable("id") int id) throws IOException{
-		return this.mundoService.getFilePessoaById(id);
+//	@GetMapping(
+//			path = "/arquivoResumo/{id}",
+//			produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
+//	)
+//	public @ResponseBody ResponseEntity<ByteArrayResource> getArquivoResumo(@PathVariable("id") int id) throws IOException{
+//		return this.mundoService.getFilePessoaById(id);
+//	}
+	
+	@GetMapping(path = "/arquivoResumo/{id}")
+	public JSONObject getArquivoResumo(@PathVariable("id") int id) throws IOException{
+		return this.mundoService.getFilePessoaByIdJSON(id);
 	}
 
 	@PostMapping(path = "/empresario/{idEmp}")

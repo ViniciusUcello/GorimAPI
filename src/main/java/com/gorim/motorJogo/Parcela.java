@@ -293,23 +293,24 @@ public class Parcela {
 	public JSONObject produtoParcelaJSON() {
     	JSONObject content = new JSONObject();
     	
-    	if(this.produtos[0] != null) content.put("seed", this.produtos[0].getTipo());
-    	else content.put("seed", null);
+    	if(this.produtos[0] != null) content.put("semente", this.produtos[0].getTipo());
+    	else content.put("semente", null);
     	
-    	if(this.produtos[1] != null) content.put("fertiliser", this.produtos[1].getTipo());
-    	else content.put("fertiliser", null);
+    	if(this.produtos[1] != null) content.put("fertilizante", this.produtos[1].getTipo());
+    	else content.put("fertilizante", null);
     	
     	if(this.produtos[2] != null) {
-            String type = this.produtos[2].getTipo();
-            if(type.contains("premium") || type.contains("comum"))
-            	content.put("pesticide", type);
-            else content.put("machine", type);
+//            String type = this.produtos[2].getTipo();
+//            if(type.contains("premium") || type.contains("comum"))
+//            	content.put("agrotoxico", type);
+//            else content.put("maquina", type);
             // content.put("pestMach", type);
+    		content.put("maqAgr", this.produtos[2]);
         }
-    	else content.put("pestMach", null);
+    	else content.put("maqAgr", null);
     	
-    	content.put("sprayer", this.usaPulverizador);
-    	content.put("greenSeal", this.seloVerde);
+    	content.put("pulverizador", this.usaPulverizador);
+    	content.put("seloVerde", this.seloVerde);
     	
     	return content;
     }

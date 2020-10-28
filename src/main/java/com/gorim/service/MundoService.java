@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
@@ -103,8 +105,8 @@ public class MundoService {
 		this.mundo.finalizarEtapa();
 	}
 	
-	public ResponseEntity<ByteArrayResource> getFilePessoaById(int id) throws IOException{
-		return this.mundo.getFilePessoaById(id);
+	public JSONObject getFilePessoaByIdJSON(int id) throws IOException{
+		return this.mundo.getFilePessoaByIdJSON(id);
 	}
 	
 	public MundoModel getInfoMundo(int idJogo) {

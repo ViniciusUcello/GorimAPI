@@ -18,6 +18,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -54,12 +55,14 @@ public class Mundo {
     private ArrayList<Vereador> vereadores;
 
     private String separadorCSV;
+    
     private ArrayList<Double> saldosAnteriores;
-    private ArrayList<JSONObject> transferenciasSent;
-    private ArrayList<JSONObject> transferenciasReceived;
+    private ArrayList<JSONArray> transferenciasSent;
+    private ArrayList<JSONArray> transferenciasReceived;
+    
+    private ArrayList<JSONArray> acoesAmbientaisExecutadas;
     
     private List<List<Venda>> vendas;
-    
     private ArrayList<Transfer> transferencias;
 
 	private boolean[] et1;
@@ -83,6 +86,8 @@ public class Mundo {
 
         this.separadorCSV = ";";
         this.saldosAnteriores = new ArrayList<>();
+        
+        this.acoesAmbientaisExecutadas = new ArrayList<>(2);
         
         this.transferencias = new ArrayList<>();
         
@@ -130,13 +135,16 @@ public class Mundo {
         	this.vendas.add(new ArrayList<Venda>());
         
         int qnt = this.quantidadeJogadores + 6;
-        this.transferenciasSent = new ArrayList<JSONObject>(qnt);
-        this.transferenciasReceived = new ArrayList<JSONObject>(qnt);
+        this.transferenciasSent = new ArrayList<JSONArray>(qnt);
+        this.transferenciasReceived = new ArrayList<JSONArray>(qnt);
 
         for (int i = 0; i < qnt; i++) {
-            this.transferenciasSent.add(new JSONObject());
-            this.transferenciasReceived.add(new JSONObject());
+            this.transferenciasSent.add(new JSONArray());
+            this.transferenciasReceived.add(new JSONArray());
         }
+        
+        while(this.acoesAmbientaisExecutadas.size() < 2)
+        	this.acoesAmbientaisExecutadas.add(new JSONArray());
 
         this.criaHistoricoSaldos();
         
@@ -386,6 +394,15 @@ public class Mundo {
     }
     
     public void limpaTransferencias() {
+    	for (JSONArray array : this.transferenciasSent) {
+			array.clear();
+		}
+    	for (JSONArray array : this.transferenciasReceived) {
+			array.clear();
+		}
+    }
+    
+    public void limpaTransfers() {
     	this.transferencias.clear();
     }
 
@@ -757,7 +774,7 @@ public class Mundo {
 
         this.criaCargosPoliticos();
         this.criaHistoricoSaldos();
-        this.limpaHistoricoTransferencias();
+        this.limpaTransfers();
         System.out.println("Termino do processo de criacao do jogo. Tenha um otimo jogo!");
     }
 
@@ -888,34 +905,36 @@ public class Mundo {
         }
     }
 
-    private void limpaHistoricoTransferencias(){
-        for (JSONObject transf : this.transferenciasSent) {
-            transf.clear();
-        }
-        for (JSONObject transf : this.transferenciasReceived) {
-            transf.clear();
-        }
-    }
-
     //ARQUIVOS DE SAIDA
     @SuppressWarnings({ "unchecked" })
 	private JSONObject setArquivoEmpJSON(Empresario emp, int etapa) {
     	JSONObject rodada = new JSONObject();
     	
-    	rodada.put("previousBalance", this.saldosAnteriores.get(emp.getId()-1));
-    	rodada.put("selling", emp.getProdutividade());
-    	rodada.put("taxes", emp.getImposto());
-    	if(etapa == 2) rodada.put("fees", emp.getMulta());
+    	rodada.put("rodada", this.rodada);
+    	rodada.put("saldoAnterior", this.saldosAnteriores.get(emp.getId()-1));
+    	rodada.put("produtividade", emp.getProdutividade());
+    	rodada.put("imposto", emp.getImposto());
+    	if(etapa == 2) rodada.put("multa", emp.getMulta());
     	
     	JSONObject transferencias = new JSONObject();
-    	transferencias.put("sent", this.transferenciasSent.get((emp.getId()-1)));
-    	transferencias.put("received", this.transferenciasReceived.get((emp.getId()-1)));
-    	rodada.put("transfers", transferencias);
+    	transferencias.put("enviado", this.transferenciasSent.get((emp.getId()-1)));
+    	transferencias.put("recebido", this.transferenciasReceived.get((emp.getId()-1)));
+    	rodada.put("transferencias", transferencias);
     	
-    	rodada.put("currentBalance", emp.getSaldo());
-    	rodada.put("personalPollution", emp.getPoluicao());
-    	rodada.put("worldCausedPollution", (emp.getPoluicao() / 1000));
-    	rodada.put("worldPollution", (this.poluicaoMundo/100));
+    	switch(emp.getCidade()) {
+	    	case "Atlantis":
+	    		rodada.put("acoesUtilizadas", this.prefeitos.get(0).getAcoesUsadasJSON());
+	    		break;
+	    		
+	    	case "Cidadela":
+	    		rodada.put("acoesUtilizadas", this.prefeitos.get(1).getAcoesUsadasJSON());
+	    		break;
+    	}
+    	
+    	rodada.put("saldoAtual", emp.getSaldo());
+    	rodada.put("poluicaoPessoal", emp.getPoluicao());
+    	rodada.put("poluicaoCausadaMundo", (emp.getPoluicao()*1000));
+    	rodada.put("poluicaoMundial", (this.poluicaoMundo*100));
     	
     	return rodada;
     	
@@ -925,23 +944,34 @@ public class Mundo {
     private JSONObject setArquivoAgrJSON(Agricultor agr, int etapa) {
     	JSONObject rodada = new JSONObject();
     	
-    	rodada.put("previousBalance", this.saldosAnteriores.get(agr.getId()-1));
-    	rodada.put("productivity", agr.getProdutividade());
-    	rodada.put("taxes", agr.getImposto());
-    	if(etapa == 2) rodada.put("fees", agr.getMulta());
-    	rodada.put("moneySpent", agr.getGastos());
+    	rodada.put("rodada", this.rodada);
+    	rodada.put("saldoAnterior", this.saldosAnteriores.get(agr.getId()-1));
+    	rodada.put("produtividade", agr.getProdutividade());
+    	rodada.put("imposto", agr.getImposto());
+    	if(etapa == 2) rodada.put("multa", agr.getMulta());
+    	rodada.put("gastos", agr.getGastos());
     	    	
     	JSONObject transferencias = new JSONObject();
-    	transferencias.put("sent", this.transferenciasSent.get((agr.getId()-1)));
-    	transferencias.put("received", this.transferenciasReceived.get((agr.getId()-1)));
-    	rodada.put("transfers", transferencias);
+    	transferencias.put("enviado", this.transferenciasSent.get((agr.getId()-1)));
+    	transferencias.put("recebido", this.transferenciasReceived.get((agr.getId()-1)));
+    	rodada.put("transferencias", transferencias);
     	
-    	rodada.put("currentBalance", agr.getSaldo());
-    	rodada.put("PersonalPollution", agr.getPoluicao());
-    	rodada.put("worldCausedPollution", (agr.getPoluicao() / 1000));
-    	rodada.put("worldPollution", (this.poluicaoMundo/100));
+    	switch(agr.getCidade()) {
+	    	case "Atlantis":
+	    		rodada.put("acoesUtilizadas", this.prefeitos.get(0).getAcoesUsadasJSON());
+	    		break;
+	    		
+	    	case "Cidadela":
+	    		rodada.put("acoesUtilizadas", this.prefeitos.get(1).getAcoesUsadasJSON());
+	    		break;
+    	}    	
     	
-    	rodada.put("parcels", agr.contentParcelaJSON());
+    	rodada.put("saldoAtual", agr.getSaldo());
+    	rodada.put("poluicaoPessoal", agr.getPoluicao());
+    	rodada.put("poluicaoCausadaMundo", (agr.getPoluicao()*1000));
+    	rodada.put("poluicaoMundial", (this.poluicaoMundo*100));
+    	
+    	rodada.put("parcelas", agr.contentParcelaJSON());
     	
     	return rodada;
     	
@@ -951,40 +981,42 @@ public class Mundo {
     private JSONObject setArquivoFisJSON(FiscalAmbiental fis, int etapa) {
     	JSONObject rodada = new JSONObject();
     	
-    	rodada.put("previousBalance", this.saldosAnteriores.get(fis.getId()-1));
+    	rodada.put("saldoAnterior", this.saldosAnteriores.get(fis.getId()-1));
     	
     	JSONObject transferencias = new JSONObject();
-    	transferencias.put("sent", this.transferenciasSent.get((fis.getId()-1)));
-    	transferencias.put("received", this.transferenciasReceived.get((fis.getId()-1)));
-    	rodada.put("transfers", transferencias);
+    	transferencias.put("enviado", this.transferenciasSent.get((fis.getId()-1)));
+    	transferencias.put("recebido", this.transferenciasReceived.get((fis.getId()-1)));
+    	rodada.put("transferencias", transferencias);
 
-    	rodada.put("requests", fis.getPedidos());
-    	rodada.put("currentBalance", fis.getSaldo());
-    	rodada.put("worldPollution", (this.poluicaoMundo/100));
+    	rodada.put("pedidos", fis.getPedidos());
+    	rodada.put("saldoAtual", fis.getSaldo());
+    	rodada.put("poluicaoMundial", (this.poluicaoMundo*100));
     	
-    	JSONObject empresarios = new JSONObject();
+    	JSONArray empresarios = new JSONArray();
     	for(Empresario emp : this.empresarios) {
     		if(emp.getCidade() == fis.getCidade()) {
     			JSONObject empresario = new JSONObject();
-    			empresario.put("pollution", emp.getPoluicao());
-    			empresario.put("productivity", emp.getProdutividade());
-    			if(etapa == 2)  empresario.put("fee", emp.getMulta());
-    			empresarios.put(emp.getNome(), empresario);
+    			empresario.put("poluicao", emp.getPoluicao());
+    			empresario.put("produtividade", emp.getProdutividade());
+    			if(etapa == 2)  empresario.put("multa", emp.getMulta());
+    			empresario.put("nome", emp.getNome());
+    			empresarios.add(empresario);
     		}
     	}
-    	rodada.put("entrepreneurs", empresarios);
+    	rodada.put("empresarios", empresarios);
     	
-    	JSONObject agricultores = new JSONObject();
+    	JSONArray agricultores = new JSONArray();
     	for(Agricultor agr : this.agricultores) {
     		if(agr.getCidade() == fis.getCidade()) {
     			JSONObject agricultor = new JSONObject();
-    			agricultor.put("avaragePollution", agr.getPoluicao());
-    			if(etapa == 2)  agricultor.put("fee", agr.getMulta());
-    			agricultor.put("parcels", agr.contentParcelaJSON());
-        		agricultores.put(agr.getNome(), agricultor);
+    			agricultor.put("policaoMedia", agr.getPoluicao());
+    			if(etapa == 2)  agricultor.put("multa", agr.getMulta());
+    			agricultor.put("parcelas", agr.contentParcelaJSON());
+    			agricultor.put("nome", agr.getNome());
+        		agricultores.add(agricultor);
     		}
     	}
-    	rodada.put("agriculturists", agricultores);
+    	rodada.put("agricultores", agricultores);
     	
     	return rodada;
     	
@@ -997,52 +1029,54 @@ public class Mundo {
     	double impostos = 0;
     	double multas = 0;
     	
-    	JSONObject empresarios = new JSONObject();
+    	JSONArray empresarios = new JSONArray();
     	for(Empresario emp : this.empresarios) {
     		if(emp.getCidade() == pref.getCidade()) {
     			JSONObject empresario = new JSONObject();
-    			empresario.put("pollution", emp.getPoluicao());
-    			empresario.put("productivity", emp.getProdutividade());
-    			empresario.put("taxes", emp.getImposto());
+    			empresario.put("poluicao", emp.getPoluicao());
+    			empresario.put("produtividade", emp.getProdutividade());
+    			empresario.put("imposto", emp.getImposto());
     			impostos += emp.getImposto();
     			if(etapa == 2) {
-    				empresario.put("fee", emp.getMulta());
+    				empresario.put("multa", emp.getMulta());
     				multas += emp.getMulta();
     			}
-    			empresarios.put(emp.getNome(), empresario);
+    			empresario.put("nome", emp.getNome());
+    			empresarios.add(empresario);
     		}
     	}
     	
-    	JSONObject agricultores = new JSONObject();
+    	JSONArray agricultores = new JSONArray();
     	for(Agricultor agr : this.agricultores) {
     		if(agr.getCidade() == pref.getCidade()) {
     			JSONObject agricultor = new JSONObject();
-    			agricultor.put("avaragePollution", agr.getPoluicao());
-    			agricultor.put("taxes", agr.getImposto());
+    			agricultor.put("poluicaoMedia", agr.getPoluicao());
+    			agricultor.put("imposto", agr.getImposto());
     			impostos += agr.getImposto();
     			if(etapa == 2) {
-    				agricultor.put("fee", agr.getMulta());
+    				agricultor.put("multa", agr.getMulta());
     				multas += agr.getMulta();
     			}
-    			agricultor.put("parcels", agr.contentParcelaJSON());
-        		agricultores.put(agr.getNome(), agricultor);
+    			agricultor.put("parcelas", agr.contentParcelaJSON());
+    			agricultor.put("nome", agr.getNome());
+        		agricultores.add(agricultor);
     		}
     	}
     	
-    	rodada.put("previousSafeBalance", this.saldosAnteriores.get(pref.getId()-1));
-    	rodada.put("yearTaxes", impostos);
-    	if(etapa == 2) rodada.put("yearFees", multas);
+    	rodada.put("saldoAnterior", this.saldosAnteriores.get(pref.getId()-1));
+    	rodada.put("impostos", impostos);
+    	if(etapa == 2) rodada.put("multas", multas);
     	
     	JSONObject transferencias = new JSONObject();
-    	transferencias.put("sent", this.transferenciasSent.get((pref.getId()-1)));
-    	transferencias.put("received", this.transferenciasReceived.get((pref.getId()-1)));
-    	rodada.put("transfers", transferencias);
+    	transferencias.put("enviado", this.transferenciasSent.get((pref.getId()-1)));
+    	transferencias.put("recebido", this.transferenciasReceived.get((pref.getId()-1)));
+    	rodada.put("transferencias", transferencias);
 
-    	rodada.put("currentSafeBalance", pref.getSaldo());
-    	rodada.put("worldPollution", (this.poluicaoMundo/100));
+    	rodada.put("saldoAtual", pref.getSaldo());
+    	rodada.put("poluicaoMundial", (this.poluicaoMundo*100));
 
-    	rodada.put("entrepreneurs", empresarios);
-    	rodada.put("agriculturists", agricultores);
+    	rodada.put("empresarios", empresarios);
+    	rodada.put("agricultores", agricultores);
     	
     	return rodada;
     	
@@ -1052,24 +1086,25 @@ public class Mundo {
     private JSONObject setArquivoVerJSON(Vereador ver, int etapa) {
     	JSONObject rodada = new JSONObject();
     	
-    	rodada.put("previousBalance", this.saldosAnteriores.get(ver.getId()-1));
+    	rodada.put("saldoAnterior", this.saldosAnteriores.get(ver.getId()-1));
     	
     	JSONObject transferencias = new JSONObject();
-    	transferencias.put("sent", this.transferenciasSent.get((ver.getId()-1)));
-    	transferencias.put("received", this.transferenciasReceived.get((ver.getId()-1)));
-    	rodada.put("transfers", transferencias);
+    	transferencias.put("enviado", this.transferenciasSent.get((ver.getId()-1)));
+    	transferencias.put("recebido", this.transferenciasReceived.get((ver.getId()-1)));
+    	rodada.put("transferencias", transferencias);
     	
     	if(etapa == 2) {
     		for(Prefeito pref : this.prefeitos) {
         		if(pref.getCidade() == ver.getCidade()) {
-        			rodada.put("environmentalActionsUsed", pref.getAcoesUsadasJSON());
-        			rodada.put("taxesChanged", pref.getTaxasMudadasJSON());
+        			rodada.put("acoesAmbientaisUsadas", pref.getAcoesUsadasJSON());
+        			rodada.put("impostosModificados", pref.getTaxasMudadasJSON());
+        			break;
         		}
         	}
     	}
 
-    	rodada.put("currentBalance", ver.getSaldo());
-    	rodada.put("worldPollution", (this.poluicaoMundo/100));
+    	rodada.put("saldoAtual", ver.getSaldo());
+    	rodada.put("poluicaoMundial", (this.poluicaoMundo*100));
 
     	
     	return rodada;
@@ -1151,46 +1186,49 @@ public class Mundo {
     */
     public void setArquivosByRole(int etapa) throws IOException{
         String fileContent = "";
-        /*
+        
         if (etapa == 1) {
 
-            for (FiscalAmbiental fis : this.fiscais) {
-                fileContent = this.setArquivoFiscal(fis, etapa);
-                String arq = "arquivosResumo/r" + this.rodada + "e" + etapa + "Fis" + fis.getCidade() + ".txt";
-                try (PrintWriter esc = new PrintWriter(arq, "UTF-8")) {
-                    esc.println(fileContent);
-                    esc.close();
-                }
-            }
-            for (Prefeito pre : this.prefeitos) {
-                fileContent = this.setArquivoPrefeito(pre, etapa);
-                String arq = "arquivosResumo/r" + this.rodada + "e" + etapa + "Pre" + pre.getCidade() + ".txt";
-                try (PrintWriter esc = new PrintWriter(arq, "UTF-8")) {
-                    esc.println(fileContent);
-                    esc.close();
-                }
-            }
-            for (Vereador ver : this.vereadores) {
-                fileContent = this.setArquivoVereador(ver, etapa);
-                String arq = "arquivosResumo/r" + this.rodada + "e" + etapa + "Ver" + ver.getCidade() + ".txt";
-                try (PrintWriter esc = new PrintWriter(arq, "UTF-8")) {
-                    esc.println(fileContent);
-                    esc.close();
-                }
-            }
+//            for (FiscalAmbiental fis : this.fiscais) {
+//                fileContent = this.setArquivoFiscal(fis, etapa);
+//                String arq = "arquivosResumo/r" + this.rodada + "e" + etapa + "Fis" + fis.getCidade() + ".txt";
+//                try (PrintWriter esc = new PrintWriter(arq, "UTF-8")) {
+//                    esc.println(fileContent);
+//                    esc.close();
+//                }
+//            }
+//            for (Prefeito pre : this.prefeitos) {
+//                fileContent = this.setArquivoPrefeito(pre, etapa);
+//                String arq = "arquivosResumo/r" + this.rodada + "e" + etapa + "Pre" + pre.getCidade() + ".txt";
+//                try (PrintWriter esc = new PrintWriter(arq, "UTF-8")) {
+//                    esc.println(fileContent);
+//                    esc.close();
+//                }
+//            }
+//            for (Vereador ver : this.vereadores) {
+//                fileContent = this.setArquivoVereador(ver, etapa);
+//                String arq = "arquivosResumo/r" + this.rodada + "e" + etapa + "Ver" + ver.getCidade() + ".txt";
+//                try (PrintWriter esc = new PrintWriter(arq, "UTF-8")) {
+//                    esc.println(fileContent);
+//                    esc.close();
+//                }
+//            }
         }
         else {
-		*/
             for (Empresario emp : this.empresarios) {
                 this.escreveFinalArquivoJSON(
                 		"arquivosResumo/empresario/"+ emp.getId() + ".json",
-                		this.setArquivoEmpJSON(emp, etapa)
+                		this.setArquivoEmpJSON(emp, etapa),
+                		1,
+                		emp.getNome()
                 );
             }
             for (Agricultor agr : this.agricultores) {
                 this.escreveFinalArquivoJSON(
                 		"arquivosResumo/agricultor/" + agr.getId() + ".json",
-                		this.setArquivoAgrJSON(agr, etapa)
+                		this.setArquivoAgrJSON(agr, etapa),
+                		2,
+                		agr.getNome()
                 );
             }
             /*
@@ -1217,8 +1255,8 @@ public class Mundo {
                     esc.println(fileContent);
                     esc.close();
                 }
-            }
-        }*/
+            }*/
+        }
 
     }
     
@@ -1245,36 +1283,57 @@ public class Mundo {
     }
     
     @SuppressWarnings("unchecked")
-	public void escreveFinalArquivoJSON(String arquivo, JSONObject novaRodada) throws IOException {
+	public void escreveFinalArquivoJSON(String arquivo, JSONObject novaRodada, int papel, String nomePessoa) throws IOException {
         String fileName = arquivo;
 
         JSONParser parser = new JSONParser();
         JSONObject arquivoNovo = new JSONObject();
-        if( !( (this.rodada == 1) && (this.etapa == 1) ) ) {
-        	try (Reader reader = new FileReader(fileName)) {
+        JSONArray rodadasNovo = new JSONArray();
+        
+        if(papel > 3) {
+        	if( !( (this.rodada == 1) && (this.etapa == 1) ) ) {
+            	try (Reader reader = new FileReader(fileName)) {
 
-                JSONObject jsonObject = (JSONObject) parser.parse(reader);
-                
-                int r = 1;
-                int e = 1;
-                while(jsonObject.get(("r" + r + "e" + e)) != null) {
-                	arquivoNovo.put(("r" + r + "e" + e), jsonObject.get(("r" + r + "e" + e)));
-                	if(e == 2) {
-                		r++;
-                		e--;
-                	}
-                	else e++;                	
+            		JSONArray jsonArray = (JSONArray) parser.parse(reader);
+            		  
+//            		for (Object object : jsonArray) {
+//            			rodadasNovo.add(object);
+//    				}
+//                   
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
             }
+        	
+        	// Colocar aqui pra adicionar nome e o array com etapa 1
+        }
+        else {
+        	if( !( (this.rodada == 1) && (this.etapa == 2) ) ) {
+            	try (Reader reader = new FileReader(fileName)) {
+
+            		JSONObject jsonObject = (JSONObject) parser.parse(reader);
+            		
+            		JSONArray jsonArray = (JSONArray) jsonObject.get("rodadas");
+            		
+            		for (Object object : jsonArray) {
+            			rodadasNovo.add(object);
+    				}
+            		
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        	// colocar aqui pra adicionar nome e array com rodada 1
+        	rodadasNovo.add(novaRodada);
+        	
+        	arquivoNovo.put("nome", nomePessoa);
+        	arquivoNovo.put("rodadas", rodadasNovo);
         }
 
-        arquivoNovo.put(("r" + this.rodada + "e" + this.etapa), novaRodada);
-        
         try (FileWriter file = new FileWriter(fileName)) {
             file.write(arquivoNovo.toJSONString());
         } catch (IOException e) {
@@ -1341,8 +1400,14 @@ public class Mundo {
         }
     	
     	pessoaChamadora.negociacaoCapital(quantity, pessoaRecebedora);
-    	this.transferenciasSent.get(pessoaChamadora.getId()-1).put(nomePessoaRecebedora, quantity);
-    	this.transferenciasReceived.get(pessoaRecebedora.getId()-1).put(nomePessoaChamadora, quantity);
+    	JSONObject aux = new JSONObject();
+    	aux.put("nome", nomePessoaRecebedora);
+    	aux.put("valor", quantity);
+    	this.transferenciasSent.get(pessoaChamadora.getId()-1).add(aux);
+    	aux.clear();
+    	aux.put("nome", nomePessoaChamadora);
+    	aux.put("valor", quantity);
+    	this.transferenciasReceived.get(pessoaRecebedora.getId()-1).add(aux);
     }
     
     public void venda(int idAgr, int numParcela, int idProduto, int preco) {
@@ -1387,7 +1452,7 @@ public class Mundo {
 	        }
 	        */
 	
-	        //this.setArquivosByRole(this.etapa);
+	        this.setArquivosByRole(this.etapa);
 	        this.etapa = 2;
 	        
 	    }
@@ -1401,12 +1466,13 @@ public class Mundo {
             }
             */
             this.poluicaoMundo *= (1 - poluicaoReduzida);
-            
+
+	    	this.executaTransferencias();
 
             this.setArquivosByRole(this.etapa);
             
 	    	this.rodada++;
-            this.limpaHistoricoTransferencias();
+
             this.criaHistoricoSaldos();
             for (Empresario emp : this.empresarios) {
                 emp.iniciaRodada();
@@ -1420,7 +1486,9 @@ public class Mundo {
                 if( (this.rodada+1)%2 == 0 ) pref.setNome("");
             }
             */
-            
+
+	    	this.limpaTransfers();
+	    	this.limpaTransferencias();
             this.limpaVendas();
             
             this.etapa = 1;
@@ -1506,6 +1574,42 @@ public class Mundo {
     	}
     	    	
     	return pessoas;
+    }
+    
+    public JSONObject getFilePessoaByIdJSON(int id) throws IOException {
+    	String fileName = "";
+    	
+    	switch(this.getTipoPessoaById(id)) {
+    	case 1:
+    		fileName = "arquivosResumo/empresario/" + id + ".json";
+    		break;
+    	case 2:
+    		fileName = "arquivosResumo/agricultor/" + id + ".json";
+            break;
+    	case 3:
+    		fileName = "arquivosResumo/fiscal/" + id + ".json";
+    		break;
+    	case 4:
+	    	fileName = "arquivosResumo/prefeito/" + id + ".json";
+	    	break;
+    	case 5:
+    		fileName = "arquivosResumo/vereador/" + id + ".json";
+            break;
+    	}
+        
+        JSONObject arquivo = new JSONObject();
+        
+        try (Reader reader = new FileReader(fileName)) {
+        	
+        	arquivo = (JSONObject) new JSONParser().parse(reader);
+        	
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+		
+        return arquivo;
     }
     
     public ResponseEntity<ByteArrayResource> getFilePessoaById(int id) throws IOException {
