@@ -31,8 +31,14 @@ import com.gorim.model.PessoaModel;
 import com.gorim.model.ProdutoSimplifiedModel;
 import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
+import com.gorim.model.forms.FiscalAmbientalForm;
+import com.gorim.model.forms.Imposto;
+import com.gorim.model.forms.Multa;
 import com.gorim.model.forms.Parcela;
+import com.gorim.model.forms.PrefeitoForm;
 import com.gorim.model.forms.Produto;
+import com.gorim.model.forms.SeloVerde;
+import com.gorim.model.forms.SugestaoVereador;
 import com.gorim.model.forms.Transfer;
 import com.gorim.model.forms.Venda;
 
@@ -63,7 +69,9 @@ public class Mundo {
     private ArrayList<JSONArray> acoesAmbientaisExecutadas;
     
     private List<List<Venda>> vendas;
+    private List<List<SugestaoVereador>> sugestoesVereador;
     private ArrayList<Transfer> transferencias;
+    
 
 	private boolean[] et1;
 	private boolean[] et2;
@@ -134,6 +142,12 @@ public class Mundo {
         while(this.vendas.size() < this.quantidadeJogadores)
         	this.vendas.add(new ArrayList<Venda>());
         
+        // Inicia Arrays de sugestões dos vereadores
+        this.sugestoesVereador = new ArrayList<>();
+        int tamanho = this.prefeitos.size() + this.vereadores.size();
+        while(this.sugestoesVereador.size() < tamanho)
+        	this.sugestoesVereador.add(new ArrayList<SugestaoVereador>());
+        
         int qnt = this.quantidadeJogadores + 6;
         this.transferenciasSent = new ArrayList<JSONArray>(qnt);
         this.transferenciasReceived = new ArrayList<JSONArray>(qnt);
@@ -147,6 +161,7 @@ public class Mundo {
         	this.acoesAmbientaisExecutadas.add(new JSONArray());
 
         this.criaHistoricoSaldos();
+        this.limpaEts(true);
         
     }
     
@@ -209,14 +224,17 @@ public class Mundo {
 		else this.et2[idJogador-this.quantidadeJogadores] = true;
 	}
 	
-	@SuppressWarnings("unused")
-	private void limpaEts() {
-		for (boolean et : this.et1) {
-			et = false;
+	private void limpaEts(boolean valorDefault) {
+		int i = 0;
+		while(i < this.et1.length) {
+			this.et1[i] = valorDefault;
+			i++;
 		}
-		
-		for (boolean et : this.et2) {
-			et = false;
+
+		i = 0;
+		while(i < this.et2.length) {
+			this.et2[i] = valorDefault;
+			i++;
 		}
 	}
 	
@@ -360,6 +378,26 @@ public class Mundo {
     
     public int getQuantidadeJogadores() {
     	return this.quantidadeJogadores;
+    }
+    
+    public String[] getNomeEleitos() {
+    	String[] nomes = {"", "", "", "", "", ""};
+    	
+    	int i = 0;
+    	for (FiscalAmbiental fis : this.fiscais) {
+			nomes[i] = "Fiscal " + fis.getNome() + " " + fis.getCidade();
+			i++;
+		}
+    	for (Prefeito pref : this.prefeitos) {
+			nomes[i] = "Prefeito " + pref.getNome() + " " + pref.getCidade();
+			i++;
+		}
+    	for (Vereador ver : this.vereadores) {
+			nomes[i] = "Vereador " + ver.getNome() + " " + ver.getCidade();
+			i++;
+		}
+    	
+    	return nomes;
     }
 
     public int getTipoPessoaById(int id) {
@@ -541,13 +579,59 @@ public class Mundo {
         this.idPessoa++;
     }
 
-    public FiscalAmbiental getFiscalById(int id) {
+    public FiscalAmbiental getFiscalById(int id, boolean chamadaFront) {
         for (FiscalAmbiental fis : this.fiscais) {
             if (fis.getId() == id) {
+            	if(chamadaFront) this.et2[fis.getId() - this.quantidadeJogadores - 1] = false;
                 return fis;
             }
         }
         return null;
+    }
+    
+    public void processaJogadaFiscal(int idFis, FiscalAmbientalForm fisForm) {
+    	this.et2[idFis - this.quantidadeJogadores - 1] = true;
+    	
+    	FiscalAmbiental fis = this.fiscais.get(idFis - this.quantidadeJogadores - 1);
+    	int cidade = idFis - this.quantidadeJogadores - 1;
+    	for (Multa multa: fisForm.getMultas()) {
+            int tipoMultado = getTipoPessoaById(multa.getIdPessoa());
+    		String nomeMultado = "";
+
+            double novaMulta = 0;
+
+            if (tipoMultado == 1) {
+                Empresario multado = getEmpresarioById(multa.getIdPessoa(), false);
+                novaMulta = fis.multar(multado, this.prefeitos.get(cidade), multa.getTipo());
+                nomeMultado = multado.getNome();
+            } else if (tipoMultado == 2) {
+                Agricultor multado = getAgricultorById(multa.getIdPessoa(), false);
+                novaMulta = fis.multar(multado, this.prefeitos.get(cidade), multa.getTipo());
+                nomeMultado = multado.getNome();
+            }
+//            this.colocaArquivoLog("Fiscal " + fis.getNome() + " multou a pessoa de nome " + nomeMultado + " em D$ " + multa + "");
+//            this.colocaLogCSV("multa" + this.separadorCSV + fis.getNome() + this.separadorCSV + nomeMultado + this.separadorCSV + multa);
+//            System.out.println("Fiscal " + fis.getNome() + " multou a pessoa de nome " + nomeMultado + " em D$ " + multa + "");
+		}
+    	for (SeloVerde seloVerde: fisForm.getSelosVerde()) {
+    		Agricultor agr = this.getAgricultorById(seloVerde.getIdAgr(), false);
+    		for (int parcela : seloVerde.getParcelas()) {
+        		fis.setSeloVerde(agr, parcela, seloVerde.isAtribuir());				
+			}
+
+//            if (selo) {
+//                System.out.println("" + this.fiscais.get(fis - 1).getNome() + " deu Selo Verde para o Agricultor " + this.agricultores.get(agr - 1).getNome() + " na Parcela " + (parcela + 1) + ".");
+//
+//                this.colocaArquivoLog("" + this.fiscais.get(fis - 1).getNome() + " deu Selo Verde para o Agricultor " + this.agricultores.get(agr - 1).getNome() + " na Parcela " + (parcela + 1) + "");
+//                this.colocaLogCSV("deu selo" + this.separadorCSV + this.fiscais.get(fis - 1).getNome() + this.separadorCSV + this.agricultores.get(agr - 1).getNome() + this.separadorCSV + (parcela + 1));
+//            }
+//            else {
+//                System.out.println("" + this.fiscais.get(fis - 1).getNome() + " tirou o Selo Verde do Agricultor " + this.agricultores.get(agr - 1).getNome() + " na Parcela " + (parcela + 1) + ".");
+//
+//                this.colocaArquivoLog("" + this.fiscais.get(fis - 1).getNome() + " tirou o Selo Verde do Agricultor " + this.agricultores.get(agr - 1).getNome() + " na Parcela " + (parcela + 1) + "");
+//                this.colocaLogCSV("tirou selo" + this.separadorCSV + this.fiscais.get(fis - 1).getNome() + this.separadorCSV + this.agricultores.get(agr - 1).getNome() + this.separadorCSV + (parcela + 1));
+//            }
+		}
     }
 
     /**
@@ -623,160 +707,214 @@ public class Mundo {
     /**
      * Metodos referentes a classe de Prefeito
      */
-    public Prefeito getPrefeitoById(int id) {
+    public Prefeito getPrefeitoById(int id, boolean chamadaFront) {
         for (Prefeito pref : this.prefeitos) {
             if (pref.getId() == id) {
+            	if(chamadaFront) this.et2[pref.getId() - this.quantidadeJogadores - 1] = false;
                 return pref;
             }
         }
         return null;
     }
     
+    public void processaJogadaPrefeito(int idPref, PrefeitoForm prefForm) {
+    	this.et2[idPref - this.quantidadeJogadores - 1] = true;
+    	for (Imposto imposto : prefForm.getImpostos()) {
+    		double novaTaxa = 0;
+    		if (imposto.getTipo() == 1) {
+    		    if (imposto.getTaxa() == "B") {
+    		        novaTaxa = (double) 5;
+    		    } else if (imposto.getTaxa() == "M") {
+    		        novaTaxa = (double) 10;
+    		    } else if (imposto.getTaxa() == "A") {
+    		        novaTaxa = (double) 15;
+    		    }
+    		} else if (imposto.getTipo() == 2) {
+    		    if (imposto.getTaxa() == "B") {
+    		        novaTaxa = (double) 0.05;
+    		    } else if (imposto.getTaxa() == "M") {
+    		        novaTaxa = (double) 0.1;
+    		    } else if (imposto.getTaxa() == "A") {
+    		        novaTaxa = (double) 0.15;
+    		    }
+    		} else if (imposto.getTipo() == 3) {
+    		    if (imposto.getTaxa() == "B") {
+    		        novaTaxa = (double) 0.25;
+    		    } else if (imposto.getTaxa() == "M") {
+    		        novaTaxa = (double) 0.30;
+    		    } else if (imposto.getTaxa() == "A") {
+    		        novaTaxa = (double) 0.35;
+    		    }
+    		}
+    		this.prefeitos.get(idPref - this.quantidadeJogadores - 2 - 1).mudarTaxa(imposto.getTipo(), novaTaxa);
+//    		String taxaString = (tipoTaxa == 1) ? "" + taxa + "" : "" + (taxa * 100) + "%";
+//            this.colocaArquivoLog("Prefeito " + this.prefeitos.get(pref - 1).getNome() + " trocou a taxa do tipo " + tipoTaxa + " para " + taxaString + "");
+//            this.colocaLogCSV("troca taxa" + this.separadorCSV + this.prefeitos.get(pref - 1).getNome() + this.separadorCSV + tipoTaxa + this.separadorCSV + taxaString);
+//            System.out.println("Prefeito " + this.prefeitos.get(pref - 1).getNome() + " trocou a taxa do tipo " + tipoTaxa + " para " + taxaString + ".");
+		}
+    	
+    	for (int acao : prefForm.getIdAcoesAmbientais()) {
+			this.prefeitos.get(idPref - this.quantidadeJogadores - 2 - 1).setUsarAcao(acao, this.poluicaoMundo);
+//			this.colocaArquivoLog("Prefeito " + this.prefeitos.get(pref - 1).getNome() + " investiu na Acao Ambiental " + this.prefeitos.get(pref - 1).getTipoAcao(acao) + "");
+//            this.colocaLogCSV("usa acao" + this.separadorCSV + "prefeito " + this.prefeitos.get(pref - 1).getNome() + this.separadorCSV + this.prefeitos.get(pref - 1).getTipoAcao(acao));
+//            System.out.println("Prefeito " + this.prefeitos.get(pref - 1).getNome() + " investiu na Acao Ambiental " + this.prefeitos.get(pref - 1).getTipoAcao(acao) + ".");
+		}
+    }
+    
     public void cobrarImpostos() {
-        /*double imposto = 0;
+        double imposto = 0;
         for (Empresario emp : this.empresarios) {
             if (emp.getCidade().equals("Atlantis")) {
                 imposto = this.prefeitos.get(0).cobrarImposto(emp);
 
-                this.colocaArquivoLog("Prefeito " + this.prefeitos.get(0).getNome() + " cobrou um imposto de D$" + imposto + " do empresario " + emp.getNome() + "");
+                //this.colocaArquivoLog("Prefeito " + this.prefeitos.get(0).getNome() + " cobrou um imposto de D$" + imposto + " do empresario " + emp.getNome() + "");
 
-                this.colocaLogCSV("imposto" + this.separadorCSV + "prefeito " + this.prefeitos.get(0).getNome() + this.separadorCSV + emp.getNome() + this.separadorCSV + imposto);
+                //this.colocaLogCSV("imposto" + this.separadorCSV + "prefeito " + this.prefeitos.get(0).getNome() + this.separadorCSV + emp.getNome() + this.separadorCSV + imposto);
             } else {
                 imposto = this.prefeitos.get(1).cobrarImposto(emp);
-                this.colocaArquivoLog("Prefeito " + this.prefeitos.get(1).getNome() + " cobrou um imposto de D$" + imposto + " do empresario " + emp.getNome() + "");
-                this.colocaLogCSV("imposto" + this.separadorCSV + "prefeito " + this.prefeitos.get(1).getNome() + this.separadorCSV + emp.getNome() + this.separadorCSV + imposto);
+                //this.colocaArquivoLog("Prefeito " + this.prefeitos.get(1).getNome() + " cobrou um imposto de D$" + imposto + " do empresario " + emp.getNome() + "");
+                //this.colocaLogCSV("imposto" + this.separadorCSV + "prefeito " + this.prefeitos.get(1).getNome() + this.separadorCSV + emp.getNome() + this.separadorCSV + imposto);
             }
         }
         for (Agricultor agr : this.agricultores) {
             if (agr.getCidade().equals("Atlantis")) {
                 imposto = this.prefeitos.get(0).cobrarImposto(agr);
-                this.colocaArquivoLog("Prefeito " + this.prefeitos.get(0).getNome() + " cobrou um imposto de D$" + imposto + " do agricultor " + agr.getNome() + "");
-                this.colocaLogCSV("imposto" + this.separadorCSV + "prefeito " + this.prefeitos.get(0).getNome() + this.separadorCSV + agr.getNome() + this.separadorCSV + imposto);
+                //this.colocaArquivoLog("Prefeito " + this.prefeitos.get(0).getNome() + " cobrou um imposto de D$" + imposto + " do agricultor " + agr.getNome() + "");
+                //this.colocaLogCSV("imposto" + this.separadorCSV + "prefeito " + this.prefeitos.get(0).getNome() + this.separadorCSV + agr.getNome() + this.separadorCSV + imposto);
             } else {
                 imposto = this.prefeitos.get(1).cobrarImposto(agr);
-                this.colocaArquivoLog("Prefeito " + this.prefeitos.get(1).getNome() + " cobrou um imposto de D$" + imposto + " do agricultor " + agr.getNome() + "");
-                this.colocaLogCSV("imposto" + this.separadorCSV + "prefeito " + this.prefeitos.get(1).getNome() + this.separadorCSV + agr.getNome() + this.separadorCSV + imposto);
+                //this.colocaArquivoLog("Prefeito " + this.prefeitos.get(1).getNome() + " cobrou um imposto de D$" + imposto + " do agricultor " + agr.getNome() + "");
+                //this.colocaLogCSV("imposto" + this.separadorCSV + "prefeito " + this.prefeitos.get(1).getNome() + this.separadorCSV + agr.getNome() + this.separadorCSV + imposto);
             }
-        }*/
+        }
     }
 
     /**
      * Metodos referentes a classe de Vereador
      */
-    public Vereador getVereadorById(int id) {
+    public Vereador getVereadorById(int id, boolean chamadaFront) {
         for (Vereador ver : this.vereadores) {
             if (ver.getId() == id) {
+            	if(chamadaFront) this.et2[ver.getId() - this.quantidadeJogadores - 1] = false;
                 return ver;
             }
         }
         return null;
     }
+    
+    public void processaJogadaVereador(int idVer) {
+    	this.et2[idVer - this.quantidadeJogadores - 1] = true;
+    }
+    
+    public Prefeito getInfoPrefeitoByVereador(int idVer) {
+    	return this.prefeitos.get(idVer - this.quantidadeJogadores - 5);
+    }
 
     /**
      * Metodos em relacao do jogo
      */
-    public void comecarJogo() {
-
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        String data = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(timestamp.getTime());
-        this.saveGame("\n\n" + data + "");
-        this.saveGame("\n");
-
-        String aux = "";
-        boolean condicao = false;
-
-        System.out.println("Qual a quantidade de jogadores? (minimo 10 - nao contar os cargos eleitorais)");
-        do {
-            aux = this.scanner.next();
-            if (Pattern.matches("[0-9][0-9]", aux)) {
-                this.quantidadeJogadores = Integer.parseInt(aux);
-                if (this.quantidadeJogadores > 9) {
-                    condicao = true;
-                }
-            } else {
-                System.out.println("Quantidade ou valor invalidos. Por favor, tente novamente.");
-            }
-        } while (!condicao);
-        condicao = false;
-
-        this.saveGame("" + this.quantidadeJogadores + "");
-
-        String[] nomes = {"EmpSem", "EmpFer", "EmpMaq", "EmpAgr"};
-
-        System.out.println("Criando empresarios.....");
-        String setor;
-        for (int i = 1; i < 5; i++) {
-            if (i == 1) {
-                setor = "semente";
-            } else if (i == 2) {
-                setor = "fertilizante";
-            } else if (i == 3) {
-                setor = "maquina";
-            } else {
-                setor = "agrotoxico";
-            }
-
-            criaEmpresario(setor, nomes[i - 1]);
-        }
-        System.out.println("Empresarios criados.");
-
-        int resposta = 0;
-        System.out.println("Hora de criar os Agricultores.");
-
-        System.out.println("A quantidade de parcelas a ser separada para cada um eh " + this.qntdParcelasPorAgricultor + " parcelas. Gostaria de mudar? (1 - Sim. 2 - Nao)");
-        do {
-            aux = this.scanner.next();
-            if (Pattern.matches("[1-2]?", aux)) {
-                resposta = Integer.parseInt(aux);
-                if (resposta == 1) {
-                    this.saveGame("1");
-                    System.out.println("Qual a quantidade de parcelas desejadas? (no minimo 6, maximo 10)");
-                    do {
-                        aux = this.scanner.next();
-                        if (Pattern.matches("[0-9]", aux) || Pattern.matches("[0-9][0-9]", aux)) {
-                            this.qntdParcelasPorAgricultor = Integer.parseInt(aux);
-                            if (qntdParcelasPorAgricultor > 5 && qntdParcelasPorAgricultor < 11) {
-                                this.saveGame("" + this.qntdParcelasPorAgricultor + "");
-                                condicao = true;
-                            }
-                        } else {
-                            System.out.println("Quantidade ou valor invalidos. Por favor, tente novamente.");
-                        }
-                    } while (!condicao);
-                } else if (resposta == 2) {
-                    condicao = true;
-                    this.saveGame("2");
-                }
-            } else {
-                System.out.println("Quantidade ou valor invalidos. Por favor, tente novamente.");
-            }
-        } while (!condicao);
-        condicao = false;
-
-        String nome;
-        int numNome = 1;
-        for (int i = 0; i < this.quantidadeJogadores - 4; i++) {
-            if (i % 2 == 0) {
-                nome = "AT" + numNome;
-                criaAgricultor(nome, "Atlantis");
-            } else {
-                nome = "CD" + numNome;
-                criaAgricultor(nome, "Cidadela");
-                numNome++;
-            }
-        }
-        System.out.println("Agricultores criados.");
-
-        this.colocaArquivoLog("\n===============================================\n" + data + "\nRodada:" + this.rodada);
-        this.colocaLogCSV("rodada " + this.rodada);
-
-        System.out.println("Fiscais, Prefeitos e Vereadores serao decididos por votacao pelos jogadores na primeira etapa da primeira rodada.\n");
-
-        this.criaCargosPoliticos();
-        this.criaHistoricoSaldos();
-        this.limpaTransfers();
-        System.out.println("Termino do processo de criacao do jogo. Tenha um otimo jogo!");
-    }
+//    public void comecarJogo() {
+//
+//        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//        String data = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(timestamp.getTime());
+//        this.saveGame("\n\n" + data + "");
+//        this.saveGame("\n");
+//
+//        String aux = "";
+//        boolean condicao = false;
+//
+//        System.out.println("Qual a quantidade de jogadores? (minimo 10 - nao contar os cargos eleitorais)");
+//        do {
+//            aux = this.scanner.next();
+//            if (Pattern.matches("[0-9][0-9]", aux)) {
+//                this.quantidadeJogadores = Integer.parseInt(aux);
+//                if (this.quantidadeJogadores > 9) {
+//                    condicao = true;
+//                }
+//            } else {
+//                System.out.println("Quantidade ou valor invalidos. Por favor, tente novamente.");
+//            }
+//        } while (!condicao);
+//        condicao = false;
+//
+//        this.saveGame("" + this.quantidadeJogadores + "");
+//
+//        String[] nomes = {"EmpSem", "EmpFer", "EmpMaq", "EmpAgr"};
+//
+//        System.out.println("Criando empresarios.....");
+//        String setor;
+//        for (int i = 1; i < 5; i++) {
+//            if (i == 1) {
+//                setor = "semente";
+//            } else if (i == 2) {
+//                setor = "fertilizante";
+//            } else if (i == 3) {
+//                setor = "maquina";
+//            } else {
+//                setor = "agrotoxico";
+//            }
+//
+//            criaEmpresario(setor, nomes[i - 1]);
+//        }
+//        System.out.println("Empresarios criados.");
+//
+//        int resposta = 0;
+//        System.out.println("Hora de criar os Agricultores.");
+//
+//        System.out.println("A quantidade de parcelas a ser separada para cada um eh " + this.qntdParcelasPorAgricultor + " parcelas. Gostaria de mudar? (1 - Sim. 2 - Nao)");
+//        do {
+//            aux = this.scanner.next();
+//            if (Pattern.matches("[1-2]?", aux)) {
+//                resposta = Integer.parseInt(aux);
+//                if (resposta == 1) {
+//                    this.saveGame("1");
+//                    System.out.println("Qual a quantidade de parcelas desejadas? (no minimo 6, maximo 10)");
+//                    do {
+//                        aux = this.scanner.next();
+//                        if (Pattern.matches("[0-9]", aux) || Pattern.matches("[0-9][0-9]", aux)) {
+//                            this.qntdParcelasPorAgricultor = Integer.parseInt(aux);
+//                            if (qntdParcelasPorAgricultor > 5 && qntdParcelasPorAgricultor < 11) {
+//                                this.saveGame("" + this.qntdParcelasPorAgricultor + "");
+//                                condicao = true;
+//                            }
+//                        } else {
+//                            System.out.println("Quantidade ou valor invalidos. Por favor, tente novamente.");
+//                        }
+//                    } while (!condicao);
+//                } else if (resposta == 2) {
+//                    condicao = true;
+//                    this.saveGame("2");
+//                }
+//            } else {
+//                System.out.println("Quantidade ou valor invalidos. Por favor, tente novamente.");
+//            }
+//        } while (!condicao);
+//        condicao = false;
+//
+//        String nome;
+//        int numNome = 1;
+//        for (int i = 0; i < this.quantidadeJogadores - 4; i++) {
+//            if (i % 2 == 0) {
+//                nome = "AT" + numNome;
+//                criaAgricultor(nome, "Atlantis");
+//            } else {
+//                nome = "CD" + numNome;
+//                criaAgricultor(nome, "Cidadela");
+//                numNome++;
+//            }
+//        }
+//        System.out.println("Agricultores criados.");
+//
+//        this.colocaArquivoLog("\n===============================================\n" + data + "\nRodada:" + this.rodada);
+//        this.colocaLogCSV("rodada " + this.rodada);
+//
+//        System.out.println("Fiscais, Prefeitos e Vereadores serao decididos por votacao pelos jogadores na primeira etapa da primeira rodada.\n");
+//
+//        this.criaCargosPoliticos();
+//        this.criaHistoricoSaldos();
+//        this.limpaTransfers();
+//        System.out.println("Termino do processo de criacao do jogo. Tenha um otimo jogo!");
+//    }
 
     public void saveGame(String comando) {
         String fileName = "saves/saves.txt";
@@ -977,10 +1115,12 @@ public class Mundo {
     	
     }
 
-    @SuppressWarnings({ "unchecked", "unused" })
+    @SuppressWarnings({ "unchecked" })
     private JSONObject setArquivoFisJSON(FiscalAmbiental fis, int etapa) {
     	JSONObject rodada = new JSONObject();
     	
+    	//rodada.put("rodada", this.rodada);
+    	rodada.put("etapa", this.etapa);
     	rodada.put("saldoAnterior", this.saldosAnteriores.get(fis.getId()-1));
     	
     	JSONObject transferencias = new JSONObject();
@@ -988,9 +1128,16 @@ public class Mundo {
     	transferencias.put("recebido", this.transferenciasReceived.get((fis.getId()-1)));
     	rodada.put("transferencias", transferencias);
 
-    	rodada.put("pedidos", fis.getPedidos());
+    	//rodada.put("pedidos", fis.getPedidos());
     	rodada.put("saldoAtual", fis.getSaldo());
     	rodada.put("poluicaoMundial", (this.poluicaoMundo*100));
+
+		for(Prefeito pref : this.prefeitos) {
+    		if(pref.getCidade() == fis.getCidade()) {
+    			rodada.put("acoesAmbientais", pref.getAcoesUsadasJSON());
+    			break;
+    		}
+    	}
     	
     	JSONArray empresarios = new JSONArray();
     	for(Empresario emp : this.empresarios) {
@@ -1012,6 +1159,7 @@ public class Mundo {
     			agricultor.put("policaoMedia", agr.getPoluicao());
     			if(etapa == 2)  agricultor.put("multa", agr.getMulta());
     			agricultor.put("parcelas", agr.contentParcelaJSON());
+    			agricultor.put("produtividade", agr.getProdutividade());
     			agricultor.put("nome", agr.getNome());
         		agricultores.add(agricultor);
     		}
@@ -1022,7 +1170,7 @@ public class Mundo {
     	
     }
 
-    @SuppressWarnings({ "unchecked", "unused" })
+    @SuppressWarnings({ "unchecked" })
     private JSONObject setArquivoPrefJSON(Prefeito pref, int etapa) {
     	JSONObject rodada = new JSONObject();
     	
@@ -1059,10 +1207,13 @@ public class Mundo {
     			}
     			agricultor.put("parcelas", agr.contentParcelaJSON());
     			agricultor.put("nome", agr.getNome());
+    			agricultor.put("produtividade", agr.getProdutividade());
         		agricultores.add(agricultor);
     		}
     	}
     	
+    	//rodada.put("rodada", this.rodada);
+    	rodada.put("etapa", this.etapa);
     	rodada.put("saldoAnterior", this.saldosAnteriores.get(pref.getId()-1));
     	rodada.put("impostos", impostos);
     	if(etapa == 2) rodada.put("multas", multas);
@@ -1074,6 +1225,9 @@ public class Mundo {
 
     	rodada.put("saldoAtual", pref.getSaldo());
     	rodada.put("poluicaoMundial", (this.poluicaoMundo*100));
+    	
+		rodada.put("acoesAmbientais", pref.getAcoesUsadasJSON());
+		rodada.put("impostosModificados", pref.getTaxasMudadasJSON());
 
     	rodada.put("empresarios", empresarios);
     	rodada.put("agricultores", agricultores);
@@ -1082,10 +1236,12 @@ public class Mundo {
     	
     }
 
-    @SuppressWarnings({ "unchecked", "unused" })
+    @SuppressWarnings({ "unchecked" })
     private JSONObject setArquivoVerJSON(Vereador ver, int etapa) {
     	JSONObject rodada = new JSONObject();
-    	
+
+    	//rodada.put("rodada", this.rodada);
+    	rodada.put("etapa", this.etapa);
     	rodada.put("saldoAnterior", this.saldosAnteriores.get(ver.getId()-1));
     	
     	JSONObject transferencias = new JSONObject();
@@ -1093,14 +1249,12 @@ public class Mundo {
     	transferencias.put("recebido", this.transferenciasReceived.get((ver.getId()-1)));
     	rodada.put("transferencias", transferencias);
     	
-    	if(etapa == 2) {
-    		for(Prefeito pref : this.prefeitos) {
-        		if(pref.getCidade() == ver.getCidade()) {
-        			rodada.put("acoesAmbientaisUsadas", pref.getAcoesUsadasJSON());
-        			rodada.put("impostosModificados", pref.getTaxasMudadasJSON());
-        			break;
-        		}
-        	}
+		for(Prefeito pref : this.prefeitos) {
+    		if(pref.getCidade() == ver.getCidade()) {
+    			rodada.put("acoesAmbientais", pref.getAcoesUsadasJSON());
+    			rodada.put("impostosModificados", pref.getTaxasMudadasJSON());
+    			break;
+    		}
     	}
 
     	rodada.put("saldoAtual", ver.getSaldo());
@@ -1189,30 +1343,30 @@ public class Mundo {
         
         if (etapa == 1) {
 
-//            for (FiscalAmbiental fis : this.fiscais) {
-//                fileContent = this.setArquivoFiscal(fis, etapa);
-//                String arq = "arquivosResumo/r" + this.rodada + "e" + etapa + "Fis" + fis.getCidade() + ".txt";
-//                try (PrintWriter esc = new PrintWriter(arq, "UTF-8")) {
-//                    esc.println(fileContent);
-//                    esc.close();
-//                }
-//            }
-//            for (Prefeito pre : this.prefeitos) {
-//                fileContent = this.setArquivoPrefeito(pre, etapa);
-//                String arq = "arquivosResumo/r" + this.rodada + "e" + etapa + "Pre" + pre.getCidade() + ".txt";
-//                try (PrintWriter esc = new PrintWriter(arq, "UTF-8")) {
-//                    esc.println(fileContent);
-//                    esc.close();
-//                }
-//            }
-//            for (Vereador ver : this.vereadores) {
-//                fileContent = this.setArquivoVereador(ver, etapa);
-//                String arq = "arquivosResumo/r" + this.rodada + "e" + etapa + "Ver" + ver.getCidade() + ".txt";
-//                try (PrintWriter esc = new PrintWriter(arq, "UTF-8")) {
-//                    esc.println(fileContent);
-//                    esc.close();
-//                }
-//            }
+        	for (FiscalAmbiental fis : this.fiscais) {
+                this.escreveFinalArquivoJSON(
+                		"arquivosResumo/fiscal/"+ fis.getId() + ".json",
+                		this.setArquivoFisJSON(fis, etapa),
+                		3,
+                		fis.getNome()
+                );
+            }
+        	for (Prefeito pref : this.prefeitos) {
+                this.escreveFinalArquivoJSON(
+                		"arquivosResumo/prefeito/"+ pref.getId() + ".json",
+                		this.setArquivoPrefJSON(pref, etapa),
+                		4,
+                		pref.getNome()
+                );
+            }
+        	for (Vereador ver : this.vereadores) {
+                this.escreveFinalArquivoJSON(
+                		"arquivosResumo/vereador/"+ ver.getId() + ".json",
+                		this.setArquivoVerJSON(ver, etapa),
+                		5,
+                		ver.getNome()
+                );
+            }
         }
         else {
             for (Empresario emp : this.empresarios) {
@@ -1231,31 +1385,30 @@ public class Mundo {
                 		agr.getNome()
                 );
             }
-            /*
             for (FiscalAmbiental fis : this.fiscais) {
-                fileContent = this.setArquivoFiscal(fis, etapa);
-                String arq = "arquivosResumo/r" + this.rodada + "e" + etapa + "Fis" + fis.getCidade() + ".txt";
-                try (PrintWriter esc = new PrintWriter(arq, "UTF-8")) {
-                    esc.println(fileContent);
-                    esc.close();
-                }
+                this.escreveFinalArquivoJSON(
+                		"arquivosResumo/fiscal/"+ fis.getId() + ".json",
+                		this.setArquivoFisJSON(fis, etapa),
+                		3,
+                		fis.getNome()
+                );
             }
-            for (Prefeito pre : this.prefeitos) {
-                fileContent = this.setArquivoPrefeito(pre, etapa);
-                String arq = "arquivosResumo/r" + this.rodada + "e" + etapa + "Pre" + pre.getCidade() + ".txt";
-                try (PrintWriter esc = new PrintWriter(arq, "UTF-8")) {
-                    esc.println(fileContent);
-                    esc.close();
-                }
+        	for (Prefeito pref : this.prefeitos) {
+                this.escreveFinalArquivoJSON(
+                		"arquivosResumo/prefeito/"+ pref.getId() + ".json",
+                		this.setArquivoPrefJSON(pref, etapa),
+                		4,
+                		pref.getNome()
+                );
             }
-            for (Vereador ver : this.vereadores) {
-                fileContent = this.setArquivoVereador(ver, etapa);
-                String arq = "arquivosResumo/r" + this.rodada + "e" + etapa + "Ver" + ver.getCidade() + ".txt";
-                try (PrintWriter esc = new PrintWriter(arq, "UTF-8")) {
-                    esc.println(fileContent);
-                    esc.close();
-                }
-            }*/
+        	for (Vereador ver : this.vereadores) {
+                this.escreveFinalArquivoJSON(
+                		"arquivosResumo/vereador/"+ ver.getId() + ".json",
+                		this.setArquivoVerJSON(ver, etapa),
+                		5,
+                		ver.getNome()
+                );
+            }
         }
 
     }
@@ -1276,7 +1429,7 @@ public class Mundo {
                 try {
                     writer.close();
                 } catch (IOException ioe2) {
-                    //
+                    ioe2.printStackTrace();
                 }
             }
         }
@@ -1290,16 +1443,18 @@ public class Mundo {
         JSONObject arquivoNovo = new JSONObject();
         JSONArray rodadasNovo = new JSONArray();
         
-        if(papel > 3) {
+        if(papel > 2) {
         	if( !( (this.rodada == 1) && (this.etapa == 1) ) ) {
             	try (Reader reader = new FileReader(fileName)) {
 
-            		JSONArray jsonArray = (JSONArray) parser.parse(reader);
+            		JSONObject arquivoJSON = (JSONObject) parser.parse(reader);
+            		
+            		JSONArray rodadasJSON = (JSONArray) arquivoJSON.get("rodadas");
             		  
-//            		for (Object object : jsonArray) {
-//            			rodadasNovo.add(object);
-//    				}
-//                   
+            		for (Object rodada : rodadasJSON) {
+            			rodadasNovo.add(rodada);
+    				}
+                   
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ParseException e) {
@@ -1308,6 +1463,18 @@ public class Mundo {
             }
         	
         	// Colocar aqui pra adicionar nome e o array com etapa 1
+        	JSONObject lastRodada = new JSONObject();
+        	JSONArray etapasLastRodada = new JSONArray();
+        	
+        	if(this.etapa != 1) {
+        		lastRodada = (JSONObject) rodadasNovo.remove(rodadasNovo.size()-1);
+        		etapasLastRodada = (JSONArray) lastRodada.remove("etapas");
+        	}
+        	else  lastRodada.put("rodada", this.rodada);
+        	
+    		etapasLastRodada.add(novaRodada);
+    		lastRodada.put("etapas", etapasLastRodada);
+    		rodadasNovo.add(lastRodada);
         }
         else {
         	if( !( (this.rodada == 1) && (this.etapa == 2) ) ) {
@@ -1329,13 +1496,20 @@ public class Mundo {
             }
         	// colocar aqui pra adicionar nome e array com rodada 1
         	rodadasNovo.add(novaRodada);
-        	
-        	arquivoNovo.put("nome", nomePessoa);
-        	arquivoNovo.put("rodadas", rodadasNovo);
         }
+        
+    	arquivoNovo.put("nome", nomePessoa);
+    	arquivoNovo.put("rodadas", rodadasNovo);
+    	
+    	File file = new File(fileName);
+    	if(!file.exists()) {
+    		file.getParentFile().mkdirs();
+    		file.createNewFile();
+    	}
+    	
 
-        try (FileWriter file = new FileWriter(fileName)) {
-            file.write(arquivoNovo.toJSONString());
+        try (FileWriter fileW = new FileWriter(fileName)) {
+            fileW.write(arquivoNovo.toJSONString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1362,15 +1536,15 @@ public class Mundo {
             nomePessoaChamadora = agricultor.getNome();
             pessoaChamadora = agricultor;
         } else if (tipoPessoaChamadora == 3) {
-            FiscalAmbiental fis = this.getFiscalById(idChamador);
+            FiscalAmbiental fis = this.getFiscalById(idChamador, false);
             nomePessoaChamadora = fis.getNome() + " (Fiscal Ambiental)";
             pessoaChamadora = fis;
         } else if (tipoPessoaChamadora == 4) {
-            Prefeito prefeito = this.getPrefeitoById(idChamador);
+            Prefeito prefeito = this.getPrefeitoById(idChamador, false);
             nomePessoaChamadora = prefeito.getNome() + " (Prefeito)";
             pessoaChamadora = prefeito;
         } else if (tipoPessoaChamadora == 5) {
-            Vereador vereador = this.getVereadorById(idChamador);
+            Vereador vereador = this.getVereadorById(idChamador, false);
             nomePessoaChamadora = vereador.getNome() + " (Vereador)";
             pessoaChamadora = vereador;
         }
@@ -1386,15 +1560,15 @@ public class Mundo {
             nomePessoaRecebedora = agricultor.getNome();
             pessoaRecebedora = agricultor;
         } else if (tipoPessoaRecebedora == 3) {
-            FiscalAmbiental fis = this.getFiscalById(idRecebedor);
+            FiscalAmbiental fis = this.getFiscalById(idRecebedor, false);
             nomePessoaRecebedora = fis.getNome() + " (Fiscal Ambiental)";
             pessoaRecebedora = fis;
         } else if (tipoPessoaRecebedora == 4) {
-            Prefeito prefeito = this.getPrefeitoById(idRecebedor);
+            Prefeito prefeito = this.getPrefeitoById(idRecebedor, false);
             nomePessoaRecebedora = prefeito.getNome() + " (Prefeito)";
             pessoaRecebedora = prefeito;
         } else if (tipoPessoaRecebedora == 5) {
-            Vereador vereador = this.getVereadorById(idRecebedor);
+            Vereador vereador = this.getVereadorById(idRecebedor, false);
             nomePessoaRecebedora = vereador.getNome() + " (Vereador)";
             pessoaRecebedora = vereador;
         }
@@ -1674,8 +1848,8 @@ public class Mundo {
     	this.vendas.get(venda.getIdAgr()-1).add(venda);
     }
     
-    public List<Venda> getOrcamentos(int idAgr){
-    	return this.vendas.get(idAgr-1);
+    public List<Venda> getOrcamentos(int idPEssoa){
+    	return this.vendas.get(idPEssoa-1);
     }
     
     public void adicionaVendaById(Venda venda) {
@@ -1689,15 +1863,41 @@ public class Mundo {
 				break;
 			}
 		}
-    	//this.vendas.get(venda.getIdAgr()-1).remove(venda.getIdJava());
-    }
-    
-    public List<Venda> getVendas(int idEmp){
-    	return this.vendas.get(idEmp-1);
     }
     
     public void limpaVendas() {
     	this.vendas.forEach(
+			x -> x.clear()
+    	);
+    }
+    
+    public void adicionaSugestaoVereador(int idPessoa, SugestaoVereador sugestao) {
+    	int idRecebedora;
+    	if(this.getTipoPessoaById(idPessoa) == 4) {
+    		idRecebedora = this.vereadores.get(idPessoa - this.quantidadeJogadores - 3).getId();
+    	}
+    	else {
+    		idRecebedora = this.prefeitos.get(idPessoa - this.quantidadeJogadores - 5).getId();
+    	}
+    		
+    	this.sugestoesVereador.get(idRecebedora - this.quantidadeJogadores - 3).add(sugestao);
+    }
+    
+    public List<SugestaoVereador> getSugestoesVereador(int idPessoa){
+    	return this.sugestoesVereador.get(idPessoa - this.quantidadeJogadores - 3);
+    }
+    
+    public void removeSugestaoVereador(int idPref, int idSugestao) {
+    	for (SugestaoVereador sugestao : this.sugestoesVereador.get(idPref - this.quantidadeJogadores - 3)) {
+			if(sugestao.getIdSugestao() == idSugestao) {
+				this.sugestoesVereador.get(idPref - this.quantidadeJogadores - 3).remove(sugestao);
+				break;
+			}
+		}
+    }
+    
+    public void limpaSugestoes() {
+    	this.sugestoesVereador.forEach(
 			x -> x.clear()
     	);
     }

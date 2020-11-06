@@ -8,6 +8,7 @@ public class MundoModel {
 	private int idJogo;
 	private double produtividadeMundo;
 	private int quantidadeJogadores;
+	private String[] eleitos;
 	
 	public MundoModel(
 			int rodada,
@@ -15,7 +16,8 @@ public class MundoModel {
 			double poluicaoMundo,
 			int idJogo,
 			double produtividadeMundo,
-			int quantidadeJogadores
+			int quantidadeJogadores,
+			String[] eleitos
 	) {
 		this.rodada = rodada;
 		this.etapa = etapa;
@@ -23,6 +25,7 @@ public class MundoModel {
 		this.idJogo = idJogo;
 		this.produtividadeMundo = produtividadeMundo*100;
 		this.quantidadeJogadores = quantidadeJogadores;
+		this.eleitos = eleitos;
 	}
 
 	public int getQuantidadeJogadores() {
@@ -71,6 +74,14 @@ public class MundoModel {
 
 	public void setPoluicaoMundo(double poluicaoMundo) {
 		this.poluicaoMundo = poluicaoMundo;
+	}
+
+	public String[] getEleitos() {
+		return this.eleitos;
+	}
+
+	public void setEleitos(String[] eleitos) {
+		this.eleitos = eleitos;
 	}
 	
 	

@@ -11,7 +11,7 @@ public class Prefeito extends Pessoa {
     private int idEleito;
     private double[] taxas;
     private boolean[] usarAcoes;
-    private ArrayList<AcoesAmbientais> AcoesAmbientais;
+    private ArrayList<AcoesAmbientais> acoesAmbientais;
 
     private double[] mudancaTaxas;
 
@@ -29,10 +29,10 @@ public class Prefeito extends Pessoa {
         this.usarAcoes[1] = false;
         this.usarAcoes[2] = false;
 
-        this.AcoesAmbientais = new ArrayList<>();
-        this.AcoesAmbientais.add(0, new AcoesAmbientais(0, "Agua", 800, (double) 0.05));
-        this.AcoesAmbientais.add(1, new AcoesAmbientais(1, "Lixo", 1600, (double) 0.10));
-        this.AcoesAmbientais.add(2, new AcoesAmbientais(2, "Esgoto", 2400, (double) 0.15));
+        this.acoesAmbientais = new ArrayList<>();
+        this.acoesAmbientais.add(0, new AcoesAmbientais(0, "Água", 800, (double) 0.05));
+        this.acoesAmbientais.add(1, new AcoesAmbientais(1, "Lixo", 1600, (double) 0.10));
+        this.acoesAmbientais.add(2, new AcoesAmbientais(2, "Esgoto", 2400, (double) 0.15));
 
         this.mudancaTaxas = new double[3];
         this.mudancaTaxas[0] = 0;
@@ -45,20 +45,30 @@ public class Prefeito extends Pessoa {
     }
 
     public void setUsarAcao(int acao, double poluicaoMundo){
-        this.usarAcoes[(acao-1)] = true;
-        double preco = this.AcoesAmbientais.get(acao-1).getCusto();
+    	if(acao > -1 && acao < 4) {
+    		this.usarAcoes[acao] = true;
+            double preco = this.acoesAmbientais.get(acao).getCusto();
 
-        if(poluicaoMundo >= 0.3) preco = (poluicaoMundo - 0.2)*100 + preco; 
+            if(poluicaoMundo >= 0.3) preco = (poluicaoMundo - 0.2)*100 + preco; 
 
-        this.setCaixa(this.getCaixa() - preco);
+            this.setCaixa(this.getCaixa() - preco);
+    	}
     }
 
     public String getTipoAcao(int acao){
-        return this.AcoesAmbientais.get(acao-1).getTipo();
+        return this.acoesAmbientais.get(acao-1).getTipo();
     }
 
     public double getCaixa() {
         return this.caixa;
+    }
+    
+    public double[] getTaxas() {
+    	return this.taxas;
+    }
+    
+    public ArrayList<AcoesAmbientais> getAcoesAmbientais() {
+    	return this.acoesAmbientais;
     }
 
     public void setCaixa(double novo_saldo) {
@@ -118,7 +128,7 @@ public class Prefeito extends Pessoa {
         int i = 0;
         for (boolean acao : this.usarAcoes) {
             if(acao){
-                reducao_total += this.AcoesAmbientais.get(i).getReducaoDaPoluicao();
+                reducao_total += this.acoesAmbientais.get(i).getReducaoDaPoluicao();
             }
             i++;
         }
@@ -140,7 +150,7 @@ public class Prefeito extends Pessoa {
     }
     
     public void consultaAcoes() {
-    	for(AcoesAmbientais acoes : this.AcoesAmbientais) {
+    	for(AcoesAmbientais acoes : this.acoesAmbientais) {
     		acoes.consultaDados();
     	}
     }
@@ -153,7 +163,7 @@ public class Prefeito extends Pessoa {
     
     public String criaListaAcoes(int comeco){
 		String dados = "";
-		for(AcoesAmbientais acoes : this.AcoesAmbientais){
+		for(AcoesAmbientais acoes : this.acoesAmbientais){
 			dados += "(" + comeco + ") " + acoes.getTipo() + ". D$ " + acoes.getCusto() + "\n";
 			comeco++;
 		}
@@ -172,7 +182,7 @@ public class Prefeito extends Pessoa {
     public String getAcoesUsadasString(){
         String dados = "";
         int i = 0;
-        for(AcoesAmbientais acoes : this.AcoesAmbientais){
+        for(AcoesAmbientais acoes : this.acoesAmbientais){
 			if(this.usarAcoes[i] == true){
                 dados += acoes.getTipo() + " (" + acoes.getCusto() + ")\n";
             }
@@ -203,7 +213,7 @@ public class Prefeito extends Pessoa {
     
     public String consultaAcoesString() {
     	String dados = "";
-    	for(AcoesAmbientais acoes : this.AcoesAmbientais) {
+    	for(AcoesAmbientais acoes : this.acoesAmbientais) {
     		dados += acoes.consultaDadosString();
     	}
     	return dados;
@@ -227,7 +237,7 @@ public class Prefeito extends Pessoa {
 	public JSONArray getAcoesUsadasJSON(){
         JSONArray acoesUsadas = new JSONArray();
         int i = 0;
-        for(AcoesAmbientais acoes : this.AcoesAmbientais){
+        for(AcoesAmbientais acoes : this.acoesAmbientais){
 			if(this.usarAcoes[i] == true) acoesUsadas.add(acoes.getTipo());
 			i++;
         }
@@ -235,11 +245,16 @@ public class Prefeito extends Pessoa {
     }
 
     @SuppressWarnings("unchecked")
-    public JSONObject getTaxasMudadasJSON(){
-        JSONObject taxasMudadas = new JSONObject();
-        for(int i = 0; i < 3; i++)
-        	if(this.mudancaTaxas[i] != 0)
-        		taxasMudadas.put("" + (i+1), this.taxas[i]);
+    public JSONArray getTaxasMudadasJSON(){
+    	JSONArray taxasMudadas = new JSONArray();
+        for(int i = 0; i < 3; i++) {
+        	if(this.mudancaTaxas[i] != 0) {
+        		JSONObject aux = new JSONObject();
+        		aux.put("tipo", i+1);
+        		aux.put("taxa", this.taxas[i]);
+        		taxasMudadas.add(aux);
+        	}
+        }
 
         return taxasMudadas;
     }

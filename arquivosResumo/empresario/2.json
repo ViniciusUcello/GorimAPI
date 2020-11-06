@@ -1,1 +1,1 @@
-{"rodadas":[{"produtividade":0,"rodada":1,"saldoAnterior":100.0,"imposto":0.0,"multa":0.0,"saldoAtual":110.0,"poluicaoCausadaMundo":0.0,"transferencias":{"enviado":[],"recebido":[{"valor":10.0,"nome":"EmpSem"}]},"acoesUtilizadas":[],"poluicaoPessoal":0.0,"poluicaoMundial":20.0}],"nome":"EmpFer"}
+{"rodadas":[{"produtividade":0,"rodada":1,"saldoAnterior":100.0,"imposto":0.0,"multa":0.0,"saldoAtual":100.0,"poluicaoCausadaMundo":0.0,"transferencias":{"enviado":[],"recebido":[]},"acoesUtilizadas":[],"poluicaoPessoal":0.0,"poluicaoMundial":20.0}],"nome":"EmpFer"}

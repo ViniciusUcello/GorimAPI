@@ -4,18 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gorim.model.MundoModel;
@@ -23,12 +18,17 @@ import com.gorim.model.PessoaModel;
 import com.gorim.model.ProdutoSimplifiedModel;
 import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
-import com.gorim.model.forms.EmpresarioSellFormParcel;
+import com.gorim.model.forms.FiscalAmbientalForm;
 import com.gorim.model.forms.MestreForm;
+import com.gorim.model.forms.PrefeitoForm;
+import com.gorim.model.forms.SugestaoVereador;
 import com.gorim.model.forms.Transfer;
 import com.gorim.model.forms.Venda;
 import com.gorim.motorJogo.Agricultor;
 import com.gorim.motorJogo.Empresario;
+import com.gorim.motorJogo.FiscalAmbiental;
+import com.gorim.motorJogo.Prefeito;
+import com.gorim.motorJogo.Vereador;
 import com.gorim.service.MundoService;
 
 
@@ -102,14 +102,6 @@ public class API {
 		return this.mundoService.papelSegundaEtapa(idPessoa);
 	}
 	
-//	@GetMapping(
-//			path = "/arquivoResumo/{id}",
-//			produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
-//	)
-//	public @ResponseBody ResponseEntity<ByteArrayResource> getArquivoResumo(@PathVariable("id") int id) throws IOException{
-//		return this.mundoService.getFilePessoaById(id);
-//	}
-	
 	@GetMapping(path = "/arquivoResumo/{id}")
 	public JSONObject getArquivoResumo(@PathVariable("id") int id) throws IOException{
 		return this.mundoService.getFilePessoaByIdJSON(id);
@@ -143,9 +135,9 @@ public class API {
 		this.mundoService.processaJogadaAgricultor(idAgr, postForm);
 	}
 	
-	@GetMapping(path = "/agricultor/{id}")
-	public Agricultor getAgricultor(@PathVariable("id") int id) {
-		return this.mundoService.getAgricultorById(id);
+	@GetMapping(path = "/agricultor/{idAgr}")
+	public Agricultor getAgricultor(@PathVariable("idAgr") int idAgr) {
+		return this.mundoService.getAgricultorById(idAgr);
 	}
 	
 	@PostMapping(path = "/agricultor/venda/{idEmp}")
@@ -166,6 +158,61 @@ public class API {
 	@GetMapping(path = "/agricultor/empresarios/produtos")
 	public List<ProdutoSimplifiedModel> getProdutosEmpresarios(){
 		return this.mundoService.getProdutosEmpresarios();
+	}
+	
+	@PostMapping(path = "/fiscal/{idFis}")
+	public void processaJogadaFiscal(@PathVariable("idFis") int idFis, @RequestBody FiscalAmbientalForm fisForm) {
+		this.mundoService.processaJogadaFiscal(idFis, fisForm);
+	}
+	
+	@GetMapping(path = "/fiscal/{idFis}")
+	public FiscalAmbiental getFiscalAmbiental(@PathVariable("idFis") int idFis) {
+		return this.mundoService.getFiscalAmbientalById(idFis);
+	}
+	
+	@PostMapping(path = "/prefeito/{idPref}")
+	public void processaJogadaPrefeito(@PathVariable("idPref") int idPref, @RequestBody PrefeitoForm prefForm) {
+		this.mundoService.processaJogadaPrefeito(idPref, prefForm);
+	}
+	
+	@GetMapping(path = "/prefeito/{idPref}")
+	public Prefeito getPrefeito(@PathVariable("idPref") int idPref) {
+		return this.mundoService.getPrefeitoById(idPref);
+	}
+	
+	@PostMapping(path = "/prefeito/adicionaRespostaSugestao/{idPref}")
+	public void adicionaRespostaSugestaoVereador(@PathVariable("idPref") int idPref, @RequestBody SugestaoVereador sugestao) {
+		this.mundoService.adicionaRespostaSugestaoVereador(idPref, sugestao);
+	}
+	
+	@GetMapping(path = "/prefeito/getSugestoesVereador/{idPref}")
+	public List<SugestaoVereador> getSugestoesVereador(@PathVariable("idPref") int idPref){
+		return this.mundoService.getSugestoesVereador(idPref);
+	}
+	
+	@PostMapping(path = "/vereador/{idVer}")
+	public void processaJogadaVereador(@PathVariable("idVer") int idVer) {
+		this.mundoService.processaJogadaVereador(idVer);
+	}
+	
+	@GetMapping(path = "/vereador/{idVer}")
+	public Vereador getVereador(@PathVariable("idVer") int idVer) {
+		return this.mundoService.getVereadorById(idVer);
+	}
+	
+	@PostMapping(path = "/vereador/adicionaSugestao/{idVer}")
+	public void adicionaSugestaoVereador(@PathVariable("idVer") int idVer, @RequestBody SugestaoVereador sugestao) {
+		this.mundoService.adicionaSugestaoVereador(idVer, sugestao);
+	}
+	
+	@GetMapping(path = "/vereador/getRespostasPrefeito/{idVer}")
+	public List<SugestaoVereador> getRespostaPrefeito(@PathVariable("idVer") int idVer){
+		return this.mundoService.getSugestoesVereador(idVer);
+	}
+	
+	@GetMapping(path = "/vereador/infoPrefeito/{idVer}")
+	public Prefeito getInfoPrefeitoByVereador(@PathVariable("idVer") int idVer){
+		return this.mundoService.getInfoPrefeitoByVereador(idVer);
 	}
 	
 }

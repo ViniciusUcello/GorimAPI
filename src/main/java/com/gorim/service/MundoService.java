@@ -17,15 +17,21 @@ import com.gorim.model.ProdutoSimplifiedModel;
 import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
 import com.gorim.model.forms.EmpresarioSellFormParcel;
+import com.gorim.model.forms.FiscalAmbientalForm;
 import com.gorim.model.forms.MestreForm;
 import com.gorim.model.forms.Parcela;
 import com.gorim.model.forms.PedidoFiscal;
+import com.gorim.model.forms.PrefeitoForm;
 import com.gorim.model.forms.Produto;
+import com.gorim.model.forms.SugestaoVereador;
 import com.gorim.model.forms.Transfer;
 import com.gorim.model.forms.Venda;
 import com.gorim.motorJogo.Agricultor;
 import com.gorim.motorJogo.Empresario;
+import com.gorim.motorJogo.FiscalAmbiental;
 import com.gorim.motorJogo.Mundo;
+import com.gorim.motorJogo.Prefeito;
+import com.gorim.motorJogo.Vereador;
 
 @Service
 public class MundoService {
@@ -76,13 +82,38 @@ public class MundoService {
 	
 	public void processaJogadaAgricultor(int idAgr, AgricultorForm agrForm) throws IOException {
 		this.mundo.processaJogadaAgricultor(idAgr, agrForm);
-
-		//this.setJaJogou(2, agrForm.getId());
-		//if(this.verificaFimEtapa1()) this.mundo.finalizaEtapa();
 	}
 	
 	public Agricultor getAgricultorById(int id) {
 		return this.mundo.getAgricultorById(id, true);
+	}
+	
+	public void processaJogadaFiscal(int idFis, FiscalAmbientalForm fisForm) {
+		this.mundo.processaJogadaFiscal(idFis, fisForm);
+	}
+	
+	public void processaJogadaPrefeito(int idPref, PrefeitoForm prefForm) {
+		this.mundo.processaJogadaPrefeito(idPref, prefForm);
+	}
+	
+	public void processaJogadaVereador(int idVer) {
+		this.mundo.processaJogadaVereador(idVer);
+	}
+	
+	public FiscalAmbiental getFiscalAmbientalById(int idFis) {
+		return this.mundo.getFiscalById(idFis, true);
+	}
+	
+	public Prefeito getPrefeitoById(int idPref) {
+		return this.mundo.getPrefeitoById(idPref, true);
+	}
+	
+	public Vereador getVereadorById(int idVer) {
+		return this.mundo.getVereadorById(idVer, true);
+	}
+	
+	public Prefeito getInfoPrefeitoByVereador(int idVer) {
+		return this.mundo.getInfoPrefeitoByVereador(idVer);
 	}
 	
 	public ArrayList<Empresario> getListaEmpresario(){
@@ -116,7 +147,8 @@ public class MundoService {
 				this.mundo.getPoluicaoMundo(),
 				this.mundo.getIdJogo(),
 				this.mundo.calculaProdutividadeMundo(),
-				this.mundo.getQuantidadeJogadores()
+				this.mundo.getQuantidadeJogadores(),
+				this.mundo.getNomeEleitos()
 		);
 	}
 	
@@ -137,7 +169,19 @@ public class MundoService {
 	}
 	
 	public List<Venda> getVendas(int idEmp){
-		return this.mundo.getVendas(idEmp);
+		return this.mundo.getOrcamentos(idEmp);
 	}
 	
+	public void adicionaSugestaoVereador(int idVer, SugestaoVereador sugestao) {
+		this.mundo.adicionaSugestaoVereador(idVer, sugestao);
+	}
+	
+	public void adicionaRespostaSugestaoVereador(int idPref, SugestaoVereador sugestao) {
+		this.mundo.removeSugestaoVereador(idPref, sugestao.getIdSugestao());
+		this.mundo.adicionaSugestaoVereador(idPref, sugestao);
+	}
+	
+	public List<SugestaoVereador> getSugestoesVereador(int idPessoa){
+		return this.mundo.getSugestoesVereador(idPessoa);
+	}
 }

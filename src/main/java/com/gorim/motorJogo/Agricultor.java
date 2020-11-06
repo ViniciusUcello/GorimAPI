@@ -213,7 +213,7 @@ public class Agricultor extends Pessoa {
     }
 
     public void setSeloVerdeParcela(int parcela, boolean selo) {
-        this.parcelas[parcela].setSeloVerde(selo);
+        this.parcelas[parcela-1].setSeloVerde(selo);
     }
 
     public boolean getSeloVerdeParcela(int parcela) {
