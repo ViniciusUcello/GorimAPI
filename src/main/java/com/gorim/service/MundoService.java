@@ -4,11 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gorim.model.MundoModel;
@@ -16,13 +13,9 @@ import com.gorim.model.PessoaModel;
 import com.gorim.model.ProdutoSimplifiedModel;
 import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
-import com.gorim.model.forms.EmpresarioSellFormParcel;
 import com.gorim.model.forms.FiscalAmbientalForm;
 import com.gorim.model.forms.MestreForm;
-import com.gorim.model.forms.Parcela;
-import com.gorim.model.forms.PedidoFiscal;
 import com.gorim.model.forms.PrefeitoForm;
-import com.gorim.model.forms.Produto;
 import com.gorim.model.forms.SugestaoVereador;
 import com.gorim.model.forms.Transfer;
 import com.gorim.model.forms.Venda;
@@ -42,7 +35,7 @@ public class MundoService {
 		//this.mundo = new Mundo();
 	}
 	
-	public int processaMestre(MestreForm mestreForm) {
+	public int processaMestre(MestreForm mestreForm) throws IOException {
 		this.mundo = new Mundo(mestreForm.getQuantidadeJogadores());
 		this.mundo.iniciarJogo();
 		return 1;
@@ -88,11 +81,11 @@ public class MundoService {
 		return this.mundo.getAgricultorById(id, true);
 	}
 	
-	public void processaJogadaFiscal(int idFis, FiscalAmbientalForm fisForm) {
+	public void processaJogadaFiscal(int idFis, FiscalAmbientalForm fisForm) throws IOException {
 		this.mundo.processaJogadaFiscal(idFis, fisForm);
 	}
 	
-	public void processaJogadaPrefeito(int idPref, PrefeitoForm prefForm) {
+	public void processaJogadaPrefeito(int idPref, PrefeitoForm prefForm) throws IOException {
 		this.mundo.processaJogadaPrefeito(idPref, prefForm);
 	}
 	
@@ -129,7 +122,11 @@ public class MundoService {
 	}
 	
 	public List<PessoaModel> getInfoPessoasByEtapa(int etapa){
-		return this.mundo.getInfoPessoas(etapa);
+		return this.mundo.getInfoPessoasByEtapa(etapa);
+	}
+	
+	public List<PessoaModel> getInfoPessoasByCidade(String cidade, boolean segundaEtapa){
+		return this.mundo.getInfoPessoasByCidade(cidade, segundaEtapa);
 	}
 	
 	public void finalizarEtapa() throws IOException{
@@ -183,5 +180,13 @@ public class MundoService {
 	
 	public List<SugestaoVereador> getSugestoesVereador(int idPessoa){
 		return this.mundo.getSugestoesVereador(idPessoa);
+	}
+	
+	public void contaVoto(int[] votos) {
+		for (int i = 0; i < votos.length; i++) {
+			this.mundo.contaVoto(votos[i], i);
+			System.out.print(votos[i] + " ");
+		}
+		System.out.println();
 	}
 }

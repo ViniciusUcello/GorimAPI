@@ -13,6 +13,10 @@ public class Vereador extends Pessoa {
         super(id, nome, cidade, saldo);
         this.idEleito = 0;
     }
+
+    public void setNome(String nome) {
+    	this.nome = nome;
+    }
     
     public int getIdEleito() {
     	return this.idEleito;
@@ -34,7 +38,7 @@ public class Vereador extends Pessoa {
     }
 
     void finalizarRodada(Pessoa pessoa){
-        pessoa.setSaldo(pessoa.getSaldo() + this.getSaldo());
+        if(this.getSaldo() > 0) pessoa.setSaldo(pessoa.getSaldo() + this.getSaldo());
         this.setSaldo(0);
     }
 }

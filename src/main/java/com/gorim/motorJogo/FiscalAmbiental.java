@@ -14,9 +14,12 @@ public class FiscalAmbiental extends Pessoa {
         super(id, nome, cidade, 0);
         this.idFiscal_ambiental = idFiscal_ambiental;
         this.pedidos = new JSONObject();
-        
     }
 
+    public void setNome(String nome) {
+    	this.nome = nome;
+    }
+    
     public void eleger(int idEleito, String nomeEleito){
         this.idFiscal_ambiental = idEleito;
         this.nome = nomeEleito;
@@ -89,7 +92,7 @@ public class FiscalAmbiental extends Pessoa {
     }
 
     void finalizarRodada(Pessoa pessoa){
-        pessoa.setSaldo(pessoa.getSaldo() + this.getSaldo());
+        if(this.getSaldo() > 0) pessoa.setSaldo(pessoa.getSaldo() + this.getSaldo());
         this.setSaldo(0);
         if(this.pedidos.size() > 0) {
         	for (int i = this.pedidos.size()-1; i >= 0; i--) {

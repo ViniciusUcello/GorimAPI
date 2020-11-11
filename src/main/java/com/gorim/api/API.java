@@ -43,7 +43,7 @@ public class API {
 	}
 	
 	@PostMapping(path = "/mestre")
-	public int postForm(@RequestBody MestreForm mestreForm) {
+	public int postForm(@RequestBody MestreForm mestreForm) throws IOException {
 		return this.mundoService.processaMestre(mestreForm);
 	}
 	
@@ -82,6 +82,11 @@ public class API {
 		return this.mundoService.getInfoPessoasByClasse(classe);
 	}
 	
+	@GetMapping(path = "/mestre/infoPessoasForVoting/{cidade}")
+	public List<PessoaModel> getInfoPessoasForVoting(@PathVariable String cidade){
+		return this.mundoService.getInfoPessoasByCidade(cidade, false);
+	}
+	
 	@PostMapping(path = "/mestre/adicionaTransferencia")
 	public void adicionaTransferencia(@RequestBody Transfer transferencia){
 		this.mundoService.adicionaTransferencia(transferencia);
@@ -102,8 +107,13 @@ public class API {
 		return this.mundoService.papelSegundaEtapa(idPessoa);
 	}
 	
+	@PostMapping(path = "/mestre/votar")
+	public void votar(@RequestBody int[] votos) {
+		this.mundoService.contaVoto(votos);
+	}
+	
 	@GetMapping(path = "/arquivoResumo/{id}")
-	public JSONObject getArquivoResumo(@PathVariable("id") int id) throws IOException{
+	public JSONObject getArquivoResumo(@PathVariable("id") int id) throws IOException {
 		return this.mundoService.getFilePessoaByIdJSON(id);
 	}
 
@@ -161,7 +171,7 @@ public class API {
 	}
 	
 	@PostMapping(path = "/fiscal/{idFis}")
-	public void processaJogadaFiscal(@PathVariable("idFis") int idFis, @RequestBody FiscalAmbientalForm fisForm) {
+	public void processaJogadaFiscal(@PathVariable("idFis") int idFis, @RequestBody FiscalAmbientalForm fisForm) throws IOException {
 		this.mundoService.processaJogadaFiscal(idFis, fisForm);
 	}
 	
@@ -171,7 +181,7 @@ public class API {
 	}
 	
 	@PostMapping(path = "/prefeito/{idPref}")
-	public void processaJogadaPrefeito(@PathVariable("idPref") int idPref, @RequestBody PrefeitoForm prefForm) {
+	public void processaJogadaPrefeito(@PathVariable("idPref") int idPref, @RequestBody PrefeitoForm prefForm) throws IOException {
 		this.mundoService.processaJogadaPrefeito(idPref, prefForm);
 	}
 	
