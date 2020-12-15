@@ -533,3 +533,644 @@ imposto;prefeito EmpFer;CD3;10.0
 eleicao;Fiscal;Atlantis;EmpSem
 eleicao;Prefeito;Atlantis;AT1
 eleicao;Vereador;Atlantis;AT2
+eleicao;Fiscal;Atlantis;AT3
+eleicao;Prefeito;Atlantis;EmpMaq
+eleicao;Vereador;Atlantis;AT2
+eleicao;Fiscal;Cidadela;CD1
+eleicao;Prefeito;Cidadela;EmpFer
+eleicao;Vereador;Cidadela;CD2
+rodada 1
+eleicao;Fiscal;Atlantis;EmpMaq
+eleicao;Prefeito;Atlantis;AT3
+eleicao;Vereador;Atlantis;AT2
+eleicao;Fiscal;Cidadela;EmpAgr
+eleicao;Prefeito;Cidadela;CD2
+eleicao;Vereador;Cidadela;EmpFer
+rodada 1
+eleicao;Fiscal;Atlantis;EmpMaq
+eleicao;Prefeito;Atlantis;AT1
+eleicao;Vereador;Atlantis;AT2
+eleicao;Fiscal;Cidadela;CD3
+eleicao;Prefeito;Cidadela;EmpAgr
+eleicao;Vereador;Cidadela;CD1
+rodada 1
+eleicao;Fiscal;Atlantis;EmpSem
+eleicao;Prefeito;Atlantis;EmpMaq
+eleicao;Vereador;Atlantis;AT1
+eleicao;Fiscal;Cidadela;EmpFer
+eleicao;Prefeito;Cidadela;CD3
+eleicao;Vereador;Cidadela;CD1
+rodada 1
+imposto;prefeito EmpMaq;EmpSem;2.5
+imposto;prefeito CD3;EmpFer;10.0
+imposto;prefeito EmpMaq;EmpMaq;10.0
+imposto;prefeito CD3;EmpAgr;10.0
+imposto;prefeito EmpMaq;AT1;5.0
+imposto;prefeito CD3;CD1;10.0
+imposto;prefeito EmpMaq;AT2;10.0
+imposto;prefeito CD3;CD2;10.0
+imposto;prefeito EmpMaq;AT3;10.0
+imposto;prefeito CD3;CD3;10.0
+imposto;prefeito EmpMaq;EmpSem;10.0
+imposto;prefeito CD3;EmpFer;10.0
+imposto;prefeito EmpMaq;EmpMaq;10.0
+imposto;prefeito CD3;EmpAgr;10.0
+imposto;prefeito EmpMaq;AT1;10.0
+imposto;prefeito CD3;CD1;10.0
+imposto;prefeito EmpMaq;AT2;10.0
+imposto;prefeito CD3;CD2;10.0
+imposto;prefeito EmpMaq;AT3;10.0
+imposto;prefeito CD3;CD3;10.0
+eleicao;Fiscal;Atlantis;EmpSem
+eleicao;Prefeito;Atlantis;AT3
+eleicao;Vereador;Atlantis;AT1
+eleicao;Fiscal;Cidadela;CD1
+eleicao;Prefeito;Cidadela;CD3
+eleicao;Vereador;Cidadela;EmpAgr
+rodada 1
+imposto;prefeito AT3;EmpSem;10.0
+imposto;prefeito CD3;EmpFer;10.0
+imposto;prefeito AT3;EmpMaq;10.0
+imposto;prefeito CD3;EmpAgr;10.0
+imposto;prefeito AT3;AT1;10.0
+imposto;prefeito CD3;CD1;10.0
+imposto;prefeito AT3;AT2;10.0
+imposto;prefeito CD3;CD2;10.0
+imposto;prefeito AT3;AT3;10.0
+imposto;prefeito CD3;CD3;10.0
+eleicao;Fiscal;Atlantis;EmpSem
+eleicao;Prefeito;Atlantis;AT1
+eleicao;Vereador;Atlantis;AT3
+eleicao;Fiscal;Cidadela;EmpAgr
+eleicao;Prefeito;Cidadela;CD2
+eleicao;Vereador;Cidadela;EmpFer
+rodada 1
+imposto;prefeito AT1;EmpSem;10.0
+imposto;prefeito CD2;EmpFer;10.0
+imposto;prefeito AT1;EmpMaq;10.0
+imposto;prefeito CD2;EmpAgr;10.0
+imposto;prefeito AT1;AT1;10.0
+imposto;prefeito CD2;CD1;10.0
+imposto;prefeito AT1;AT2;10.0
+imposto;prefeito CD2;CD2;10.0
+imposto;prefeito AT1;AT3;10.0
+imposto;prefeito CD2;CD3;10.0
+eleicao;Fiscal;Atlantis;AT2
+eleicao;Prefeito;Atlantis;AT1
+eleicao;Vereador;Atlantis;EmpMaq
+eleicao;Fiscal;Cidadela;EmpFer
+eleicao;Prefeito;Cidadela;CD2
+eleicao;Vereador;Cidadela;CD3
+rodada 1
+imposto;prefeito AT1;EmpSem;10.0
+imposto;prefeito CD2;EmpFer;10.0
+imposto;prefeito AT1;EmpMaq;10.0
+imposto;prefeito CD2;EmpAgr;10.0
+imposto;prefeito AT1;AT1;10.0
+imposto;prefeito CD2;CD1;10.0
+imposto;prefeito AT1;AT2;10.0
+imposto;prefeito CD2;CD2;10.0
+imposto;prefeito AT1;AT3;10.0
+imposto;prefeito CD2;CD3;10.0
+eleicao;Fiscal;Atlantis;AT1
+eleicao;Prefeito;Atlantis;EmpSem
+eleicao;Vereador;Atlantis;AT2
+eleicao;Fiscal;Cidadela;CD3
+eleicao;Prefeito;Cidadela;CD1
+eleicao;Vereador;Cidadela;EmpFer
+rodada 1
+imposto;prefeito EmpSem;EmpSem;10.0
+imposto;prefeito CD1;EmpFer;10.0
+imposto;prefeito EmpSem;EmpMaq;10.0
+imposto;prefeito CD1;EmpAgr;10.0
+imposto;prefeito EmpSem;AT1;10.0
+imposto;prefeito CD1;CD1;10.0
+imposto;prefeito EmpSem;AT2;10.0
+imposto;prefeito CD1;CD2;10.0
+imposto;prefeito EmpSem;AT3;10.0
+imposto;prefeito CD1;CD3;10.0
+eleicao;Fiscal;Atlantis;EmpMaq
+eleicao;Prefeito;Atlantis;EmpSem
+eleicao;Vereador;Atlantis;AT1
+eleicao;Fiscal;Cidadela;CD1
+eleicao;Prefeito;Cidadela;CD3
+eleicao;Vereador;Cidadela;EmpFer
+rodada 1
+imposto;prefeito EmpSem;EmpSem;10.0
+imposto;prefeito CD3;EmpFer;10.0
+imposto;prefeito EmpSem;EmpMaq;10.0
+imposto;prefeito CD3;EmpAgr;10.0
+imposto;prefeito EmpSem;AT1;10.0
+imposto;prefeito CD3;CD1;10.0
+imposto;prefeito EmpSem;AT2;10.0
+imposto;prefeito CD3;CD2;10.0
+imposto;prefeito EmpSem;AT3;10.0
+imposto;prefeito CD3;CD3;10.0
+eleicao;Fiscal;Atlantis;EmpMaq
+eleicao;Prefeito;Atlantis;AT2
+eleicao;Vereador;Atlantis;AT1
+eleicao;Fiscal;Cidadela;CD1
+eleicao;Prefeito;Cidadela;EmpFer
+eleicao;Vereador;Cidadela;CD2
+rodada 1
+imposto;prefeito AT2;EmpSem;10.0
+imposto;prefeito EmpFer;EmpFer;10.0
+imposto;prefeito AT2;EmpMaq;10.0
+imposto;prefeito EmpFer;EmpAgr;10.0
+imposto;prefeito AT2;AT1;10.0
+imposto;prefeito EmpFer;CD1;10.0
+imposto;prefeito AT2;AT2;10.0
+imposto;prefeito EmpFer;CD2;10.0
+imposto;prefeito AT2;AT3;10.0
+imposto;prefeito EmpFer;CD3;10.0
+eleicao;Fiscal;Atlantis;AT1
+eleicao;Prefeito;Atlantis;AT2
+eleicao;Vereador;Atlantis;AT3
+eleicao;Fiscal;Cidadela;CD1
+eleicao;Prefeito;Cidadela;CD2
+eleicao;Vereador;Cidadela;CD3
+rodada 1
+imposto;prefeito AT2;EmpSem;10.0
+imposto;prefeito CD2;EmpFer;10.0
+imposto;prefeito AT2;EmpMaq;10.0
+imposto;prefeito CD2;EmpAgr;10.0
+imposto;prefeito AT2;AT1;10.0
+imposto;prefeito CD2;CD1;10.0
+imposto;prefeito AT2;AT2;10.0
+imposto;prefeito CD2;CD2;10.0
+imposto;prefeito AT2;AT3;10.0
+imposto;prefeito CD2;CD3;10.0
+troca taxa;AT2;1;0.0
+troca taxa;AT2;2;0.0%
+troca taxa;AT2;3;0.0%
+eleicao;Fiscal;Atlantis;EmpMaq
+eleicao;Prefeito;Atlantis;AT2
+eleicao;Vereador;Atlantis;EmpSem
+eleicao;Fiscal;Cidadela;CD3
+eleicao;Prefeito;Cidadela;CD1
+eleicao;Vereador;Cidadela;CD2
+rodada 1
+imposto;prefeito AT2;EmpSem;10.0
+imposto;prefeito CD1;EmpFer;10.0
+imposto;prefeito AT2;EmpMaq;10.0
+imposto;prefeito CD1;EmpAgr;10.0
+imposto;prefeito AT2;AT1;10.0
+imposto;prefeito CD1;CD1;10.0
+imposto;prefeito AT2;AT2;10.0
+imposto;prefeito CD1;CD2;10.0
+imposto;prefeito AT2;AT3;10.0
+imposto;prefeito CD1;CD3;10.0
+eleicao;Fiscal;Atlantis;EmpMaq
+eleicao;Prefeito;Atlantis;AT2
+eleicao;Vereador;Atlantis;AT3
+eleicao;Fiscal;Cidadela;CD3
+eleicao;Prefeito;Cidadela;CD2
+eleicao;Vereador;Cidadela;EmpFer
+rodada 1
+imposto;prefeito AT2;EmpSem;10.0
+imposto;prefeito CD2;EmpFer;10.0
+imposto;prefeito AT2;EmpMaq;10.0
+imposto;prefeito CD2;EmpAgr;10.0
+imposto;prefeito AT2;AT1;10.0
+imposto;prefeito CD2;CD1;10.0
+imposto;prefeito AT2;AT2;10.0
+imposto;prefeito CD2;CD2;10.0
+imposto;prefeito AT2;AT3;10.0
+imposto;prefeito CD2;CD3;10.0
+eleicao;Fiscal;Atlantis;AT3
+eleicao;Prefeito;Atlantis;EmpMaq
+eleicao;Vereador;Atlantis;AT1
+eleicao;Fiscal;Cidadela;EmpFer
+eleicao;Prefeito;Cidadela;CD1
+eleicao;Vereador;Cidadela;CD3
+rodada 1
+imposto;prefeito EmpMaq;EmpSem;10.0
+imposto;prefeito CD1;EmpFer;10.0
+imposto;prefeito EmpMaq;EmpMaq;10.0
+imposto;prefeito CD1;EmpAgr;10.0
+imposto;prefeito EmpMaq;AT1;10.0
+imposto;prefeito CD1;CD1;10.0
+imposto;prefeito EmpMaq;AT2;10.0
+imposto;prefeito CD1;CD2;10.0
+imposto;prefeito EmpMaq;AT3;10.0
+imposto;prefeito CD1;CD3;10.0
+eleicao;Fiscal;Atlantis;EmpMaq
+eleicao;Prefeito;Atlantis;AT1
+eleicao;Vereador;Atlantis;EmpSem
+eleicao;Fiscal;Cidadela;CD2
+eleicao;Prefeito;Cidadela;EmpAgr
+eleicao;Vereador;Cidadela;CD3
+rodada 1
+imposto;prefeito AT1;EmpSem;10.0
+imposto;prefeito EmpAgr;EmpFer;10.0
+imposto;prefeito AT1;EmpMaq;10.0
+imposto;prefeito EmpAgr;EmpAgr;10.0
+imposto;prefeito AT1;AT1;10.0
+imposto;prefeito EmpAgr;CD1;10.0
+imposto;prefeito AT1;AT2;10.0
+imposto;prefeito EmpAgr;CD2;10.0
+imposto;prefeito AT1;AT3;10.0
+imposto;prefeito EmpAgr;CD3;10.0
+imposto;prefeito AT1;EmpSem;10.0
+imposto;prefeito EmpAgr;EmpFer;10.0
+imposto;prefeito AT1;EmpMaq;10.0
+imposto;prefeito EmpAgr;EmpAgr;10.0
+imposto;prefeito AT1;AT1;10.0
+imposto;prefeito EmpAgr;CD1;10.0
+imposto;prefeito AT1;AT2;10.0
+imposto;prefeito EmpAgr;CD2;10.0
+imposto;prefeito AT1;AT3;10.0
+imposto;prefeito EmpAgr;CD3;10.0
+troca taxa;AT1;1;0.0
+troca taxa;AT1;3;0.0%
+usa acao;prefeito AT1;Lixo
+eleicao;Fiscal;Atlantis;AT1
+eleicao;Prefeito;Atlantis;EmpSem
+eleicao;Vereador;Atlantis;EmpMaq
+eleicao;Fiscal;Cidadela;CD1
+eleicao;Prefeito;Cidadela;CD2
+eleicao;Vereador;Cidadela;CD3
+rodada 1
+imposto;prefeito EmpSem;EmpSem;10.0
+imposto;prefeito CD2;EmpFer;10.0
+imposto;prefeito EmpSem;EmpMaq;10.0
+imposto;prefeito CD2;EmpAgr;10.0
+imposto;prefeito EmpSem;AT1;10.0
+imposto;prefeito CD2;CD1;10.0
+imposto;prefeito EmpSem;AT2;10.0
+imposto;prefeito CD2;CD2;10.0
+imposto;prefeito EmpSem;AT3;10.0
+imposto;prefeito CD2;CD3;10.0
+eleicao;Fiscal;Atlantis;AT3
+eleicao;Prefeito;Atlantis;EmpSem
+eleicao;Vereador;Atlantis;AT2
+eleicao;Fiscal;Cidadela;EmpFer
+eleicao;Prefeito;Cidadela;CD3
+eleicao;Vereador;Cidadela;CD1
+rodada 1
+imposto;prefeito EmpSem;EmpSem;10.0
+imposto;prefeito CD3;EmpFer;10.0
+imposto;prefeito EmpSem;EmpMaq;10.0
+imposto;prefeito CD3;EmpAgr;10.0
+imposto;prefeito EmpSem;AT1;10.0
+imposto;prefeito CD3;CD1;10.0
+imposto;prefeito EmpSem;AT2;10.0
+imposto;prefeito CD3;CD2;10.0
+imposto;prefeito EmpSem;AT3;10.0
+imposto;prefeito CD3;CD3;10.0
+troca taxa;EmpSem;1;0.0
+troca taxa;EmpSem;3;0.0%
+eleicao;Fiscal;Atlantis;EmpSem
+eleicao;Prefeito;Atlantis;AT3
+eleicao;Vereador;Atlantis;AT2
+eleicao;Fiscal;Cidadela;CD2
+eleicao;Prefeito;Cidadela;EmpFer
+eleicao;Vereador;Cidadela;CD3
+rodada 1
+imposto;prefeito AT3;EmpSem;10.0
+imposto;prefeito EmpFer;EmpFer;10.0
+imposto;prefeito AT3;EmpMaq;10.0
+imposto;prefeito EmpFer;EmpAgr;10.0
+imposto;prefeito AT3;AT1;10.0
+imposto;prefeito EmpFer;CD1;10.0
+imposto;prefeito AT3;AT2;10.0
+imposto;prefeito EmpFer;CD2;10.0
+imposto;prefeito AT3;AT3;10.0
+imposto;prefeito EmpFer;CD3;10.0
+troca taxa;AT3;1;0.0
+troca taxa;AT3;3;0.0%
+usa acao;prefeito AT3;Lixo
+eleicao;Fiscal;Atlantis;AT1
+eleicao;Prefeito;Atlantis;EmpMaq
+eleicao;Vereador;Atlantis;AT3
+eleicao;Fiscal;Cidadela;CD3
+eleicao;Prefeito;Cidadela;EmpFer
+eleicao;Vereador;Cidadela;CD2
+rodada 1
+imposto;prefeito EmpMaq;EmpSem;10.0
+imposto;prefeito EmpFer;EmpFer;10.0
+imposto;prefeito EmpMaq;EmpMaq;10.0
+imposto;prefeito EmpFer;EmpAgr;10.0
+imposto;prefeito EmpMaq;AT1;10.0
+imposto;prefeito EmpFer;CD1;10.0
+imposto;prefeito EmpMaq;AT2;10.0
+imposto;prefeito EmpFer;CD2;10.0
+imposto;prefeito EmpMaq;AT3;10.0
+imposto;prefeito EmpFer;CD3;10.0
+eleicao;Fiscal;Atlantis;AT3
+eleicao;Prefeito;Atlantis;EmpSem
+eleicao;Vereador;Atlantis;AT2
+eleicao;Fiscal;Cidadela;CD2
+eleicao;Prefeito;Cidadela;EmpAgr
+eleicao;Vereador;Cidadela;EmpFer
+rodada 1
+imposto;prefeito EmpSem;EmpSem;10.0
+imposto;prefeito EmpAgr;EmpFer;10.0
+imposto;prefeito EmpSem;EmpMaq;10.0
+imposto;prefeito EmpAgr;EmpAgr;10.0
+imposto;prefeito EmpSem;AT1;10.0
+imposto;prefeito EmpAgr;CD1;10.0
+imposto;prefeito EmpSem;AT2;10.0
+imposto;prefeito EmpAgr;CD2;10.0
+imposto;prefeito EmpSem;AT3;10.0
+imposto;prefeito EmpAgr;CD3;10.0
+troca taxa;EmpSem;2;0.0%
+troca taxa;EmpSem;3;0.0%
+usa acao;prefeito EmpSem;Lixo
+imposto;prefeito EmpSem;EmpSem;10.0
+imposto;prefeito EmpAgr;EmpFer;10.0
+imposto;prefeito EmpSem;EmpMaq;10.0
+imposto;prefeito EmpAgr;EmpAgr;10.0
+imposto;prefeito EmpSem;AT1;10.0
+imposto;prefeito EmpAgr;CD1;10.0
+imposto;prefeito EmpSem;AT2;10.0
+imposto;prefeito EmpAgr;CD2;10.0
+imposto;prefeito EmpSem;AT3;10.0
+imposto;prefeito EmpAgr;CD3;10.0
+eleicao;Fiscal;Atlantis;AT3
+eleicao;Prefeito;Atlantis;AT1
+eleicao;Vereador;Atlantis;AT2
+eleicao;Fiscal;Cidadela;CD1
+eleicao;Prefeito;Cidadela;EmpFer
+eleicao;Vereador;Cidadela;CD2
+rodada 1
+imposto;prefeito AT1;EmpSem;10.0
+imposto;prefeito EmpFer;EmpFer;10.0
+imposto;prefeito AT1;EmpMaq;10.0
+imposto;prefeito EmpFer;EmpAgr;10.0
+imposto;prefeito AT1;AT1;10.0
+imposto;prefeito EmpFer;CD1;10.0
+imposto;prefeito AT1;AT2;10.0
+imposto;prefeito EmpFer;CD2;10.0
+imposto;prefeito AT1;AT3;10.0
+imposto;prefeito EmpFer;CD3;10.0
+troca taxa;EmpFer;1;0.0
+usa acao;prefeito EmpFer;Lixo
+eleicao;Fiscal;Atlantis;AT1
+eleicao;Prefeito;Atlantis;EmpSem
+eleicao;Vereador;Atlantis;AT3
+eleicao;Fiscal;Cidadela;CD2
+eleicao;Prefeito;Cidadela;CD1
+eleicao;Vereador;Cidadela;EmpFer
+rodada 1
+imposto;prefeito EmpSem;EmpSem;10.0
+imposto;prefeito CD1;EmpFer;10.0
+imposto;prefeito EmpSem;EmpMaq;10.0
+imposto;prefeito CD1;EmpAgr;10.0
+imposto;prefeito EmpSem;AT1;10.0
+imposto;prefeito CD1;CD1;10.0
+imposto;prefeito EmpSem;AT2;10.0
+imposto;prefeito CD1;CD2;10.0
+imposto;prefeito EmpSem;AT3;10.0
+imposto;prefeito CD1;CD3;10.0
+troca taxa;EmpSem;1;0.0
+troca taxa;EmpSem;3;0.0%
+eleicao;Fiscal;Atlantis;EmpMaq
+eleicao;Prefeito;Atlantis;EmpSem
+eleicao;Vereador;Atlantis;AT2
+eleicao;Fiscal;Cidadela;CD1
+eleicao;Prefeito;Cidadela;EmpAgr
+eleicao;Vereador;Cidadela;EmpFer
+rodada 1
+imposto;prefeito EmpSem;EmpSem;10.0
+imposto;prefeito EmpAgr;EmpFer;10.0
+imposto;prefeito EmpSem;EmpMaq;10.0
+imposto;prefeito EmpAgr;EmpAgr;10.0
+imposto;prefeito EmpSem;AT1;10.0
+imposto;prefeito EmpAgr;CD1;10.0
+imposto;prefeito EmpSem;AT2;10.0
+imposto;prefeito EmpAgr;CD2;10.0
+imposto;prefeito EmpSem;AT3;10.0
+imposto;prefeito EmpAgr;CD3;10.0
+troca taxa;EmpSem;1;0.0
+troca taxa;EmpSem;3;0.0%
+usa acao;prefeito EmpSem;Lixo
+eleicao;Fiscal;Atlantis;EmpMaq
+eleicao;Prefeito;Atlantis;AT1
+eleicao;Vereador;Atlantis;EmpSem
+eleicao;Fiscal;Cidadela;EmpFer
+eleicao;Prefeito;Cidadela;CD1
+eleicao;Vereador;Cidadela;CD3
+rodada 1
+eleicao;Fiscal;Atlantis;EmpMaq
+eleicao;Prefeito;Atlantis;AT1
+eleicao;Vereador;Atlantis;AT2
+eleicao;Fiscal;Cidadela;CD3
+eleicao;Prefeito;Cidadela;EmpFer
+eleicao;Vereador;Cidadela;EmpAgr
+rodada 1
+imposto;prefeito AT1;EmpSem;10.0
+imposto;prefeito EmpFer;EmpFer;10.0
+imposto;prefeito AT1;EmpMaq;10.0
+imposto;prefeito EmpFer;EmpAgr;10.0
+imposto;prefeito AT1;AT1;10.0
+imposto;prefeito EmpFer;CD1;10.0
+imposto;prefeito AT1;AT2;10.0
+imposto;prefeito EmpFer;CD2;10.0
+imposto;prefeito AT1;AT3;10.0
+imposto;prefeito EmpFer;CD3;10.0
+troca taxa;EmpFer;1;0.0
+troca taxa;EmpFer;3;0.0%
+usa acao;prefeito EmpFer;Lixo
+eleicao;Fiscal;Atlantis;EmpSem
+eleicao;Prefeito;Atlantis;AT1
+eleicao;Vereador;Atlantis;EmpMaq
+eleicao;Fiscal;Cidadela;CD3
+eleicao;Prefeito;Cidadela;CD2
+eleicao;Vereador;Cidadela;EmpAgr
+rodada 1
+eleicao;Fiscal;Atlantis;EmpMaq
+eleicao;Prefeito;Atlantis;AT1
+eleicao;Vereador;Atlantis;AT2
+eleicao;Fiscal;Cidadela;CD1
+eleicao;Prefeito;Cidadela;CD3
+eleicao;Vereador;Cidadela;EmpAgr
+rodada 1
+eleicao;Fiscal;Atlantis;EmpMaq
+eleicao;Prefeito;Atlantis;AT2
+eleicao;Vereador;Atlantis;AT3
+eleicao;Fiscal;Cidadela;CD2
+eleicao;Prefeito;Cidadela;EmpAgr
+eleicao;Vereador;Cidadela;EmpFer
+rodada 1
+imposto;prefeito AT2;EmpSem;10.0
+imposto;prefeito EmpAgr;EmpFer;10.0
+imposto;prefeito AT2;EmpMaq;10.0
+imposto;prefeito EmpAgr;EmpAgr;10.0
+imposto;prefeito AT2;AT1;10.0
+imposto;prefeito EmpAgr;CD1;10.0
+imposto;prefeito AT2;AT2;10.0
+imposto;prefeito EmpAgr;CD2;10.0
+imposto;prefeito AT2;AT3;10.0
+imposto;prefeito EmpAgr;CD3;10.0
+troca taxa;EmpAgr;1;5.0
+troca taxa;EmpAgr;2;15.0%
+troca taxa;EmpAgr;3;35.0%
+eleicao;Fiscal;Atlantis;EmpSem
+eleicao;Prefeito;Atlantis;EmpMaq
+eleicao;Vereador;Atlantis;AT3
+eleicao;Fiscal;Cidadela;CD3
+eleicao;Prefeito;Cidadela;CD1
+eleicao;Vereador;Cidadela;EmpFer
+rodada 1
+imposto;prefeito EmpMaq;EmpSem;10.0
+imposto;prefeito CD1;EmpFer;10.0
+imposto;prefeito EmpMaq;EmpMaq;10.0
+imposto;prefeito CD1;EmpAgr;10.0
+imposto;prefeito EmpMaq;AT1;10.0
+imposto;prefeito CD1;CD1;10.0
+imposto;prefeito EmpMaq;AT2;10.0
+imposto;prefeito CD1;CD2;10.0
+imposto;prefeito EmpMaq;AT3;10.0
+imposto;prefeito CD1;CD3;10.0
+troca taxa;EmpMaq;1;5.0
+troca taxa;EmpMaq;2;15.0%
+troca taxa;EmpMaq;3;25.0%
+usa acao;prefeito EmpMaq;Água
+usa acao;prefeito EmpMaq;Esgoto
+imposto;prefeito EmpMaq;EmpSem;5.0
+imposto;prefeito CD1;EmpFer;10.0
+imposto;prefeito EmpMaq;EmpMaq;5.0
+imposto;prefeito CD1;EmpAgr;10.0
+imposto;prefeito EmpMaq;AT1;5.0
+imposto;prefeito CD1;CD1;10.0
+imposto;prefeito EmpMaq;AT2;5.0
+imposto;prefeito CD1;CD2;10.0
+imposto;prefeito EmpMaq;AT3;5.0
+imposto;prefeito CD1;CD3;10.0
+eleicao;Fiscal;Atlantis;EmpSem
+eleicao;Prefeito;Atlantis;EmpMaq
+eleicao;Vereador;Atlantis;AT3
+eleicao;Fiscal;Cidadela;EmpFer
+eleicao;Prefeito;Cidadela;EmpAgr
+eleicao;Vereador;Cidadela;CD3
+rodada 1
+imposto;prefeito EmpMaq;EmpSem;10.0
+imposto;prefeito EmpAgr;EmpFer;10.0
+imposto;prefeito EmpMaq;EmpMaq;10.0
+imposto;prefeito EmpAgr;EmpAgr;10.0
+imposto;prefeito EmpMaq;AT1;10.0
+imposto;prefeito EmpAgr;CD1;10.0
+imposto;prefeito EmpMaq;AT2;10.0
+imposto;prefeito EmpAgr;CD2;10.0
+imposto;prefeito EmpMaq;AT3;10.0
+imposto;prefeito EmpAgr;CD3;10.0
+eleicao;Fiscal;Atlantis;AT1
+eleicao;Prefeito;Atlantis;AT3
+eleicao;Vereador;Atlantis;EmpMaq
+eleicao;Fiscal;Cidadela;EmpFer
+eleicao;Prefeito;Cidadela;CD2
+eleicao;Vereador;Cidadela;CD1
+rodada 1
+imposto;prefeito AT3;EmpSem;10.0
+imposto;prefeito CD2;EmpFer;10.0
+imposto;prefeito AT3;EmpMaq;10.0
+imposto;prefeito CD2;EmpAgr;10.0
+imposto;prefeito AT3;AT1;10.0
+imposto;prefeito CD2;CD1;10.0
+imposto;prefeito AT3;AT2;10.0
+imposto;prefeito CD2;CD2;10.0
+imposto;prefeito AT3;AT3;10.0
+imposto;prefeito CD2;CD3;10.0
+eleicao;Fiscal;Atlantis;AT2
+eleicao;Prefeito;Atlantis;EmpSem
+eleicao;Vereador;Atlantis;AT1
+eleicao;Fiscal;Cidadela;EmpAgr
+eleicao;Prefeito;Cidadela;CD1
+eleicao;Vereador;Cidadela;CD2
+rodada 1
+imposto;prefeito EmpSem;EmpSem;5.0
+imposto;prefeito CD1;EmpFer;10.0
+imposto;prefeito EmpSem;EmpMaq;10.0
+imposto;prefeito CD1;EmpAgr;10.0
+imposto;prefeito EmpSem;AT1;10.0
+imposto;prefeito CD1;CD1;4.0
+imposto;prefeito EmpSem;AT2;10.0
+imposto;prefeito CD1;CD2;10.0
+imposto;prefeito EmpSem;AT3;10.0
+imposto;prefeito CD1;CD3;10.0
+eleicao;Fiscal;Atlantis;EmpSem
+eleicao;Prefeito;Atlantis;AT2
+eleicao;Vereador;Atlantis;AT1
+eleicao;Fiscal;Cidadela;EmpAgr
+eleicao;Prefeito;Cidadela;CD2
+eleicao;Vereador;Cidadela;CD1
+rodada 1
+eleicao;Fiscal;Atlantis;EmpMaq
+eleicao;Prefeito;Atlantis;AT1
+eleicao;Fiscal;Atlantis;EmpSem
+eleicao;Fiscal;Atlantis;AT1
+eleicao;Prefeito;Atlantis;AT3
+eleicao;Vereador;Atlantis;EmpSem
+eleicao;Fiscal;Cidadela;CD2
+eleicao;Prefeito;Cidadela;CD1
+eleicao;Vereador;Cidadela;EmpFer
+rodada 1
+imposto;prefeito AT3;EmpSem;10.0
+imposto;prefeito CD1;EmpFer;10.0
+imposto;prefeito AT3;EmpMaq;10.0
+imposto;prefeito CD1;EmpAgr;10.0
+imposto;prefeito AT3;AT1;10.0
+imposto;prefeito CD1;CD1;10.0
+imposto;prefeito AT3;AT2;10.0
+imposto;prefeito CD1;CD2;10.0
+imposto;prefeito AT3;AT3;10.0
+imposto;prefeito CD1;CD3;10.0
+imposto;prefeito AT3;EmpSem;10.0
+imposto;prefeito CD1;EmpFer;10.0
+imposto;prefeito AT3;EmpMaq;10.0
+imposto;prefeito CD1;EmpAgr;10.0
+imposto;prefeito AT3;AT1;10.0
+imposto;prefeito CD1;CD1;10.0
+imposto;prefeito AT3;AT2;10.0
+imposto;prefeito CD1;CD2;10.0
+imposto;prefeito AT3;AT3;10.0
+imposto;prefeito CD1;CD3;10.0
+eleicao;Fiscal;Atlantis;AT1
+eleicao;Prefeito;Atlantis;AT3
+eleicao;Vereador;Atlantis;AT2
+eleicao;Fiscal;Cidadela;CD3
+eleicao;Prefeito;Cidadela;CD1
+eleicao;Vereador;Cidadela;CD2
+rodada 1
+eleicao;Fiscal;Atlantis;EmpMaq
+eleicao;Prefeito;Atlantis;EmpSem
+eleicao;Vereador;Atlantis;AT3
+eleicao;Fiscal;Cidadela;EmpAgr
+eleicao;Prefeito;Cidadela;EmpFer
+eleicao;Vereador;Cidadela;CD2
+rodada 1
+eleicao;Fiscal;Atlantis;EmpSem
+eleicao;Prefeito;Atlantis;AT1
+eleicao;Vereador;Atlantis;EmpMaq
+eleicao;Fiscal;Cidadela;CD2
+eleicao;Prefeito;Cidadela;EmpAgr
+eleicao;Vereador;Cidadela;CD1
+rodada 1
+eleicao;Fiscal;Atlantis;EmpSem
+eleicao;Prefeito;Atlantis;AT3
+eleicao;Vereador;Atlantis;AT1
+eleicao;Fiscal;Cidadela;CD3
+eleicao;Prefeito;Cidadela;EmpFer
+eleicao;Vereador;Cidadela;EmpAgr
+rodada 1
+imposto;prefeito AT3;EmpSem;10.0
+imposto;prefeito EmpFer;EmpFer;10.0
+imposto;prefeito AT3;EmpMaq;10.0
+imposto;prefeito EmpFer;EmpAgr;10.0
+imposto;prefeito AT3;AT1;10.0
+imposto;prefeito EmpFer;CD1;10.0
+imposto;prefeito AT3;AT2;10.0
+imposto;prefeito EmpFer;CD2;10.0
+imposto;prefeito AT3;AT3;10.0
+imposto;prefeito EmpFer;CD3;10.0
+imposto;prefeito AT3;EmpSem;10.0
+imposto;prefeito EmpFer;EmpFer;10.0
+imposto;prefeito AT3;EmpMaq;10.0
+imposto;prefeito EmpFer;EmpAgr;10.0
+imposto;prefeito AT3;AT1;10.0
+imposto;prefeito EmpFer;CD1;10.0
+imposto;prefeito AT3;AT2;10.0
+imposto;prefeito EmpFer;CD2;10.0
+imposto;prefeito AT3;AT3;10.0
+imposto;prefeito EmpFer;CD3;10.0

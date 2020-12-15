@@ -19,6 +19,7 @@ import com.gorim.model.ProdutoSimplifiedModel;
 import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
 import com.gorim.model.forms.FiscalAmbientalForm;
+import com.gorim.model.forms.Message;
 import com.gorim.model.forms.MestreForm;
 import com.gorim.model.forms.PrefeitoForm;
 import com.gorim.model.forms.SugestaoVereador;
@@ -32,7 +33,7 @@ import com.gorim.motorJogo.Vereador;
 import com.gorim.service.MundoService;
 
 
-@RequestMapping("request/api")
+@RequestMapping("/request/api")
 @RestController
 public class API {
 	private final MundoService mundoService;
@@ -47,182 +48,262 @@ public class API {
 		return this.mundoService.processaMestre(mestreForm);
 	}
 	
-	@GetMapping(path = "/mestre/infoMundo/{idJogo}")
+	@GetMapping(path = "/{idJogo}/mestre/infoMundo")
 	public MundoModel infoMundo(@PathVariable("idJogo") int idJogo) {
 		return this.mundoService.getInfoMundo(idJogo);
 	}
 	
-	@PostMapping(path = "/mestre/changeFlagFimEtapa")
-	public void changeFlagFimEtapa() {
-		this.mundoService.changeFlagFimEtapa();
+	@PostMapping(path = "/{idJogo}/mestre/changeFlagFimEtapa")
+	public void changeFlagFimEtapa(@PathVariable("idJogo") int idJogo) {
+		this.mundoService.changeFlagFimEtapa(idJogo);
 	}
 	
-	@PostMapping(path = "/mestre/finalizarEtapa")
-	public void finalizarEtapa() throws IOException{
-		this.mundoService.finalizarEtapa();
+	@PostMapping(path = "/{idJogo}/mestre/finalizarEtapa")
+	public void finalizarEtapa(@PathVariable("idJogo") int idJogo) throws IOException{
+		this.mundoService.finalizarEtapa(idJogo);
 	}
 	
-	@GetMapping(path = "/mestre/empresarios")
-	public ArrayList<Empresario> getListaEmpresario(){
-		return this.mundoService.getListaEmpresario();
+	@GetMapping(path = "/{idJogo}/mestre/empresarios")
+	public ArrayList<Empresario> getListaEmpresario(@PathVariable("idJogo") int idJogo){
+		return this.mundoService.getListaEmpresario(idJogo);
 	}
 	
-	@GetMapping(path = "/mestre/agricultores")
-	public ArrayList<Agricultor> getListaAgricultor(){
-		return this.mundoService.getListaAgricultor();
+	@GetMapping(path = "/{idJogo}/mestre/agricultores")
+	public ArrayList<Agricultor> getListaAgricultor(@PathVariable("idJogo") int idJogo){
+		return this.mundoService.getListaAgricultor(idJogo);
 	}
 	
-	@PostMapping(path = "/mestre/infoPessoasByEtapa")
-	public List<PessoaModel> getInfoPessoasByEtapa(@RequestBody int etapa){
-		return this.mundoService.getInfoPessoasByEtapa(etapa);
+	@PostMapping(path = "/{idJogo}/mestre/infoPessoasByEtapa")
+	public List<PessoaModel> getInfoPessoasByEtapa(@PathVariable("idJogo") int idJogo, @RequestBody int etapa){
+		return this.mundoService.getInfoPessoasByEtapa(idJogo, etapa);
 	}
 	
-	@PostMapping(path = "/mestre/infoPessoasByClasse")
-	public List<PessoaModel> getInfoPessoasByClasse(@RequestBody int classe){
-		return this.mundoService.getInfoPessoasByClasse(classe);
+	@PostMapping(path = "/{idJogo}/mestre/infoPessoasByClasse")
+	public List<PessoaModel> getInfoPessoasByClasse(@PathVariable("idJogo") int idJogo, @RequestBody int classe){
+		return this.mundoService.getInfoPessoasByClasse(idJogo, classe);
 	}
 	
-	@GetMapping(path = "/mestre/infoPessoasForVoting/{cidade}")
-	public List<PessoaModel> getInfoPessoasForVoting(@PathVariable String cidade){
-		return this.mundoService.getInfoPessoasByCidade(cidade, false);
+	@GetMapping(path = "/{idJogo}/mestre/infoPessoasForVoting/{cidade}")
+	public List<PessoaModel> getInfoPessoasForVoting(
+			@PathVariable("idJogo") int idJogo,
+			@PathVariable String cidade
+	){
+		return this.mundoService.getInfoPessoas(idJogo, cidade, false, 0);
 	}
 	
-	@PostMapping(path = "/mestre/adicionaTransferencia")
-	public void adicionaTransferencia(@RequestBody Transfer transferencia){
-		this.mundoService.adicionaTransferencia(transferencia);
+	@GetMapping(path = "/{idJogo}/mestre/infoPessoasForFining/{cidade}")
+	public List<PessoaModel> getInfoPessoasForFining(
+			@PathVariable("idJogo") int idJogo,
+			@PathVariable String cidade
+	){
+		return this.mundoService.getInfoPessoas(idJogo, cidade, false, 0);
 	}
 	
-	@PostMapping(path = "/mestre/verificaFinalizados")
-	public boolean[] verificaFinalizados(@RequestBody int etapa) {
-		return this.mundoService.verificaFinalizados(etapa);
+	@GetMapping(path = "/{idJogo}/mestre/infoPessoasForGreenSeal/{cidade}")
+	public List<PessoaModel> getInfoPessoasForGreenSeal(
+			@PathVariable("idJogo") int idJogo,
+			@PathVariable String cidade
+	){
+		return this.mundoService.getInfoPessoas(idJogo, cidade, false, 2);
 	}
 	
-	@GetMapping(path = "/mestre/verificaFimEtapa/{etapa}")
-	public int verificaFimEtapa(@PathVariable("etapa") int etapa) {
-		return this.mundoService.verificaFimEtapa(etapa);
+	@PostMapping(path = "/{idJogo}/mestre/adicionaTransferencia")
+	public void adicionaTransferencia(@PathVariable("idJogo") int idJogo, @RequestBody Transfer transferencia){
+		this.mundoService.adicionaTransferencia(idJogo, transferencia);
 	}
 	
-	@GetMapping(path = "/mestre/papelSegundaEtapa/{idPessoa}")
-	public int papelSegundaEtapa(@PathVariable("idPessoa") int idPessoa) {
-		return this.mundoService.papelSegundaEtapa(idPessoa);
+	@PostMapping(path = "/{idJogo}/mestre/verificaFinalizados")
+	public boolean[] verificaFinalizados(@PathVariable("idJogo") int idJogo, @RequestBody int etapa) {
+		return this.mundoService.verificaFinalizados(idJogo, etapa);
 	}
 	
-	@PostMapping(path = "/mestre/votar")
-	public void votar(@RequestBody int[] votos) {
-		this.mundoService.contaVoto(votos);
+	@GetMapping(path = "/{idJogo}/mestre/verificaFimEtapa/{etapa}")
+	public int verificaFimEtapa(@PathVariable("idJogo") int idJogo, @PathVariable("etapa") int etapa) {
+		return this.mundoService.verificaFimEtapa(idJogo, etapa);
 	}
 	
-	@GetMapping(path = "/arquivoResumo/{id}")
-	public JSONObject getArquivoResumo(@PathVariable("id") int id) throws IOException {
-		return this.mundoService.getFilePessoaByIdJSON(id);
+	@GetMapping(path = "/{idJogo}/mestre/papelSegundaEtapa/{idPessoa}")
+	public int papelSegundaEtapa(@PathVariable("idJogo") int idJogo, @PathVariable("idPessoa") int idPessoa) {
+		return this.mundoService.papelSegundaEtapa(idJogo, idPessoa);
+	}
+	
+	@PostMapping(path = "/{idJogo}/mestre/votar")
+	public void votar(@PathVariable("idJogo") int idJogo, @RequestBody int[] votos) {
+		this.mundoService.contaVoto(idJogo, votos);
+	}
+	
+	@GetMapping(path = "/{idJogo}/arquivoResumo/{idPessoa}")
+	public JSONObject getArquivoResumo(
+			@PathVariable("idJogo") int idJogo,
+			@PathVariable("idPessoa") int idPessoa
+	) throws IOException {
+		return this.mundoService.getFilePessoaByIdJSON(idJogo, idPessoa);
 	}
 
-	@PostMapping(path = "/empresario/{idEmp}")
-	public void finalizaJogada(@PathVariable("idEmp") int idEmp, @RequestBody EmpresarioForm empForm) throws IOException {
-		this.mundoService.processaJogadaEmpresario(idEmp, empForm);
+	@PostMapping(path = "/{idJogo}/empresario/{idEmp}")
+	public void finalizaJogada(
+			@PathVariable("idJogo") int idJogo,
+			@PathVariable("idEmp") int idEmp,
+			@RequestBody EmpresarioForm empForm
+	) throws IOException {
+		this.mundoService.processaJogadaEmpresario(idJogo, idEmp, empForm);
 	}
 	
-	@GetMapping(path = "/empresario/{id}")
-	public Empresario getEmpresario(@PathVariable("id") int id) {
-		return this.mundoService.getEmpresarioById(id);
+	@GetMapping(path = "/{idJogo}/empresario/{idEmp}")
+	public Empresario getEmpresario(@PathVariable("idJogo") int idJogo, @PathVariable("idEmp") int idEmp) {
+		return this.mundoService.getEmpresarioById(idJogo, idEmp);
 	}
 	
-	@PostMapping(path = "/empresario/venda/{idAgr}")
-	public void adicionaOrcamentoById(@RequestBody Venda venda) {
-		this.mundoService.adicionaOrcamentoById(venda);
+	@PostMapping(path = "/{idJogo}/empresario/venda/{idAgr}")
+	public void adicionaOrcamentoById(@PathVariable("idJogo") int idJogo, @RequestBody Venda venda) {
+		this.mundoService.adicionaOrcamentoById(idJogo, venda);
 	}
 	
-	@GetMapping(path = "/empresario/venda/{idEmp}")
-	public List<Venda> getVendas(@PathVariable("idEmp") int idEmp) {
-		return this.mundoService.getVendas(idEmp);
+	@GetMapping(path = "/{idJogo}/empresario/venda/{idEmp}")
+	public List<Venda> getVendas(@PathVariable("idJogo") int idJogo, @PathVariable("idEmp") int idEmp) {
+		return this.mundoService.getVendas(idJogo, idEmp);
 	}
 	
-	@PostMapping(path = "/agricultor/{idAgr}")
+	@PostMapping(path = "/{idJogo}/agricultor/{idAgr}")
 	public void postForm(
+			@PathVariable("idJogo") int idJogo,
 			@PathVariable("idAgr") int idAgr,
 			@RequestBody AgricultorForm postForm
 	) throws IOException {
-		this.mundoService.processaJogadaAgricultor(idAgr, postForm);
+		this.mundoService.processaJogadaAgricultor(idJogo, idAgr, postForm);
 	}
 	
-	@GetMapping(path = "/agricultor/{idAgr}")
-	public Agricultor getAgricultor(@PathVariable("idAgr") int idAgr) {
-		return this.mundoService.getAgricultorById(idAgr);
+	@GetMapping(path = "/{idJogo}/agricultor/{idAgr}")
+	public Agricultor getAgricultor(@PathVariable("idJogo") int idJogo, @PathVariable("idAgr") int idAgr) {
+		return this.mundoService.getAgricultorById(idJogo, idAgr);
 	}
 	
-	@PostMapping(path = "/agricultor/venda/{idEmp}")
-	public void adicionaVendaById(@RequestBody Venda venda) {
-		this.mundoService.adicionaVendaById(venda);
+	@PostMapping(path = "/{idJogo}/agricultor/venda/{idEmp}")
+	public void adicionaVendaById(@PathVariable("idJogo") int idJogo, @RequestBody Venda venda) {
+		this.mundoService.adicionaVendaById(idJogo, venda);
 	}
 	
-	@GetMapping(path = "/agricultor/venda/{idAgr}")
-	public List<Venda> getOrcamentos(@PathVariable("idAgr") int idAgr) {
-		return this.mundoService.getOrcamentos(idAgr);
+	@GetMapping(path = "/{idJogo}/agricultor/venda/{idAgr}")
+	public List<Venda> getOrcamentos(@PathVariable("idJogo") int idJogo, @PathVariable("idAgr") int idAgr) {
+		return this.mundoService.getOrcamentos(idJogo, idAgr);
 	}
 	
-	@PostMapping(path = "/agricultor/venda/delete/{idEmp}/{idAgr}")
-	public void removeOrcamento(@PathVariable("idAgr") int idAgr, @PathVariable("idEmp") int idEmp, @RequestBody int idOrcamento) {
-		this.mundoService.removeOrcamentoById(idAgr, idEmp, idOrcamento);
+	@PostMapping(path = "/{idJogo}/agricultor/venda/delete/{idEmp}/{idAgr}")
+	public void removeOrcamento(
+			@PathVariable("idJogo") int idJogo,
+			@PathVariable("idAgr") int idAgr,
+			@PathVariable("idEmp") int idEmp,
+			@RequestBody int idOrcamento
+	) {
+		this.mundoService.removeOrcamentoById(idJogo, idAgr, idEmp, idOrcamento);
 	}
 	
-	@GetMapping(path = "/agricultor/empresarios/produtos")
-	public List<ProdutoSimplifiedModel> getProdutosEmpresarios(){
-		return this.mundoService.getProdutosEmpresarios();
+	@GetMapping(path = "/{idJogo}/agricultor/empresarios/produtos")
+	public List<ProdutoSimplifiedModel> getProdutosEmpresarios(@PathVariable("idJogo") int idJogo){
+		return this.mundoService.getProdutosEmpresarios(idJogo);
 	}
 	
-	@PostMapping(path = "/fiscal/{idFis}")
-	public void processaJogadaFiscal(@PathVariable("idFis") int idFis, @RequestBody FiscalAmbientalForm fisForm) throws IOException {
-		this.mundoService.processaJogadaFiscal(idFis, fisForm);
+	@PostMapping(path = "/{idJogo}/fiscal/{idFis}")
+	public void processaJogadaFiscal(
+			@PathVariable("idJogo") int idJogo,
+			@PathVariable("idFis") int idFis,
+			@RequestBody FiscalAmbientalForm fisForm
+	) throws IOException {
+		this.mundoService.processaJogadaFiscal(idJogo, idFis, fisForm);
 	}
 	
-	@GetMapping(path = "/fiscal/{idFis}")
-	public FiscalAmbiental getFiscalAmbiental(@PathVariable("idFis") int idFis) {
-		return this.mundoService.getFiscalAmbientalById(idFis);
+	@GetMapping(path = "/{idJogo}/fiscal/{idFis}")
+	public FiscalAmbiental getFiscalAmbiental(
+			@PathVariable("idJogo") int idJogo,
+			@PathVariable("idFis") int idFis
+	) {
+		return this.mundoService.getFiscalAmbientalById(idJogo, idFis);
 	}
 	
-	@PostMapping(path = "/prefeito/{idPref}")
-	public void processaJogadaPrefeito(@PathVariable("idPref") int idPref, @RequestBody PrefeitoForm prefForm) throws IOException {
-		this.mundoService.processaJogadaPrefeito(idPref, prefForm);
+	@PostMapping(path = "/{idJogo}/prefeito/{idPref}")
+	public void processaJogadaPrefeito(
+			@PathVariable("idJogo") int idJogo,
+			@PathVariable("idPref") int idPref,
+			@RequestBody PrefeitoForm prefForm
+	) throws IOException {
+		this.mundoService.processaJogadaPrefeito(idJogo, idPref, prefForm);
 	}
 	
-	@GetMapping(path = "/prefeito/{idPref}")
-	public Prefeito getPrefeito(@PathVariable("idPref") int idPref) {
-		return this.mundoService.getPrefeitoById(idPref);
+	@GetMapping(path = "/{idJogo}/prefeito/{idPref}")
+	public Prefeito getPrefeito(@PathVariable("idJogo") int idJogo, @PathVariable("idPref") int idPref) {
+		return this.mundoService.getPrefeitoById(idJogo, idPref);
 	}
 	
-	@PostMapping(path = "/prefeito/adicionaRespostaSugestao/{idPref}")
-	public void adicionaRespostaSugestaoVereador(@PathVariable("idPref") int idPref, @RequestBody SugestaoVereador sugestao) {
-		this.mundoService.adicionaRespostaSugestaoVereador(idPref, sugestao);
+	@PostMapping(path = "/{idJogo}/prefeito/adicionaRespostaSugestao/{idPref}")
+	public void adicionaRespostaSugestaoVereador(
+			@PathVariable("idJogo") int idJogo,
+			@PathVariable("idPref") int idPref,
+			@RequestBody SugestaoVereador sugestao
+	) {
+		this.mundoService.adicionaRespostaSugestaoVereador(idJogo, idPref, sugestao);
 	}
 	
-	@GetMapping(path = "/prefeito/getSugestoesVereador/{idPref}")
-	public List<SugestaoVereador> getSugestoesVereador(@PathVariable("idPref") int idPref){
-		return this.mundoService.getSugestoesVereador(idPref);
+	@GetMapping(path = "/{idJogo}/prefeito/getSugestoesVereador/{idPref}")
+	public List<SugestaoVereador> getSugestoesVereador(
+			@PathVariable("idJogo") int idJogo,
+			@PathVariable("idPref") int idPref
+	){
+		return this.mundoService.getSugestoesVereador(idJogo, idPref);
 	}
 	
-	@PostMapping(path = "/vereador/{idVer}")
-	public void processaJogadaVereador(@PathVariable("idVer") int idVer) {
-		this.mundoService.processaJogadaVereador(idVer);
+	@PostMapping(path = "/{idJogo}/vereador/{idVer}")
+	public void processaJogadaVereador(@PathVariable("idJogo") int idJogo, @PathVariable("idVer") int idVer) {
+		this.mundoService.processaJogadaVereador(idJogo, idVer);
 	}
 	
-	@GetMapping(path = "/vereador/{idVer}")
-	public Vereador getVereador(@PathVariable("idVer") int idVer) {
-		return this.mundoService.getVereadorById(idVer);
+	@GetMapping(path = "/{idJogo}/vereador/{idVer}")
+	public Vereador getVereador(@PathVariable("idJogo") int idJogo, @PathVariable("idVer") int idVer) {
+		return this.mundoService.getVereadorById(idJogo, idVer);
 	}
 	
-	@PostMapping(path = "/vereador/adicionaSugestao/{idVer}")
-	public void adicionaSugestaoVereador(@PathVariable("idVer") int idVer, @RequestBody SugestaoVereador sugestao) {
-		this.mundoService.adicionaSugestaoVereador(idVer, sugestao);
+	@PostMapping(path = "/{idJogo}/vereador/adicionaSugestao/{idVer}")
+	public void adicionaSugestaoVereador(
+			@PathVariable("idJogo") int idJogo,
+			@PathVariable("idVer") int idVer,
+			@RequestBody SugestaoVereador sugestao
+	) {
+		this.mundoService.adicionaSugestaoVereador(idJogo, idVer, sugestao);
 	}
 	
-	@GetMapping(path = "/vereador/getRespostasPrefeito/{idVer}")
-	public List<SugestaoVereador> getRespostaPrefeito(@PathVariable("idVer") int idVer){
-		return this.mundoService.getSugestoesVereador(idVer);
+	@GetMapping(path = "/{idJogo}/vereador/getRespostasPrefeito/{idVer}")
+	public List<SugestaoVereador> getRespostaPrefeito(
+			@PathVariable("idJogo") int idJogo,
+			@PathVariable("idVer") int idVer
+	){
+		return this.mundoService.getSugestoesVereador(idJogo, idVer);
 	}
 	
-	@GetMapping(path = "/vereador/infoPrefeito/{idVer}")
-	public Prefeito getInfoPrefeitoByVereador(@PathVariable("idVer") int idVer){
-		return this.mundoService.getInfoPrefeitoByVereador(idVer);
+	@GetMapping(path = "/{idJogo}/vereador/infoPrefeito/{idVer}")
+	public Prefeito getInfoPrefeitoByVereador(
+			@PathVariable("idJogo") int idJogo,
+			@PathVariable("idVer") int idVer
+	){
+		return this.mundoService.getInfoPrefeitoByVereador(idJogo, idVer);
+	}
+	
+	@GetMapping(path = "/{idJogo}/chat/listaContatoChat/{idPessoa}")
+	public List<PessoaModel> getListaContatoChat(@PathVariable("idJogo") int idJogo, @PathVariable int idPessoa){
+		return this.mundoService.getListaContatoChat(idJogo, idPessoa);
+	}
+	
+	@PostMapping(path = "/{idJogo}/chat/mandarMensagem")
+	public void mandarMensagem(@PathVariable("idJogo") int idJogo, Message mensagem) {
+		this.mundoService.mandarMessagem(idJogo, mensagem);
+	}
+	
+	@GetMapping(path = "/{idJogo}/chat/getNovasMensagens/{idPessoa}/{idDestinatario}/{ultimaMensagem}")
+	public List<Message> getNovasMensagens(
+			@PathVariable("idJogo") int idJogo,
+			@PathVariable("idPessoa") int idPessoa,
+			@PathVariable("idDestinatario") int idDestinatario,
+			@PathVariable("ultimaMensagem") int ultimaMensagem
+	){
+		return this.mundoService.getNovasMensagens(idJogo, idPessoa, idDestinatario, ultimaMensagem);
 	}
 	
 }

@@ -45,7 +45,7 @@ public class Prefeito extends Pessoa {
     }
 
     public void setUsarAcao(int acao, double poluicaoMundo){
-    	if(acao > -1 && acao < 4) {
+    	if(acao > -1 && acao < 3) {
     		this.usarAcoes[acao] = true;
             double preco = this.acoesAmbientais.get(acao).getCusto();
 
@@ -56,7 +56,7 @@ public class Prefeito extends Pessoa {
     }
 
     public String getTipoAcao(int acao){
-        return this.acoesAmbientais.get(acao-1).getTipo();
+        return this.acoesAmbientais.get(acao).getTipo();
     }
 
     public double getCaixa() {
@@ -141,6 +141,8 @@ public class Prefeito extends Pessoa {
         if(tipoTaxa > 0 && tipoTaxa < 4){
             this.taxas[tipoTaxa-1] = novaTaxa;
             this.mudancaTaxas[tipoTaxa-1] = novaTaxa;
+            System.out.println("this.taxas[" + (tipoTaxa-1) + "] = " + novaTaxa);
+            System.out.println("this.mudancaTaxas[" + (tipoTaxa-1) + "] = " + novaTaxa);
         }
     }
 

@@ -1,0 +1,17 @@
+eleicao;Fiscal;Atlantis;EmpMaq
+eleicao;Prefeito;Atlantis;EmpSem
+eleicao;Vereador;Atlantis;AT3
+eleicao;Fiscal;Cidadela;EmpFer
+eleicao;Prefeito;Cidadela;EmpAgr
+eleicao;Vereador;Cidadela;CD3
+rodada 1
+imposto;prefeito EmpSem;EmpSem;10.0
+imposto;prefeito EmpAgr;EmpFer;10.0
+imposto;prefeito EmpSem;EmpMaq;10.0
+imposto;prefeito EmpAgr;EmpAgr;10.0
+imposto;prefeito EmpSem;AT1;10.0
+imposto;prefeito EmpAgr;CD1;10.0
+imposto;prefeito EmpSem;AT2;10.0
+imposto;prefeito EmpAgr;CD2;10.0
+imposto;prefeito EmpSem;AT3;10.0
+imposto;prefeito EmpAgr;CD3;10.0

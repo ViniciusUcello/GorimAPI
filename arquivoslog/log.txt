@@ -623,3 +623,758 @@ Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD3
 Empsem eleito como Fiscal na cidade de Atlantis
 At1 eleito como Prefeito na cidade de Atlantis
 At2 eleito como Vereador na cidade de Atlantis
+At3 eleito como Fiscal na cidade de Atlantis
+Empmaq eleito como Prefeito na cidade de Atlantis
+At2 eleito como Vereador na cidade de Atlantis
+Cd1 eleito como Fiscal na cidade de Cidadela
+Empfer eleito como Prefeito na cidade de Cidadela
+Cd2 eleito como Vereador na cidade de Cidadela
+
+===============================================
+18/11/2020 02:48:57
+Rodada:1
+Empmaq eleito como Fiscal na cidade de Atlantis
+At3 eleito como Prefeito na cidade de Atlantis
+At2 eleito como Vereador na cidade de Atlantis
+Empagr eleito como Fiscal na cidade de Cidadela
+Cd2 eleito como Prefeito na cidade de Cidadela
+Empfer eleito como Vereador na cidade de Cidadela
+
+===============================================
+18/11/2020 02:50:12
+Rodada:1
+Empmaq eleito como Fiscal na cidade de Atlantis
+At1 eleito como Prefeito na cidade de Atlantis
+At2 eleito como Vereador na cidade de Atlantis
+Cd3 eleito como Fiscal na cidade de Cidadela
+Empagr eleito como Prefeito na cidade de Cidadela
+Cd1 eleito como Vereador na cidade de Cidadela
+
+===============================================
+18/11/2020 02:54:08
+Rodada:1
+Empsem eleito como Fiscal na cidade de Atlantis
+Empmaq eleito como Prefeito na cidade de Atlantis
+At1 eleito como Vereador na cidade de Atlantis
+Empfer eleito como Fiscal na cidade de Cidadela
+Cd3 eleito como Prefeito na cidade de Cidadela
+Cd1 eleito como Vereador na cidade de Cidadela
+
+===============================================
+19/11/2020 03:09:43
+Rodada:1
+Prefeito EmpMaq cobrou um imposto de D$2.5 do empresario EmpSem
+Prefeito CD3 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito EmpMaq cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD3 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito EmpMaq cobrou um imposto de D$5.0 do agricultor AT1
+Prefeito CD3 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD3 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD3 cobrou um imposto de D$10.0 do agricultor CD3
+Prefeito EmpMaq cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD3 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito EmpMaq cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD3 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD3 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD3 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD3 cobrou um imposto de D$10.0 do agricultor CD3
+Empsem eleito como Fiscal na cidade de Atlantis
+At3 eleito como Prefeito na cidade de Atlantis
+At1 eleito como Vereador na cidade de Atlantis
+Cd1 eleito como Fiscal na cidade de Cidadela
+Cd3 eleito como Prefeito na cidade de Cidadela
+Empagr eleito como Vereador na cidade de Cidadela
+
+===============================================
+20/11/2020 03:56:43
+Rodada:1
+Prefeito AT3 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD3 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT3 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD3 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD3 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD3 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD3 cobrou um imposto de D$10.0 do agricultor CD3
+Empsem eleito como Fiscal na cidade de Atlantis
+At1 eleito como Prefeito na cidade de Atlantis
+At3 eleito como Vereador na cidade de Atlantis
+Empagr eleito como Fiscal na cidade de Cidadela
+Cd2 eleito como Prefeito na cidade de Cidadela
+Empfer eleito como Vereador na cidade de Cidadela
+
+===============================================
+20/11/2020 05:25:02
+Rodada:1
+Prefeito AT1 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD2 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT1 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD2 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD3
+At2 eleito como Fiscal na cidade de Atlantis
+At1 eleito como Prefeito na cidade de Atlantis
+Empmaq eleito como Vereador na cidade de Atlantis
+Empfer eleito como Fiscal na cidade de Cidadela
+Cd2 eleito como Prefeito na cidade de Cidadela
+Cd3 eleito como Vereador na cidade de Cidadela
+
+===============================================
+23/11/2020 02:33:29
+Rodada:1
+Prefeito AT1 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD2 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT1 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD2 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD3
+At1 eleito como Fiscal na cidade de Atlantis
+Empsem eleito como Prefeito na cidade de Atlantis
+At2 eleito como Vereador na cidade de Atlantis
+Cd3 eleito como Fiscal na cidade de Cidadela
+Cd1 eleito como Prefeito na cidade de Cidadela
+Empfer eleito como Vereador na cidade de Cidadela
+
+===============================================
+23/11/2020 02:44:12
+Rodada:1
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD3
+Empmaq eleito como Fiscal na cidade de Atlantis
+Empsem eleito como Prefeito na cidade de Atlantis
+At1 eleito como Vereador na cidade de Atlantis
+Cd1 eleito como Fiscal na cidade de Cidadela
+Cd3 eleito como Prefeito na cidade de Cidadela
+Empfer eleito como Vereador na cidade de Cidadela
+
+===============================================
+24/11/2020 10:42:42
+Rodada:1
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD3 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD3 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD3 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD3 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD3 cobrou um imposto de D$10.0 do agricultor CD3
+Empmaq eleito como Fiscal na cidade de Atlantis
+At2 eleito como Prefeito na cidade de Atlantis
+At1 eleito como Vereador na cidade de Atlantis
+Cd1 eleito como Fiscal na cidade de Cidadela
+Empfer eleito como Prefeito na cidade de Cidadela
+Cd2 eleito como Vereador na cidade de Cidadela
+
+===============================================
+24/11/2020 01:50:36
+Rodada:1
+Prefeito AT2 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito EmpFer cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT2 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito EmpFer cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT2 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT2 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT2 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD3
+At1 eleito como Fiscal na cidade de Atlantis
+At2 eleito como Prefeito na cidade de Atlantis
+At3 eleito como Vereador na cidade de Atlantis
+Cd1 eleito como Fiscal na cidade de Cidadela
+Cd2 eleito como Prefeito na cidade de Cidadela
+Cd3 eleito como Vereador na cidade de Cidadela
+
+===============================================
+24/11/2020 02:35:35
+Rodada:1
+Prefeito AT2 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD2 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT2 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD2 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT2 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT2 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT2 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD3
+Prefeito AT2 trocou a taxa do tipo 1 para 0.0
+Prefeito AT2 trocou a taxa do tipo 2 para 0.0%
+Prefeito AT2 trocou a taxa do tipo 3 para 0.0%
+Empmaq eleito como Fiscal na cidade de Atlantis
+At2 eleito como Prefeito na cidade de Atlantis
+Empsem eleito como Vereador na cidade de Atlantis
+Cd3 eleito como Fiscal na cidade de Cidadela
+Cd1 eleito como Prefeito na cidade de Cidadela
+Cd2 eleito como Vereador na cidade de Cidadela
+
+===============================================
+24/11/2020 02:58:27
+Rodada:1
+Prefeito AT2 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT2 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT2 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT2 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT2 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD3
+Empmaq eleito como Fiscal na cidade de Atlantis
+At2 eleito como Prefeito na cidade de Atlantis
+At3 eleito como Vereador na cidade de Atlantis
+Cd3 eleito como Fiscal na cidade de Cidadela
+Cd2 eleito como Prefeito na cidade de Cidadela
+Empfer eleito como Vereador na cidade de Cidadela
+
+===============================================
+24/11/2020 03:01:22
+Rodada:1
+Prefeito AT2 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD2 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT2 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD2 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT2 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT2 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT2 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD3
+At3 eleito como Fiscal na cidade de Atlantis
+Empmaq eleito como Prefeito na cidade de Atlantis
+At1 eleito como Vereador na cidade de Atlantis
+Empfer eleito como Fiscal na cidade de Cidadela
+Cd1 eleito como Prefeito na cidade de Cidadela
+Cd3 eleito como Vereador na cidade de Cidadela
+
+===============================================
+24/11/2020 03:21:52
+Rodada:1
+Prefeito EmpMaq cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito EmpMaq cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD3
+Empmaq eleito como Fiscal na cidade de Atlantis
+At1 eleito como Prefeito na cidade de Atlantis
+Empsem eleito como Vereador na cidade de Atlantis
+Cd2 eleito como Fiscal na cidade de Cidadela
+Empagr eleito como Prefeito na cidade de Cidadela
+Cd3 eleito como Vereador na cidade de Cidadela
+
+===============================================
+24/11/2020 07:39:42
+Rodada:1
+Prefeito AT1 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito EmpAgr cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT1 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito EmpAgr cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD3
+Prefeito AT1 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito EmpAgr cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT1 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito EmpAgr cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD3
+Prefeito AT1 trocou a taxa do tipo 1 para 0.0
+Prefeito AT1 trocou a taxa do tipo 3 para 0.0%
+Prefeito AT1 investiu na Acao Ambiental Lixo
+At1 eleito como Fiscal na cidade de Atlantis
+Empsem eleito como Prefeito na cidade de Atlantis
+Empmaq eleito como Vereador na cidade de Atlantis
+Cd1 eleito como Fiscal na cidade de Cidadela
+Cd2 eleito como Prefeito na cidade de Cidadela
+Cd3 eleito como Vereador na cidade de Cidadela
+
+===============================================
+24/11/2020 07:46:00
+Rodada:1
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD2 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD2 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD3
+At3 eleito como Fiscal na cidade de Atlantis
+Empsem eleito como Prefeito na cidade de Atlantis
+At2 eleito como Vereador na cidade de Atlantis
+Empfer eleito como Fiscal na cidade de Cidadela
+Cd3 eleito como Prefeito na cidade de Cidadela
+Cd1 eleito como Vereador na cidade de Cidadela
+
+===============================================
+24/11/2020 07:48:55
+Rodada:1
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD3 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD3 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD3 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD3 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD3 cobrou um imposto de D$10.0 do agricultor CD3
+Prefeito EmpSem trocou a taxa do tipo 1 para 0.0
+Prefeito EmpSem trocou a taxa do tipo 3 para 0.0%
+Empsem eleito como Fiscal na cidade de Atlantis
+At3 eleito como Prefeito na cidade de Atlantis
+At2 eleito como Vereador na cidade de Atlantis
+Cd2 eleito como Fiscal na cidade de Cidadela
+Empfer eleito como Prefeito na cidade de Cidadela
+Cd3 eleito como Vereador na cidade de Cidadela
+
+===============================================
+24/11/2020 07:54:17
+Rodada:1
+Prefeito AT3 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito EmpFer cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT3 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito EmpFer cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD3
+Prefeito AT3 trocou a taxa do tipo 1 para 0.0
+Prefeito AT3 trocou a taxa do tipo 3 para 0.0%
+Prefeito AT3 investiu na Acao Ambiental Lixo
+At1 eleito como Fiscal na cidade de Atlantis
+Empmaq eleito como Prefeito na cidade de Atlantis
+At3 eleito como Vereador na cidade de Atlantis
+Cd3 eleito como Fiscal na cidade de Cidadela
+Empfer eleito como Prefeito na cidade de Cidadela
+Cd2 eleito como Vereador na cidade de Cidadela
+
+===============================================
+25/11/2020 02:16:18
+Rodada:1
+Prefeito EmpMaq cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito EmpFer cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito EmpMaq cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito EmpFer cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD3
+At3 eleito como Fiscal na cidade de Atlantis
+Empsem eleito como Prefeito na cidade de Atlantis
+At2 eleito como Vereador na cidade de Atlantis
+Cd2 eleito como Fiscal na cidade de Cidadela
+Empagr eleito como Prefeito na cidade de Cidadela
+Empfer eleito como Vereador na cidade de Cidadela
+
+===============================================
+25/11/2020 02:30:00
+Rodada:1
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito EmpAgr cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito EmpAgr cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD3
+Prefeito EmpSem trocou a taxa do tipo 2 para 0.0%
+Prefeito EmpSem trocou a taxa do tipo 3 para 0.0%
+Prefeito EmpSem investiu na Acao Ambiental Lixo
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito EmpAgr cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito EmpAgr cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD3
+At3 eleito como Fiscal na cidade de Atlantis
+At1 eleito como Prefeito na cidade de Atlantis
+At2 eleito como Vereador na cidade de Atlantis
+Cd1 eleito como Fiscal na cidade de Cidadela
+Empfer eleito como Prefeito na cidade de Cidadela
+Cd2 eleito como Vereador na cidade de Cidadela
+
+===============================================
+26/11/2020 11:06:27
+Rodada:1
+Prefeito AT1 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito EmpFer cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT1 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito EmpFer cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD3
+Prefeito EmpFer trocou a taxa do tipo 1 para 0.0
+Prefeito EmpFer investiu na Acao Ambiental Lixo
+At1 eleito como Fiscal na cidade de Atlantis
+Empsem eleito como Prefeito na cidade de Atlantis
+At3 eleito como Vereador na cidade de Atlantis
+Cd2 eleito como Fiscal na cidade de Cidadela
+Cd1 eleito como Prefeito na cidade de Cidadela
+Empfer eleito como Vereador na cidade de Cidadela
+
+===============================================
+26/11/2020 11:18:59
+Rodada:1
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD3
+Prefeito EmpSem trocou a taxa do tipo 1 para 0.0
+Prefeito EmpSem trocou a taxa do tipo 3 para 0.0%
+Empmaq eleito como Fiscal na cidade de Atlantis
+Empsem eleito como Prefeito na cidade de Atlantis
+At2 eleito como Vereador na cidade de Atlantis
+Cd1 eleito como Fiscal na cidade de Cidadela
+Empagr eleito como Prefeito na cidade de Cidadela
+Empfer eleito como Vereador na cidade de Cidadela
+
+===============================================
+26/11/2020 11:33:10
+Rodada:1
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito EmpAgr cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito EmpAgr cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD3
+Prefeito EmpSem trocou a taxa do tipo 1 para 0.0
+Prefeito EmpSem trocou a taxa do tipo 3 para 0.0%
+Prefeito EmpSem investiu na Acao Ambiental Lixo
+Empmaq eleito como Fiscal na cidade de Atlantis
+At1 eleito como Prefeito na cidade de Atlantis
+Empsem eleito como Vereador na cidade de Atlantis
+Empfer eleito como Fiscal na cidade de Cidadela
+Cd1 eleito como Prefeito na cidade de Cidadela
+Cd3 eleito como Vereador na cidade de Cidadela
+
+===============================================
+26/11/2020 11:39:56
+Rodada:1
+Empmaq eleito como Fiscal na cidade de Atlantis
+At1 eleito como Prefeito na cidade de Atlantis
+At2 eleito como Vereador na cidade de Atlantis
+Cd3 eleito como Fiscal na cidade de Cidadela
+Empfer eleito como Prefeito na cidade de Cidadela
+Empagr eleito como Vereador na cidade de Cidadela
+
+===============================================
+26/11/2020 11:40:24
+Rodada:1
+Prefeito AT1 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito EmpFer cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT1 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito EmpFer cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT1 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD3
+Prefeito EmpFer trocou a taxa do tipo 1 para 0.0
+Prefeito EmpFer trocou a taxa do tipo 3 para 0.0%
+Prefeito EmpFer investiu na Acao Ambiental Lixo
+Empsem eleito como Fiscal na cidade de Atlantis
+At1 eleito como Prefeito na cidade de Atlantis
+Empmaq eleito como Vereador na cidade de Atlantis
+Cd3 eleito como Fiscal na cidade de Cidadela
+Cd2 eleito como Prefeito na cidade de Cidadela
+Empagr eleito como Vereador na cidade de Cidadela
+
+===============================================
+26/11/2020 11:43:19
+Rodada:1
+Empmaq eleito como Fiscal na cidade de Atlantis
+At1 eleito como Prefeito na cidade de Atlantis
+At2 eleito como Vereador na cidade de Atlantis
+Cd1 eleito como Fiscal na cidade de Cidadela
+Cd3 eleito como Prefeito na cidade de Cidadela
+Empagr eleito como Vereador na cidade de Cidadela
+
+===============================================
+26/11/2020 11:43:29
+Rodada:1
+Empmaq eleito como Fiscal na cidade de Atlantis
+At2 eleito como Prefeito na cidade de Atlantis
+At3 eleito como Vereador na cidade de Atlantis
+Cd2 eleito como Fiscal na cidade de Cidadela
+Empagr eleito como Prefeito na cidade de Cidadela
+Empfer eleito como Vereador na cidade de Cidadela
+
+===============================================
+26/11/2020 11:43:35
+Rodada:1
+Prefeito AT2 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito EmpAgr cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT2 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito EmpAgr cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT2 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT2 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT2 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD3
+Prefeito EmpAgr trocou a taxa do tipo 1 para 5.0
+Prefeito EmpAgr trocou a taxa do tipo 2 para 15.0%
+Prefeito EmpAgr trocou a taxa do tipo 3 para 35.0%
+Empsem eleito como Fiscal na cidade de Atlantis
+Empmaq eleito como Prefeito na cidade de Atlantis
+At3 eleito como Vereador na cidade de Atlantis
+Cd3 eleito como Fiscal na cidade de Cidadela
+Cd1 eleito como Prefeito na cidade de Cidadela
+Empfer eleito como Vereador na cidade de Cidadela
+
+===============================================
+26/11/2020 11:46:26
+Rodada:1
+Prefeito EmpMaq cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito EmpMaq cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD3
+Prefeito EmpMaq trocou a taxa do tipo 1 para 5.0
+Prefeito EmpMaq trocou a taxa do tipo 2 para 15.0%
+Prefeito EmpMaq trocou a taxa do tipo 3 para 25.0%
+Prefeito EmpMaq investiu na Acao Ambiental Água
+Prefeito EmpMaq investiu na Acao Ambiental Esgoto
+Prefeito EmpMaq cobrou um imposto de D$5.0 do empresario EmpSem
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito EmpMaq cobrou um imposto de D$5.0 do empresario EmpMaq
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito EmpMaq cobrou um imposto de D$5.0 do agricultor AT1
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito EmpMaq cobrou um imposto de D$5.0 do agricultor AT2
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito EmpMaq cobrou um imposto de D$5.0 do agricultor AT3
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD3
+Empsem eleito como Fiscal na cidade de Atlantis
+Empmaq eleito como Prefeito na cidade de Atlantis
+At3 eleito como Vereador na cidade de Atlantis
+Empfer eleito como Fiscal na cidade de Cidadela
+Empagr eleito como Prefeito na cidade de Cidadela
+Cd3 eleito como Vereador na cidade de Cidadela
+
+===============================================
+27/11/2020 11:23:34
+Rodada:1
+Prefeito EmpMaq cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito EmpAgr cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito EmpMaq cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito EmpAgr cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito EmpMaq cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito EmpAgr cobrou um imposto de D$10.0 do agricultor CD3
+At1 eleito como Fiscal na cidade de Atlantis
+At3 eleito como Prefeito na cidade de Atlantis
+Empmaq eleito como Vereador na cidade de Atlantis
+Empfer eleito como Fiscal na cidade de Cidadela
+Cd2 eleito como Prefeito na cidade de Cidadela
+Cd1 eleito como Vereador na cidade de Cidadela
+
+===============================================
+30/11/2020 09:41:05
+Rodada:1
+Prefeito AT3 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD2 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT3 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD2 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD2 cobrou um imposto de D$10.0 do agricultor CD3
+At2 eleito como Fiscal na cidade de Atlantis
+Empsem eleito como Prefeito na cidade de Atlantis
+At1 eleito como Vereador na cidade de Atlantis
+Empagr eleito como Fiscal na cidade de Cidadela
+Cd1 eleito como Prefeito na cidade de Cidadela
+Cd2 eleito como Vereador na cidade de Cidadela
+
+===============================================
+30/11/2020 10:58:22
+Rodada:1
+Prefeito EmpSem cobrou um imposto de D$5.0 do empresario EmpSem
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito EmpSem cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD1 cobrou um imposto de D$4.0 do agricultor CD1
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito EmpSem cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD3
+Empsem eleito como Fiscal na cidade de Atlantis
+At2 eleito como Prefeito na cidade de Atlantis
+At1 eleito como Vereador na cidade de Atlantis
+Empagr eleito como Fiscal na cidade de Cidadela
+Cd2 eleito como Prefeito na cidade de Cidadela
+Cd1 eleito como Vereador na cidade de Cidadela
+
+===============================================
+30/11/2020 11:45:26
+Rodada:1
+Empmaq eleito como Fiscal na cidade de Atlantis
+At1 eleito como Prefeito na cidade de Atlantis
+Empsem eleito como Fiscal na cidade de Atlantis
+At1 eleito como Fiscal na cidade de Atlantis
+At3 eleito como Prefeito na cidade de Atlantis
+Empsem eleito como Vereador na cidade de Atlantis
+Cd2 eleito como Fiscal na cidade de Cidadela
+Cd1 eleito como Prefeito na cidade de Cidadela
+Empfer eleito como Vereador na cidade de Cidadela
+
+===============================================
+02/12/2020 09:52:29
+Rodada:1
+Prefeito AT3 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT3 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD3
+Prefeito AT3 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT3 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito CD1 cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito CD1 cobrou um imposto de D$10.0 do agricultor CD3
+At1 eleito como Fiscal na cidade de Atlantis
+At3 eleito como Prefeito na cidade de Atlantis
+At2 eleito como Vereador na cidade de Atlantis
+Cd3 eleito como Fiscal na cidade de Cidadela
+Cd1 eleito como Prefeito na cidade de Cidadela
+Cd2 eleito como Vereador na cidade de Cidadela
+
+===============================================
+03/12/2020 11:46:31
+Rodada:1
+Empmaq eleito como Fiscal na cidade de Atlantis
+Empsem eleito como Prefeito na cidade de Atlantis
+At3 eleito como Vereador na cidade de Atlantis
+Empagr eleito como Fiscal na cidade de Cidadela
+Empfer eleito como Prefeito na cidade de Cidadela
+Cd2 eleito como Vereador na cidade de Cidadela
+
+===============================================
+03/12/2020 03:21:31
+Rodada:1
+Empsem eleito como Fiscal na cidade de Atlantis
+At1 eleito como Prefeito na cidade de Atlantis
+Empmaq eleito como Vereador na cidade de Atlantis
+Cd2 eleito como Fiscal na cidade de Cidadela
+Empagr eleito como Prefeito na cidade de Cidadela
+Cd1 eleito como Vereador na cidade de Cidadela
+
+===============================================
+03/12/2020 05:17:20
+Rodada:1
+Empsem eleito como Fiscal na cidade de Atlantis
+At3 eleito como Prefeito na cidade de Atlantis
+At1 eleito como Vereador na cidade de Atlantis
+Cd3 eleito como Fiscal na cidade de Cidadela
+Empfer eleito como Prefeito na cidade de Cidadela
+Empagr eleito como Vereador na cidade de Cidadela
+
+===============================================
+04/12/2020 10:38:34
+Rodada:1
+Prefeito AT3 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito EmpFer cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT3 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito EmpFer cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD3
+Prefeito AT3 cobrou um imposto de D$10.0 do empresario EmpSem
+Prefeito EmpFer cobrou um imposto de D$10.0 do empresario EmpFer
+Prefeito AT3 cobrou um imposto de D$10.0 do empresario EmpMaq
+Prefeito EmpFer cobrou um imposto de D$10.0 do empresario EmpAgr
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT1
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD1
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT2
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD2
+Prefeito AT3 cobrou um imposto de D$10.0 do agricultor AT3
+Prefeito EmpFer cobrou um imposto de D$10.0 do agricultor CD3
