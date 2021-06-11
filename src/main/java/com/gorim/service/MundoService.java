@@ -10,6 +10,7 @@ import java.util.List;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gorim.model.MundoModel;
@@ -18,7 +19,6 @@ import com.gorim.model.ProdutoSimplifiedModel;
 import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
 import com.gorim.model.forms.FiscalAmbientalForm;
-import com.gorim.model.forms.Message;
 import com.gorim.model.forms.MestreForm;
 import com.gorim.model.forms.PrefeitoForm;
 import com.gorim.model.forms.SugestaoVereador;
@@ -34,6 +34,9 @@ import com.gorim.motorJogo.Vereador;
 @Service
 public class MundoService {
 	private List<Mundo> mundos;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	public MundoService() {
 		this.mundos = new ArrayList<Mundo>();
@@ -62,8 +65,6 @@ public class MundoService {
 		
 		int idJogoNovo = (idUltimoJogo > -1) ? (idUltimoJogo + 1) : idUltimoJogo;
 		
-		System.out.println("idJogoNovo " + idJogoNovo);
-		
 		if(idJogoNovo > 0) {
 			JSONObject jogoNovo = new JSONObject();
 			jogoNovo.put("idJogo", idJogoNovo);
@@ -75,9 +76,7 @@ public class MundoService {
 	        }
 			
 			
-			this.mundos.add(new Mundo(idJogoNovo, mestreForm.getQuantidadeJogadores()));
-			System.out.println("this.mundo.get(0).getIdJogo() " + this.mundos.get(0).getIdJogo());
-			System.out.println("this.getIndexMundoById(idJogoNovo) " + this.getIndexMundoById(idJogoNovo));
+			this.mundos.add(new Mundo(idJogoNovo, mestreForm.getQuantidadeJogadores(), userRepository));
 			this.mundos.get(this.getIndexMundoById(idJogoNovo)).iniciarJogo();
 		}
 		
@@ -190,7 +189,11 @@ public class MundoService {
 	
 	public List<PessoaModel> getInfoPessoasByEtapa(int idJogo, int etapa){
 		boolean segundaEtapa = (etapa == 2) ? true : false;
-		return this.mundos.get(this.getIndexMundoById(idJogo)).getInfoPessoas("", segundaEtapa, (segundaEtapa ? -1 : 0), 0);
+		int indexMundo = this.getIndexMundoById(idJogo);
+		if(indexMundo > -1) {
+			return this.mundos.get(indexMundo).getInfoPessoas("", segundaEtapa, (segundaEtapa ? -1 : 0), 0);
+		}
+		return null;
 	}
 	
 	public List<PessoaModel> getInfoPessoas(int idJogo, String cidade, boolean segundaEtapa, int papeis){
@@ -248,15 +251,19 @@ public class MundoService {
 	}
 	
 	public List<PessoaModel> getListaContatoChat(int idJogo, int idPessoa){
-		return this.mundos.get(this.getIndexMundoById(idJogo)).getInfoPessoas("", true, 0, idPessoa);
+		return this.mundos.get(this.getIndexMundoById(idJogo)).getListaContatoChat(idPessoa);
 	}
 	
+	/*
 	public void mandarMessagem(int idJogo, Message mensagem) {
 		this.mundos.get(this.getIndexMundoById(idJogo)).mandarMensagem(mensagem);
 	}
 	
 	public List<Message> getNovasMensagens(int idJogo, int idPessoa, int idDestinatario, int ultimaMensagem){
 		return this.mundos.get(this.getIndexMundoById(idJogo)).getNovasMensagens(idPessoa, idDestinatario, ultimaMensagem);
-	}
+	}*/
 	
+	public void terminarJogo(int idJogo) {
+		this.mundos.remove(this.getIndexMundoById(idJogo));
+	}
 }

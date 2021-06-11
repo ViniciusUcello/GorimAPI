@@ -31,29 +31,29 @@ public class Empresario extends Pessoa {
 
         switch (setor) {
             case 0:
-                this.setor = "semente";
-                this.produtos.add(new Semente(1, "hortalica", 10, 1));
-                this.produtos.add(new Semente(2, "arroz", 20, 2));
-                this.produtos.add(new Semente(3, "soja", 30, 3));
+                this.setor = ConstantesGorim.c_Semente;
+                this.produtos.add(new Semente(1, ConstantesGorim.c_TipoSementeA, ConstantesGorim.c_CustoSementeA, ConstantesGorim.c_PoluicaoSementeA));
+                this.produtos.add(new Semente(2, ConstantesGorim.c_TipoSementeB, ConstantesGorim.c_CustoSementeB, ConstantesGorim.c_PoluicaoSementeB));
+                this.produtos.add(new Semente(3, ConstantesGorim.c_TipoSementeC, ConstantesGorim.c_CustoSementeC, ConstantesGorim.c_PoluicaoSementeC));
                 break;
             case 1:
-                this.setor = "fertilizante";
-                this.produtos.add(new Fertilizante(4, "comum", 30, 9));
-                this.produtos.add(new Fertilizante(5, "premium", 60, 6));
-                this.produtos.add(new Fertilizante(6, "super premium", 90, 3));
+                this.setor = ConstantesGorim.c_Fertilizante;
+                this.produtos.add(new Fertilizante(4, ConstantesGorim.c_TipoFertilizanteA, ConstantesGorim.c_CustoFertilizanteA, ConstantesGorim.c_PoluicaoFertilizanteA));
+                this.produtos.add(new Fertilizante(5, ConstantesGorim.c_TipoFertilizanteB, ConstantesGorim.c_CustoFertilizanteB, ConstantesGorim.c_PoluicaoFertilizanteB));
+                this.produtos.add(new Fertilizante(6, ConstantesGorim.c_TipoFertilizanteC, ConstantesGorim.c_CustoFertilizanteC, ConstantesGorim.c_PoluicaoFertilizanteC));
                 break;
             case 2:
-                this.setor = "maquina";
-                this.produtos.add(new Maquina(7, "maquinas 1", 30, 3));
-                this.produtos.add(new Maquina(8, "maquinas 2", 60, 6));
-                this.produtos.add(new Maquina(9, "maquinas 3", 90, 9));
-                this.produtos.add(new Maquina(10, "pulverizador", 400, 40));
+                this.setor = ConstantesGorim.c_Maquina;
+                this.produtos.add(new Maquina(7, ConstantesGorim.c_TipoMaquinaA, ConstantesGorim.c_CustoMaquinaA, ConstantesGorim.c_PoluicaoMaquinaA));
+                this.produtos.add(new Maquina(8, ConstantesGorim.c_TipoMaquinaB, ConstantesGorim.c_CustoMaquinaB, ConstantesGorim.c_PoluicaoMaquinaB));
+                this.produtos.add(new Maquina(9, ConstantesGorim.c_TipoMaquinaC, ConstantesGorim.c_CustoMaquinaC, ConstantesGorim.c_PoluicaoMaquinaC));
+                this.produtos.add(new Maquina(10, ConstantesGorim.c_TipoMaquinaD, ConstantesGorim.c_CustoMaquinaD, ConstantesGorim.c_PoluicaoMaquinaD));
                 break;
             case 3:
-                this.setor = "agrotoxico";
-                this.produtos.add(new Agrotoxico(11, "comum", 10, 3));
-                this.produtos.add(new Agrotoxico(12, "premium", 20, 2));
-                this.produtos.add(new Agrotoxico(13, "super premium", 30, 1));
+                this.setor = ConstantesGorim.c_Agrotoxico;
+                this.produtos.add(new Agrotoxico(11, ConstantesGorim.c_TipoAgrotoxicoA, ConstantesGorim.c_CustoAgrotoxicoA, ConstantesGorim.c_PoluicaoAgrotoxicoA));
+                this.produtos.add(new Agrotoxico(12, ConstantesGorim.c_TipoAgrotoxicoB, ConstantesGorim.c_CustoAgrotoxicoB, ConstantesGorim.c_PoluicaoAgrotoxicoB));
+                this.produtos.add(new Agrotoxico(13, ConstantesGorim.c_TipoAgrotoxicoC, ConstantesGorim.c_CustoAgrotoxicoC, ConstantesGorim.c_PoluicaoAgrotoxicoC));
                 break;
             default:
                 System.out.println("Setor invalido!");

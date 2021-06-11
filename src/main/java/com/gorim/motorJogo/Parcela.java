@@ -72,7 +72,11 @@ public class Parcela {
     }
 
     public boolean checkAgr(){
-        if( (this.produtos[2] != null) && (this.produtos[2].getTipo().contains("comum") || this.produtos[2].getTipo().contains("premium")) ) return true;
+        if(
+            (this.produtos[2] != null) &&
+            (this.produtos[2].getTipo().equals(ConstantesGorim.c_TipoAgrotoxicoA) || this.produtos[2].getTipo().contains(ConstantesGorim.c_TipoAgrotoxicoB))
+        )
+            return true;
         return false;
     }
 
@@ -113,7 +117,7 @@ public class Parcela {
             System.out.println(this.produtos[2].getTipo());
 	        String type = this.produtos[2].getTipo();
 	        System.out.println(type);
-	        if(type.contains("premium") || type.contains("comum")){
+	        if(type.contains(ConstantesGorim.c_TipoAgrotoxicoB) || type.contains(ConstantesGorim.c_TipoAgrotoxicoA)){
 	            System.out.print("Agrotoxico: "); this.produtos[2].imprimeCaracteristicas();
 	        }	
 	        else if(
@@ -147,7 +151,7 @@ public class Parcela {
             
             if(this.produtos[2] != null) {
                 String type = this.produtos[2].getTipo();
-                if(type.contains("premium") || type.contains("comum")){
+                if(type.contains(ConstantesGorim.c_TipoAgrotoxicoB) || type.contains(ConstantesGorim.c_TipoAgrotoxicoA)){
                     dados += "Agrotoxico: " + this.produtos[2].getTipo() + "\n";
                 }
         
@@ -181,7 +185,7 @@ public class Parcela {
             
             if(this.produtos[2] != null) {
                 String type = this.produtos[2].getTipo();
-                if(type.contains("premium") || type.contains("comum")){
+                if(type.contains(ConstantesGorim.c_TipoAgrotoxicoB) || type.contains(ConstantesGorim.c_TipoAgrotoxicoA)){
                     dados += "Agrotoxico: " + this.produtos[2].getTipo() + "\n";
                 }
         
@@ -209,22 +213,22 @@ public class Parcela {
 	    	
 	    	if (this.produtos[1] != null) {
 	    		String fert = this.produtos[1].getTipo();
-	    		if(fert.equals("comum")) prod *= 2;
-	            else if(fert.equals("premium")) prod *= 3;
-	            else if(fert.equals("super premium")) prod *= 4;
+	    		if(fert.equals(ConstantesGorim.c_TipoAgrotoxicoA)) prod *= 2;
+	            else if(fert.equals(ConstantesGorim.c_TipoAgrotoxicoB)) prod *= 3;
+	            else if(fert.equals(ConstantesGorim.c_TipoAgrotoxicoC)) prod *= 4;
 	    	}
 	    	
 	    	if (this.produtos[2] != null) {
 	    		String agrMaq = this.produtos[2].getTipo();
-	    		if(agrMaq.equals("comum") || agrMaq.equals("maquinas 1")) prod *= 3;
-	            else if(agrMaq.equals("premium") || agrMaq.equals("maquinas 2")) prod *= 6;
-	            else if(agrMaq.equals("super premium") || agrMaq.equals("maquinas 3")) prod *= 10;
+	    		if(agrMaq.equals(ConstantesGorim.c_TipoAgrotoxicoA) || agrMaq.equals("maquinas 1")) prod *= 3;
+	            else if(agrMaq.equals(ConstantesGorim.c_TipoAgrotoxicoB) || agrMaq.equals("maquinas 2")) prod *= 6;
+	            else if(agrMaq.equals(ConstantesGorim.c_TipoAgrotoxicoC) || agrMaq.equals("maquinas 3")) prod *= 10;
 	    		
 	    		String sem = this.produtos[0].getTipo();
 	    		
-	            if(agrMaq.contains("comum") || agrMaq.contains("premium")){
-	                if(sem.equals("arroz")) prod *= 2;
-	                else if(sem.equals("soja")) prod *= 3;
+	            if(agrMaq.contains(ConstantesGorim.c_TipoAgrotoxicoA) || agrMaq.contains(ConstantesGorim.c_TipoAgrotoxicoB)){
+	                if(sem.equals(ConstantesGorim.c_TipoSementeB)) prod *= 2;
+	                else if(sem.equals(ConstantesGorim.c_TipoSementeC)) prod *= 3;
 	            }
 	    	}
 	        this.produtividade = prod;
@@ -242,16 +246,16 @@ public class Parcela {
         	
         	String sem = this.produtos[0].getTipo();
         	
-        	if(sem.equals("hortalica")) polu = 10;
-            else if(sem.equals("arroz")) polu = 20;
-            else if(sem.equals("soja")) polu = 30;
+        	if(sem.equals(ConstantesGorim.c_TipoSementeA)) polu = 10;
+            else if(sem.equals(ConstantesGorim.c_TipoSementeB)) polu = 20;
+            else if(sem.equals(ConstantesGorim.c_TipoSementeC)) polu = 30;
         	
         	if( this.produtos[2] != null ) {
                 String agr = this.produtos[2].getTipo();
                 
-                if(agr.equals("comum")) polu *= 3;
-                else if(agr.equals("premium")) polu *= 6;
-                else if(agr.equals("super premium")) polu *= 10;
+                if(agr.equals(ConstantesGorim.c_TipoAgrotoxicoA)) polu *= 10;
+                else if(agr.equals(ConstantesGorim.c_TipoAgrotoxicoB)) polu *= 6;
+                else if(agr.equals(ConstantesGorim.c_TipoAgrotoxicoC)) polu *= 3;
         	}
 
             if(usaPulverizador) polu /= 2;
@@ -293,18 +297,13 @@ public class Parcela {
 	public JSONObject produtoParcelaJSON() {
     	JSONObject content = new JSONObject();
     	
-    	if(this.produtos[0] != null) content.put("semente", this.produtos[0].getTipo());
-    	else content.put("semente", null);
+    	if(this.produtos[0] != null) content.put(ConstantesGorim.c_Semente, this.produtos[0].getTipo());
+    	else content.put(ConstantesGorim.c_Semente, null);
     	
-    	if(this.produtos[1] != null) content.put("fertilizante", this.produtos[1].getTipo());
-    	else content.put("fertilizante", null);
+    	if(this.produtos[1] != null) content.put(ConstantesGorim.c_Fertilizante, this.produtos[1].getTipo());
+    	else content.put(ConstantesGorim.c_Fertilizante, null);
     	
     	if(this.produtos[2] != null) {
-//            String type = this.produtos[2].getTipo();
-//            if(type.contains("premium") || type.contains("comum"))
-//            	content.put("agrotoxico", type);
-//            else content.put("maquina", type);
-            // content.put("pestMach", type);
     		content.put("maqAgr", this.produtos[2]);
         }
     	else content.put("maqAgr", null);

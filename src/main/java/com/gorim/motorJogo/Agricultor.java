@@ -1,7 +1,6 @@
 package com.gorim.motorJogo;
 
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 /**
  * Agricultor
@@ -51,15 +50,15 @@ public class Agricultor extends Pessoa {
         this.gastos += preco;
         this.negociacaoCapital(preco, emp);
 
-        if (setor.equals("semente")) {
+        if (setor.equals(ConstantesGorim.c_Semente)) {
             this.parcelas[parcela].setSemente(produto);
-        } else if (setor.equals("fertilizante")) {
+        } else if (setor.equals(ConstantesGorim.c_Fertilizante)) {
             this.parcelas[parcela].setFetilizante(produto);
         } else if (produto.getTipo().equals("pulverizador")) {
             this.parcelas[parcela].setPulverizador(true);
-        } else if (setor.equals("agrotoxico")) {
+        } else if (setor.equals(ConstantesGorim.c_Agrotoxico)) {
             this.parcelas[parcela].setAgrMaq(produto);
-        } else if (setor.equals("maquina")) {
+        } else if (setor.equals(ConstantesGorim.c_Maquina)) {
             this.parcelas[parcela].setAgrMaq(produto);
         }
 

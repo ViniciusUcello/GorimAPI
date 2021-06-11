@@ -1,13 +1,22 @@
 package com.gorim.model;
 
 public class PessoaModel {
-	private String nome;
 	private int id;
+	private String nome;
+	private String nomeCurto;
 	
-	public PessoaModel(String nome, int id) {
-		super();
-		this.nome = nome;
+	public PessoaModel(int id, String nome, String nomeCurto) {
 		this.id = id;
+		this.nome = nome;
+		this.nomeCurto = nomeCurto;
+	}
+
+	public String getNomeCurto() {
+		return this.nomeCurto;
+	}
+
+	public void setNomeCurto(String nomeCurto) {
+		this.nomeCurto = nomeCurto;
 	}
 
 	public String getNome() {

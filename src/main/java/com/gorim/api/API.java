@@ -1,11 +1,17 @@
 package com.gorim.api;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,13 +19,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gorim.model.AuthenticationRequest;
+import com.gorim.model.AuthenticationResponse;
+import com.gorim.model.CustomUserDetails;
 import com.gorim.model.MundoModel;
 import com.gorim.model.PessoaModel;
 import com.gorim.model.ProdutoSimplifiedModel;
 import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
 import com.gorim.model.forms.FiscalAmbientalForm;
-import com.gorim.model.forms.Message;
 import com.gorim.model.forms.MestreForm;
 import com.gorim.model.forms.PrefeitoForm;
 import com.gorim.model.forms.SugestaoVereador;
@@ -36,11 +44,31 @@ import com.gorim.service.MundoService;
 @RequestMapping("/request/api")
 @RestController
 public class API {
-	private final MundoService mundoService;
 	
 	@Autowired
-	public API(MundoService mundoService) {
-		this.mundoService = mundoService;
+	private MundoService mundoService;
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private JwtUtil jwtUtil;
+	
+	@PostMapping(value = "/authenticate")
+	public ResponseEntity<?> authenticateUser(@RequestBody AuthenticationRequest loginRequest) {
+
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		String jwt = jwtUtil.generateJwtToken(authentication);
+		
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();		
+		List<String> roles = userDetails.getAuthorities().stream()
+				.map(item -> item.getAuthority())
+				.collect(Collectors.toList());
+
+		return ResponseEntity.ok(new AuthenticationResponse(jwt));
 	}
 	
 	@PostMapping(path = "/mestre")
@@ -63,6 +91,7 @@ public class API {
 		this.mundoService.finalizarEtapa(idJogo);
 	}
 	
+	/*
 	@GetMapping(path = "/{idJogo}/mestre/empresarios")
 	public ArrayList<Empresario> getListaEmpresario(@PathVariable("idJogo") int idJogo){
 		return this.mundoService.getListaEmpresario(idJogo);
@@ -72,6 +101,7 @@ public class API {
 	public ArrayList<Agricultor> getListaAgricultor(@PathVariable("idJogo") int idJogo){
 		return this.mundoService.getListaAgricultor(idJogo);
 	}
+	*/
 	
 	@PostMapping(path = "/{idJogo}/mestre/infoPessoasByEtapa")
 	public List<PessoaModel> getInfoPessoasByEtapa(@PathVariable("idJogo") int idJogo, @RequestBody int etapa){
@@ -130,6 +160,11 @@ public class API {
 	@PostMapping(path = "/{idJogo}/mestre/votar")
 	public void votar(@PathVariable("idJogo") int idJogo, @RequestBody int[] votos) {
 		this.mundoService.contaVoto(idJogo, votos);
+	}
+	
+	@DeleteMapping(path = "/{idJogo}/mestre/terminarJogo")
+	public void terminarJogo(@PathVariable("idJogo") int idJogo) {
+		this.mundoService.terminarJogo(idJogo);
 	}
 	
 	@GetMapping(path = "/{idJogo}/arquivoResumo/{idPessoa}")
@@ -286,24 +321,10 @@ public class API {
 		return this.mundoService.getInfoPrefeitoByVereador(idJogo, idVer);
 	}
 	
+	
 	@GetMapping(path = "/{idJogo}/chat/listaContatoChat/{idPessoa}")
 	public List<PessoaModel> getListaContatoChat(@PathVariable("idJogo") int idJogo, @PathVariable int idPessoa){
 		return this.mundoService.getListaContatoChat(idJogo, idPessoa);
-	}
-	
-	@PostMapping(path = "/{idJogo}/chat/mandarMensagem")
-	public void mandarMensagem(@PathVariable("idJogo") int idJogo, Message mensagem) {
-		this.mundoService.mandarMessagem(idJogo, mensagem);
-	}
-	
-	@GetMapping(path = "/{idJogo}/chat/getNovasMensagens/{idPessoa}/{idDestinatario}/{ultimaMensagem}")
-	public List<Message> getNovasMensagens(
-			@PathVariable("idJogo") int idJogo,
-			@PathVariable("idPessoa") int idPessoa,
-			@PathVariable("idDestinatario") int idDestinatario,
-			@PathVariable("ultimaMensagem") int ultimaMensagem
-	){
-		return this.mundoService.getNovasMensagens(idJogo, idPessoa, idDestinatario, ultimaMensagem);
 	}
 	
 }
