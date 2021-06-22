@@ -1,6 +1,5 @@
 package com.gorim.api;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -64,6 +62,7 @@ public class API {
 		String jwt = jwtUtil.generateJwtToken(authentication);
 		
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();		
+		@SuppressWarnings("unused")
 		List<String> roles = userDetails.getAuthorities().stream()
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
@@ -72,8 +71,18 @@ public class API {
 	}
 	
 	@PostMapping(path = "/mestre")
-	public int postForm(@RequestBody MestreForm mestreForm) throws IOException {
+	public int postForm(@RequestBody MestreForm mestreForm) {
 		return this.mundoService.processaMestre(mestreForm);
+	}
+	
+	@GetMapping(path = "/{idJogo}/mestre/finalizarJogo")
+	public boolean terminarJogo(@PathVariable("idJogo") int idJogo) {
+		return this.mundoService.finalizarJogo(idJogo);
+	}
+	
+	@GetMapping(path = "/{idJogo}/mestre/gameover")
+	public JSONObject getGameOverData(@PathVariable("idJogo") int idJogo) {
+		return this.mundoService.getGameOverData(idJogo);
 	}
 	
 	@GetMapping(path = "/{idJogo}/mestre/infoMundo")
@@ -87,21 +96,9 @@ public class API {
 	}
 	
 	@PostMapping(path = "/{idJogo}/mestre/finalizarEtapa")
-	public void finalizarEtapa(@PathVariable("idJogo") int idJogo) throws IOException{
-		this.mundoService.finalizarEtapa(idJogo);
+	public boolean finalizarEtapa(@PathVariable("idJogo") int idJogo) {
+		return this.mundoService.finalizarEtapa(idJogo);
 	}
-	
-	/*
-	@GetMapping(path = "/{idJogo}/mestre/empresarios")
-	public ArrayList<Empresario> getListaEmpresario(@PathVariable("idJogo") int idJogo){
-		return this.mundoService.getListaEmpresario(idJogo);
-	}
-	
-	@GetMapping(path = "/{idJogo}/mestre/agricultores")
-	public ArrayList<Agricultor> getListaAgricultor(@PathVariable("idJogo") int idJogo){
-		return this.mundoService.getListaAgricultor(idJogo);
-	}
-	*/
 	
 	@PostMapping(path = "/{idJogo}/mestre/infoPessoasByEtapa")
 	public List<PessoaModel> getInfoPessoasByEtapa(@PathVariable("idJogo") int idJogo, @RequestBody int etapa){
@@ -138,8 +135,8 @@ public class API {
 	}
 	
 	@PostMapping(path = "/{idJogo}/mestre/adicionaTransferencia")
-	public void adicionaTransferencia(@PathVariable("idJogo") int idJogo, @RequestBody Transfer transferencia){
-		this.mundoService.adicionaTransferencia(idJogo, transferencia);
+	public boolean adicionaTransferencia(@PathVariable("idJogo") int idJogo, @RequestBody Transfer transferencia){
+		return this.mundoService.adicionaTransferencia(idJogo, transferencia);
 	}
 	
 	@PostMapping(path = "/{idJogo}/mestre/verificaFinalizados")
@@ -158,20 +155,15 @@ public class API {
 	}
 	
 	@PostMapping(path = "/{idJogo}/mestre/votar")
-	public void votar(@PathVariable("idJogo") int idJogo, @RequestBody int[] votos) {
-		this.mundoService.contaVoto(idJogo, votos);
-	}
-	
-	@DeleteMapping(path = "/{idJogo}/mestre/terminarJogo")
-	public void terminarJogo(@PathVariable("idJogo") int idJogo) {
-		this.mundoService.terminarJogo(idJogo);
+	public boolean votar(@PathVariable("idJogo") int idJogo, @RequestBody int[] votos) {
+		return this.mundoService.contaVoto(idJogo, votos);
 	}
 	
 	@GetMapping(path = "/{idJogo}/arquivoResumo/{idPessoa}")
 	public JSONObject getArquivoResumo(
 			@PathVariable("idJogo") int idJogo,
 			@PathVariable("idPessoa") int idPessoa
-	) throws IOException {
+	) {
 		return this.mundoService.getFilePessoaByIdJSON(idJogo, idPessoa);
 	}
 
@@ -180,7 +172,7 @@ public class API {
 			@PathVariable("idJogo") int idJogo,
 			@PathVariable("idEmp") int idEmp,
 			@RequestBody EmpresarioForm empForm
-	) throws IOException {
+	) {
 		this.mundoService.processaJogadaEmpresario(idJogo, idEmp, empForm);
 	}
 	
@@ -204,7 +196,7 @@ public class API {
 			@PathVariable("idJogo") int idJogo,
 			@PathVariable("idAgr") int idAgr,
 			@RequestBody AgricultorForm postForm
-	) throws IOException {
+	) {
 		this.mundoService.processaJogadaAgricultor(idJogo, idAgr, postForm);
 	}
 	
@@ -243,7 +235,7 @@ public class API {
 			@PathVariable("idJogo") int idJogo,
 			@PathVariable("idFis") int idFis,
 			@RequestBody FiscalAmbientalForm fisForm
-	) throws IOException {
+	) {
 		this.mundoService.processaJogadaFiscal(idJogo, idFis, fisForm);
 	}
 	
@@ -260,7 +252,7 @@ public class API {
 			@PathVariable("idJogo") int idJogo,
 			@PathVariable("idPref") int idPref,
 			@RequestBody PrefeitoForm prefForm
-	) throws IOException {
+	) {
 		this.mundoService.processaJogadaPrefeito(idJogo, idPref, prefForm);
 	}
 	

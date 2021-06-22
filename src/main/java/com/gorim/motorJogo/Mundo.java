@@ -19,13 +19,18 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import com.gorim.model.GameOver;
+import com.gorim.model.MundoModel;
 import com.gorim.model.PessoaModel;
 import com.gorim.model.ProdutoSimplifiedModel;
+import com.gorim.model.ResumoJogador;
 import com.gorim.model.db.User;
 import com.gorim.model.forms.AgricultorForm;
 import com.gorim.model.forms.EmpresarioForm;
@@ -42,6 +47,14 @@ import com.gorim.model.forms.Venda;
 import com.gorim.service.UserRepository;
 
 public class Mundo {
+	// CONSTANTES
+	private static final int NUM_CIDADES = 2; // numero de cidades
+	private static final int NUM_PAPEIS_ELEGIVEIS = 6; // numero de papeis elegiveis
+	private static final double POLUICAO_INICIAL = 0.2; // poluição inicial do mundo
+	private static final int QNTD_EMPRESARIOS = 4; // quantidade de empresarios no jogo 
+	private static final int QNTD_PARCELAS = 6; // quantidade de parcelas para cada agricultor
+	
+	// VARIAVEIS DA CLASSE
 	private int idJogo;
 	
     private int idPessoa;
@@ -82,17 +95,21 @@ public class Mundo {
 	
 	private String storePath;
 	
+	// persistir personagem no banco
 	private UserRepository userRepository;
+	
+	// serviço para colocar mensagens no log (systemlogs/console.log)
+	private Logger logger = LoggerFactory.getLogger(Mundo.class);
 
     @SuppressWarnings("unchecked")
-	public Mundo(int idJogo, int quantidadeJogadores, UserRepository userRepository) throws IOException {
+	public Mundo(int idJogo, int quantidadeJogadores, UserRepository userRepository) {
         this.idPessoa = 1;
         this.idParcelas = 1;
-        this.qntdParcelasPorAgricultor = 6;
+        this.qntdParcelasPorAgricultor = QNTD_PARCELAS;
         this.quantidadeJogadores = quantidadeJogadores;
         this.rodada = 1;
         this.etapa = 1;
-        this.poluicaoMundo = (double) 0.2;
+        this.poluicaoMundo = POLUICAO_INICIAL;
 
         this.empresarios = new ArrayList<>();
         this.agricultores = new ArrayList<>();
@@ -103,12 +120,12 @@ public class Mundo {
         this.separadorCSV = ";";
         this.saldosAnteriores = new ArrayList<>();
         
-        this.acoesAmbientaisExecutadas = new ArrayList<>(2); // 2 = número de cidades
+        this.acoesAmbientaisExecutadas = new ArrayList<>(NUM_CIDADES);
         
         this.transferencias = new ArrayList<>();
         
 		this.et1 = new boolean[this.quantidadeJogadores];
-		this.et2 = new boolean[6]; // 6 = número de papéis elegíveis
+		this.et2 = new boolean[NUM_PAPEIS_ELEGIVEIS];
 		this.fimEtapa = false;
 		this.flagNaoJogadoresEtapaDois = false;
 		
@@ -130,16 +147,34 @@ public class Mundo {
     	File file = new File(fileName);
     	if(!file.exists()) {
     		file.getParentFile().mkdirs();
-    		file.createNewFile();
+    		try {
+				file.createNewFile();
+			} catch (IOException e) {
+				logger.error("Mundo.Mundo: Exception : " + e.getClass() + " : " + e.getMessage());
+				e.printStackTrace();
+			}
     	}
     	
 
         try (FileWriter fileW = new FileWriter(fileName)) {
             fileW.write(config.toJSONString());
         } catch (IOException e) {
+			logger.error("Mundo.Mundo: Exception : " + e.getClass() + " : " + e.getMessage());
             e.printStackTrace();
         }
         
+    }
+    
+    public MundoModel getInfoMundo() {
+    	return new MundoModel(
+				this.rodada,
+				this.etapa,
+				this.poluicaoMundo,
+				this.idJogo,
+				this.calculaProdutividadeMundo(),
+				this.quantidadeJogadores,
+				this.getNomeEleitos()
+		);
     }
     
     public int getIdJogo() {
@@ -159,9 +194,9 @@ public class Mundo {
             } else if (i == 2) {
                 setor = ConstantesGorim.c_Fertilizante;
             } else if (i == 3) {
-                setor = "maquina";
+                setor = ConstantesGorim.c_Maquina;
             } else {
-                setor = "agrotoxico";
+                setor = ConstantesGorim.c_Agrotoxico;
             }
             
             String nome = nomes[i-1];
@@ -174,7 +209,7 @@ public class Mundo {
         //Cria agricultores e seus usernames
         String nome;
         int numNome = 1;
-        for (int i = 0; i < this.quantidadeJogadores - 4; i++) {
+        for (int i = 0; i < QNTD_EMPRESARIOS; i++) {
         	int idPessoaAux = this.idPessoa;
             if (i % 2 == 0) {
                 nome = ConstantesGorim.c_PrefixoNomesPessoasCidadeA + numNome;
@@ -239,7 +274,35 @@ public class Mundo {
 		this.colocaLogCSV("rodada " + this.rodada);
         
     }
-    
+
+	public GameOver finalizarJogo() throws IOException {
+		List<ResumoJogador> resumos = new ArrayList<ResumoJogador>();
+		
+		for (Empresario emp : this.empresarios) 
+			resumos.add(new ResumoJogador(emp.nome, emp.saldo, emp.cidade, "Empresário"));
+		
+		for (Agricultor agr : this.agricultores) 
+			resumos.add(new ResumoJogador(agr.nome, agr.saldo, agr.cidade, "Agricultor"));
+		
+		GameOver gameoverData = new GameOver(this.poluicaoMundo, this.rodada, this.etapa, this.idJogo, resumos);
+		
+		String fileName = this.storePath + "/gameOverData.json";
+		
+		File file = new File(fileName);
+    	if(!file.exists()) {
+    		file.getParentFile().mkdirs();
+    		file.createNewFile();
+    	}
+    	
+        try (FileWriter fileW = new FileWriter(fileName)) {
+            fileW.write(gameoverData.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+		return gameoverData;
+	}
+	
     public void primeiraEleicao() throws IOException {
     	Random rand = new Random();
 
@@ -357,18 +420,8 @@ public class Mundo {
 		Random rand = new Random();
     	
     	if(empateFiscal.size() > 0) {
-    		System.out.print("empateFiscal: ");
-    		for (int j = 0; j < empateFiscal.size(); j++) {
-    			System.out.print(empateFiscal.get(j) + " ");
-    		}
-    		System.out.println();
     		if(empatePrefeito.size() == 0) if(empateFiscal.contains(idEleitoPrefeito)) empateFiscal.remove(empateFiscal.indexOf(idEleitoPrefeito));
     		if(empateVereador.size() == 0) if(empateFiscal.contains(idEleitoVereador)) empateFiscal.remove(empateFiscal.indexOf(idEleitoVereador));
-    		System.out.print("empateFiscal (depois): ");
-    		for (int j = 0; j < empateFiscal.size(); j++) {
-    			System.out.print(empateFiscal.get(j) + " ");
-    		}
-    		System.out.println();
     		
     		empateFiscal.add(idEleitoFiscal);
     		
@@ -376,18 +429,8 @@ public class Mundo {
     	}
     	
     	if(empatePrefeito.size() > 0) {
-    		System.out.print("empatePrefeito: ");
-    		for (int j = 0; j < empatePrefeito.size(); j++) {
-    			System.out.print(empatePrefeito.get(j) + " ");
-    		}
-    		System.out.println();
     		if(empatePrefeito.contains(idEleitoFiscal)) empatePrefeito.remove(empatePrefeito.indexOf(idEleitoFiscal));
     		if(empateVereador.size() == 0) if(empatePrefeito.contains(idEleitoVereador)) empatePrefeito.remove(empatePrefeito.indexOf(idEleitoVereador));
-    		System.out.print("empatePrefeito (depois): ");
-    		for (int j = 0; j < empatePrefeito.size(); j++) {
-    			System.out.print(empatePrefeito.get(j) + " ");
-    		}
-    		System.out.println();
     		
     		empatePrefeito.add(idEleitoPrefeito);
     		
@@ -395,18 +438,8 @@ public class Mundo {
     	}
     	
     	if(empateVereador.size() > 0) {
-    		System.out.print("empateVereador: ");
-    		for (int j = 0; j < empateVereador.size(); j++) {
-    			System.out.print(empateVereador.get(j) + " ");
-    		}
-    		System.out.println();
     		if(empateVereador.contains(idEleitoFiscal)) empateVereador.remove(empateVereador.indexOf(idEleitoFiscal));
     		if(empateVereador.contains(idEleitoPrefeito)) empateVereador.remove(empateVereador.indexOf(idEleitoPrefeito));
-    		System.out.print("empateVereador (depois): ");
-    		for (int j = 0; j < empateVereador.size(); j++) {
-    			System.out.print(empateVereador.get(j) + " ");
-    		}
-    		System.out.println();
     		
     		empateVereador.add(idEleitoVereador);
     		
@@ -764,6 +797,7 @@ public class Mundo {
     }
     
     public void processaJogadaAgricultor(int idAgr, AgricultorForm agrForm) {
+    	logger.info("Mundo.daAgricultor: idAgr=" + idAgr + "; Payload=" + agrForm.toString());
     	int i = 1;
 		for (Parcela parcela : agrForm.getParcelas()) {
 			for (Produto produto : parcela.getProdutos()) {
@@ -806,6 +840,7 @@ public class Mundo {
     }
     
     public void processaJogadaFiscal(int idFis, FiscalAmbientalForm fisForm) throws IOException {
+    	logger.info("Mundo.daAgricultor: idFis=" + idFis + "; Payload=" + fisForm.toString());
     	this.et2[idFis - this.quantidadeJogadores - 1] = true;
     	
     	FiscalAmbiental fis = this.fiscais.get(idFis - this.quantidadeJogadores - 1);
@@ -828,7 +863,6 @@ public class Mundo {
                 }
                 this.colocaArquivoLog("Fiscal " + fis.getNome() + " multou a pessoa de nome " + nomeMultado + " em D$ " + novaMulta + "");
                 this.colocaLogCSV("multa" + this.separadorCSV + fis.getNome() + this.separadorCSV + nomeMultado + this.separadorCSV + novaMulta);
-//                System.out.println("Fiscal " + fis.getNome() + " multou a pessoa de nome " + nomeMultado + " em D$ " + multa + "");
     		}
     	}
     	if(fisForm.getSelosVerde() != null && fisForm.getSelosVerde().length > 0) {
@@ -837,12 +871,10 @@ public class Mundo {
         		for (int parcela : seloVerde.getParcelas()) {
             		fis.setSeloVerde(agr, parcela, seloVerde.isAtribuir());
     				if (seloVerde.isAtribuir()) {
-//    					System.out.println("" + this.fiscais.get(fis - 1).getNome() + " deu Selo Verde para o Agricultor " + this.agricultores.get(agr - 1).getNome() + " na Parcela " + (parcela + 1) + ".");
     					this.colocaArquivoLog("" + fis.getNome() + " deu Selo Verde para o Agricultor " + agr.getNome() + " na Parcela " + parcela + "");
     					this.colocaLogCSV("deu selo" + this.separadorCSV + fis.getNome() + this.separadorCSV + agr.getNome() + this.separadorCSV + parcela);
     				}
     				else {
-//    					System.out.println("" + this.fiscais.get(fis - 1).getNome() + " tirou o Selo Verde do Agricultor " + this.agricultores.get(agr - 1).getNome() + " na Parcela " + (parcela + 1) + ".");
     					this.colocaArquivoLog("" + fis.getNome() + " tirou o Selo Verde do Agricultor " + agr.getNome() + " na Parcela " + parcela + "");
     					this.colocaLogCSV("tirou selo" + this.separadorCSV + fis.getNome() + this.separadorCSV + agr.getNome() + this.separadorCSV + parcela);
     				}
@@ -898,8 +930,6 @@ public class Mundo {
         
         return loginData;
     }
-    
-    // colocar aqui get eleicao
 
     public boolean eleger(int idEleito, int cargo) throws IOException {
         int tipo = 0;
@@ -948,7 +978,6 @@ public class Mundo {
 
         this.colocaArquivoLog("" + pessoa.getNome().substring(0, 1).toUpperCase() + pessoa.getNome().substring(1).toLowerCase() + " eleito como " + cargoString + " na cidade de " + cidade + "");
         this.colocaLogCSV("eleicao" + this.separadorCSV + cargoString + this.separadorCSV + cidade + this.separadorCSV + pessoa.getNome());
-        //System.out.println("\"" + pessoa.getNome().substring(0, 1).toUpperCase() + pessoa.getNome().substring(1).toLowerCase() + "\" eleito como " + cargoString + " na cidade de " + cidade + ".");
 
         return true;
     }
@@ -967,12 +996,11 @@ public class Mundo {
     }
     
     public void processaJogadaPrefeito(int idPref, PrefeitoForm prefForm) throws IOException {
+    	logger.info("Mundo.daAgricultor: idPref=" + idPref + "; Payload=" + prefForm.toString());
     	this.et2[idPref - this.quantidadeJogadores - 1] = true;
 		Prefeito pref = this.prefeitos.get(idPref - this.quantidadeJogadores - 2 - 1);
     	for (Imposto imposto : prefForm.getImpostos()) {
     		double novaTaxa = 0;
-    		System.out.println("imposto.getTipo() = " + imposto.getTipo());
-    		System.out.println("imposto.getTaxa() = " + imposto.getTaxa());
     		if (imposto.getTipo() == 1) {
     		    if (imposto.getTaxa().equals("B")) {
     		        novaTaxa = (double) 5;
@@ -1003,15 +1031,12 @@ public class Mundo {
     		String taxaString = (imposto.getTipo() == 1) ? "" + novaTaxa + "" : "" + (novaTaxa * 100) + "%";
             this.colocaArquivoLog("Prefeito " + pref.getNome() + " trocou a taxa do tipo " + imposto.getTipo() + " para " + taxaString + "");
             this.colocaLogCSV("troca taxa" + this.separadorCSV + pref.getNome() + this.separadorCSV + imposto.getTipo() + this.separadorCSV + taxaString);
-//            System.out.println("Prefeito " + this.prefeitos.get(pref - 1).getNome() + " trocou a taxa do tipo " + tipoTaxa + " para " + taxaString + ".");
 		}
     	
     	for (int acao : prefForm.getIdAcoesAmbientais()) {
-    		//acao += 1;
 			pref.setUsarAcao(acao, this.poluicaoMundo);
 			this.colocaArquivoLog("Prefeito " + pref.getNome() + " investiu na Acao Ambiental " + pref.getTipoAcao(acao) + "");
             this.colocaLogCSV("usa acao" + this.separadorCSV + "prefeito " + pref.getNome() + this.separadorCSV + pref.getTipoAcao(acao));
-//            System.out.println("Prefeito " + this.prefeitos.get(pref - 1).getNome() + " investiu na Acao Ambiental " + this.prefeitos.get(pref - 1).getTipoAcao(acao) + ".");
 		}
     }
     
@@ -1278,7 +1303,6 @@ public class Mundo {
     private JSONObject setArquivoFisJSON(FiscalAmbiental fis, int etapa) {
     	JSONObject novaEtapa = new JSONObject();
     	
-    	//rodada.put("rodada", this.rodada);
     	novaEtapa.put("etapa", this.etapa);
     	novaEtapa.put("saldoAnterior", this.saldosAnteriores.get(fis.getId()-1));
     	
@@ -1287,7 +1311,6 @@ public class Mundo {
     	transferencias.put("recebido", this.transferenciasReceived.get((fis.getId()-1)));
     	novaEtapa.put("transferencias", transferencias);
 
-    	//rodada.put("pedidos", fis.getPedidos());
     	novaEtapa.put("saldoAtual", fis.getSaldo());
     	novaEtapa.put("poluicaoMundial", (this.poluicaoMundo*100));
 
@@ -1371,7 +1394,6 @@ public class Mundo {
     		}
     	}
     	
-    	//rodada.put("rodada", this.rodada);
     	novaEtapa.put("etapa", this.etapa);
     	novaEtapa.put("saldoAnterior", this.saldosAnteriores.get(pref.getId()-1));
     	novaEtapa.put("impostos", impostos);
@@ -1399,7 +1421,6 @@ public class Mundo {
     private JSONObject setArquivoVerJSON(Vereador ver, int etapa) {
     	JSONObject novaEtapa = new JSONObject();
 
-    	//rodada.put("rodada", this.rodada);
     	novaEtapa.put("etapa", this.etapa);
     	novaEtapa.put("saldoAnterior", this.saldosAnteriores.get(ver.getId()-1));
     	
@@ -1531,7 +1552,6 @@ public class Mundo {
                 }
             }
         	
-        	// Colocar aqui pra adicionar nome e o array com etapa 1
         	JSONObject lastRodada = new JSONObject();
         	JSONArray etapasLastRodada = new JSONArray();
         	
@@ -1567,7 +1587,6 @@ public class Mundo {
                     e.printStackTrace();
                 }
             }
-        	// colocar aqui pra adicionar nome e array com rodada 1
         	rodadasNovo.add(novaRodada);
         }
         
@@ -1694,15 +1713,8 @@ public class Mundo {
 	        this.cobrarImpostos();
 	        for (Prefeito pref : this.prefeitos) {
 	            pref.receberContribuicoes();
-                //if(this.rodada%2 == 0 && this.rodada != 2) pref.setNome("");
 	        }
             if( (this.rodada-1)%2 == 0 && this.rodada != 1) {
-//    	        for (FiscalAmbiental fis : this.fiscais) {
-//    	        	fis.setNome("");
-//    	        }
-//    	        for (Vereador ver : this.vereadores) {
-//    	        	ver.setNome("");
-//    	        }
     	        this.processaEleicao();
             	
             }
@@ -1743,19 +1755,15 @@ public class Mundo {
             	if(this.getTipoPessoaById(idEleito) == 1) pessoa = this.getEmpresarioById(idEleito, false);
             	else pessoa = this.getAgricultorById(idEleito, false);
             	fis.finalizarRodada(pessoa);
-                //if( (this.rodada+1)%2 == 0 ) fis.setNome("");
             }
-            for(Prefeito pref : this.prefeitos){
-                pref.iniciaRodada();
-                //if( (this.rodada+1)%2 == 0 ) pref.setNome("");
-            }
+            for(Prefeito pref : this.prefeitos) pref.iniciaRodada();
+            
             for(Vereador ver : this.vereadores) {
             	Pessoa pessoa;
             	int idEleito = ver.getIdEleito();
             	if(this.getTipoPessoaById(idEleito) == 1) pessoa = this.getEmpresarioById(idEleito, false);
             	else pessoa = this.getAgricultorById(idEleito, false);
             	ver.finalizarRodada(pessoa);
-                //if( (this.rodada+1)%2 == 0 ) ver.setNome("");
             }
 
 	    	this.limpaTransfers();
@@ -2104,47 +2112,6 @@ public class Mundo {
     	this.sugestoesVereador.forEach(
 			x -> x.clear()
     	);
-    }
-    
-    /*
-    public void mandarMensagem(Message mensagem) {
-    	int idMenor = 0;
-    	int idMaior = 0;
-    	if(mensagem.getFromId() < mensagem.getToId()) {
-    		idMenor = mensagem.getFromId();
-    		idMaior = mensagem.getToId();
-    	}
-    	else {
-    		idMaior = mensagem.getFromId();
-    		idMenor = mensagem.getToId();
-    	}
-    	
-    	this.chat.get(idMenor-1).get(idMaior - idMenor - 1).add(mensagem);
-    }
-    
-    public List<Message> getNovasMensagens(int idPessoa, int idDestinatario, int ultimaMensagem) {
-    	int idMenor = 0;
-    	int idMaior = 0;
-    	if(idPessoa < idDestinatario) {
-    		idMenor = idPessoa;
-    		idMaior = idDestinatario;
-    	}
-    	else {
-    		idMaior = idPessoa;
-    		idMenor = idDestinatario;
-    	}
-    	
-    	if(ultimaMensagem < 0) {
-    		return this.chat.get(idMenor-1).get(idMaior - idMenor - 1);
-    	}
-    	else {
-        	int tamanhoConversa = this.chat.get(idMenor-1).get(idMaior - idMenor - 1).size();
-    		return this.chat.get(idMenor-1).get(idMaior - idMenor - 1).subList(ultimaMensagem, (tamanhoConversa-1));
-    	}
-    }*/
-    
-    public void terminarJogo () {
-    	//
     }
     
 }
