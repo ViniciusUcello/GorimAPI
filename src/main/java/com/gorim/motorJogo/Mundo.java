@@ -209,7 +209,7 @@ public class Mundo {
         //Cria agricultores e seus usernames
         String nome;
         int numNome = 1;
-        for (int i = 0; i < QNTD_EMPRESARIOS; i++) {
+        for (int i = 0; i < (this.quantidadeJogadores-QNTD_EMPRESARIOS); i++) {
         	int idPessoaAux = this.idPessoa;
             if (i % 2 == 0) {
                 nome = ConstantesGorim.c_PrefixoNomesPessoasCidadeA + numNome;
@@ -305,37 +305,49 @@ public class Mundo {
 	
     public void primeiraEleicao() throws IOException {
     	Random rand = new Random();
+    	int seed = (int) Math.floor(this.quantidadeJogadores/2);
 
     	// Eleger em Atlantis
-    	int idFis = rand.nextInt(5)*2 + 1;
+    	int idFis;
+    	do{
+    		idFis = rand.nextInt(seed)*2 + 1;
+    	} while( (idFis < 1) && (idFis > this.quantidadeJogadores) );
     	
     	int idPref;
     	do {
-    		idPref = rand.nextInt(5)*2 + 1;
-    	} while(idPref == idFis);
+    		idPref = rand.nextInt(seed)*2 + 1;
+    	} while((idPref == idFis) && (idPref < 1) && (idPref > this.quantidadeJogadores));
     	
     	int idVer;
     	do {
-    		idVer = rand.nextInt(5)*2 + 1;
-    	} while( (idVer == idFis) || (idVer == idPref) );
+    		idVer = rand.nextInt(seed)*2 + 1;
+    	} while( ((idVer == idFis) || (idVer == idPref)) && (idVer < 1) && (idVer > this.quantidadeJogadores) );
     	
+    	System.out.println("Mundo.primeiraEleicao: Atlantis: idFis=" + idFis);
     	this.eleger(idFis, 0);
+    	System.out.println("Mundo.primeiraEleicao: Atlantis: idPref=" + idPref);
     	this.eleger(idPref, 1);
+    	System.out.println("Mundo.primeiraEleicao: Atlantis: idVer=" + idVer);
     	this.eleger(idVer, 2);
     	
     	// Eleger em Cidadela
-    	idFis = (1+rand.nextInt(5))*2;
+    	do {
+    		idFis = (1+rand.nextInt(seed))*2;
+    	} while ( (idFis < 1) && (idFis > this.quantidadeJogadores) );
     	
     	do {
-    		idPref = (1+rand.nextInt(5))*2;
-    	} while(idPref == idFis);
+    		idPref = (1+rand.nextInt(seed))*2;
+    	} while((idPref == idFis) && (idPref < 1) && (idPref > this.quantidadeJogadores));
     	
     	do {
-    		idVer = (1+rand.nextInt(5))*2;
-    	} while( (idVer == idFis) || (idVer == idPref) );
+    		idVer = (1+rand.nextInt(seed))*2;
+    	} while( ((idVer == idFis) || (idVer == idPref)) && (idVer < 1) && (idVer > this.quantidadeJogadores) );
     	
+    	System.out.println("Mundo.primeiraEleicao: Cidadela: idFis=" + idFis);
     	this.eleger(idFis, 0);
+    	System.out.println("Mundo.primeiraEleicao: Cidadela: idPref=" + idPref);
     	this.eleger(idPref, 1);
+    	System.out.println("Mundo.primeiraEleicao: Cidadela: idVer=" + idVer);
     	this.eleger(idVer, 2);
     	
     }
@@ -936,7 +948,7 @@ public class Mundo {
         Pessoa pessoa = null;
         String cidade = "";
         String cargoString = "";
-
+        
         tipo = getTipoPessoaById(idEleito);
         if(tipo == 1) {
             pessoa = getEmpresarioById(idEleito, false);

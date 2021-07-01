@@ -38,7 +38,7 @@ import com.gorim.motorJogo.Vereador;
 @Service
 public class MundoService {
 	private List<Mundo> mundos;
-	private String filesAbsolutePath = "/usr/local/bin/gorimAPI/0.0.1-SNAPSHOT/"; 
+	private String filesAbsolutePath = "/usr/local/bin/gorimAPI/data/"; 
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -54,25 +54,34 @@ public class MundoService {
 		String fileName = filesAbsolutePath + "jogos/ultimoJogo.json";
 		int idUltimoJogo = -1;
 
-        JSONParser parser = new JSONParser();
-
-		try (Reader reader = new FileReader(fileName)) {
-
-    		JSONObject arquivoJSON = (JSONObject) parser.parse(reader);
-    		
-    		idUltimoJogo = ((Long) arquivoJSON.get("idJogo")).intValue();
-    		  
-    		
-           
-        } catch (IOException e) {
-			logger.error("MundoService.processaMestre: Exception : " + e.getClass() + " : " + e.getMessage());
-            e.printStackTrace();
-        } catch (ParseException e) {
-			logger.error("MundoService.processaMestre: Exception : " + e.getClass() + " : " + e.getMessage());
-            e.printStackTrace();
-        }
+    	File file = new File(fileName);
+    	if(!file.exists()) {
+    		file.getParentFile().mkdirs();
+    		try {
+				file.createNewFile();
+			} catch (IOException e) {
+				logger.error("MundoService.ProcessaMestre: Exception : " + e.getClass() + " : " + e.getMessage());
+				e.printStackTrace();
+			}
+    	}
+    	else {
+	        JSONParser parser = new JSONParser();
+			try (Reader reader = new FileReader(fileName)) {
+	
+	    		JSONObject arquivoJSON = (JSONObject) parser.parse(reader);
+	    		
+	    		idUltimoJogo = ((Long) arquivoJSON.get("idJogo")).intValue();
+	    		
+	        } catch (IOException e) {
+				logger.error("MundoService.processaMestre: Exception : " + e.getClass() + " : " + e.getMessage());
+	            e.printStackTrace();
+	        } catch (ParseException e) {
+				logger.error("MundoService.processaMestre: Exception : " + e.getClass() + " : " + e.getMessage());
+	            e.printStackTrace();
+	        }
+    	}
 		
-		int idJogoNovo = (idUltimoJogo > -1) ? (idUltimoJogo + 1) : idUltimoJogo;
+		int idJogoNovo = (idUltimoJogo > -1) ? (idUltimoJogo + 1) : 1;
 		
 		if(idJogoNovo > 0) {
 			JSONObject jogoNovo = new JSONObject();
@@ -89,7 +98,7 @@ public class MundoService {
 			try {
 				this.mundos.add(new Mundo(idJogoNovo, mestreForm.getQuantidadeJogadores(), userRepository, filesAbsolutePath));
 				this.mundos.get(this.getIndexMundoById(idJogoNovo)).iniciarJogo();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				logger.error("MundoService.processaMestre: Exception : " + e.getClass() + " : " + e.getMessage());
 				e.printStackTrace();
 			}
@@ -121,7 +130,7 @@ public class MundoService {
 		JSONParser parser = new JSONParser();
 		JSONObject gameOverDataJSON = new JSONObject();
 		
-		try (Reader reader = new FileReader("jogos/" + idJogo + "/gameOverData.json")) {
+		try (Reader reader = new FileReader(filesAbsolutePath + "jogos/" + idJogo + "/gameOverData.json")) {
 
 			gameOverDataJSON = (JSONObject) parser.parse(reader);
     		
@@ -152,7 +161,7 @@ public class MundoService {
 		int indexMundo = this.getIndexMundoById(idJogo);
 		if(indexMundo > -1)
 			return this.mundos.get(indexMundo).getInfoMundo();
-		logger.warn("MundoService.getInfoMundi: O jogo " + idJogo + " não está na lista.");
+		logger.warn("MundoService.getInfoMundo: O jogo " + idJogo + " não está na lista.");
 		return null;
 	}
 	
@@ -186,7 +195,7 @@ public class MundoService {
 		if(indexMundo > -1)
 			return this.mundos.get(indexMundo).verificaFimEtapa(etapa);
 		
-		File tempFile = new File("jogos/" + idJogo + "/gameOverData.json");
+		File tempFile = new File(filesAbsolutePath + "jogos/" + idJogo + "/gameOverData.json");
 		if(tempFile.exists())
 			return 3;
 
