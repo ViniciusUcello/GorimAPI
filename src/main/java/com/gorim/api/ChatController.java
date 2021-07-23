@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.gorim.model.GameEvent;
 import com.gorim.model.db.ChatMessage;
 import com.gorim.model.forms.ChatNotification;
 import com.gorim.service.ChatMessageService;
@@ -18,8 +19,6 @@ import com.gorim.service.ChatRoomService;
 
 @Controller
 public class ChatController {
-
-	
 	  @Autowired private SimpMessagingTemplate messagingTemplate;
 	  
 	  @Autowired private ChatMessageService chatMessageService;
@@ -39,14 +38,16 @@ public class ChatController {
 	  
 		  ChatMessage saved = chatMessageService.save(chatMessage);
 		  
+		  ChatNotification cn = new ChatNotification(
+				  saved.getId(),
+				  saved.getSenderId(),
+				  saved.getSenderName()
+		  );
+		  
 		  messagingTemplate.convertAndSendToUser(
 				  chatMessage.getRecipientId(),
 				  "/queue/messages",
-				  new ChatNotification(
-						  saved.getId(),
-						  saved.getSenderId(),
-						  saved.getSenderName()
-				  )
+				  (new GameEvent("chat", cn.toJSON())).toJSON()
 		  );
 	  }
 

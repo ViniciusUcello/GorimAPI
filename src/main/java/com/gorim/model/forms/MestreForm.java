@@ -15,5 +15,9 @@ public class MestreForm {
 		return quantidadeJogadores;
 	}
 	
+	@Override
+	public String toString() {
+		return "[quantidadeJogadores=" + this.quantidadeJogadores + "]";
+	}
 	
 }

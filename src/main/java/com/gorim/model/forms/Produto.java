@@ -29,4 +29,10 @@ public class Produto {
 	public int getPreco() {
 		return this.preco;
 	}
+
+	@Override
+	public String toString() {
+		return "id=" + id + ", preco=" + preco;
+	}
+	
 }

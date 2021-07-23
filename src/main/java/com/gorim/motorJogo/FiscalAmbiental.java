@@ -1,5 +1,6 @@
 package com.gorim.motorJogo;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
@@ -8,12 +9,12 @@ import org.json.simple.JSONObject;
  */
 public class FiscalAmbiental extends Pessoa {
     private int idFiscal_ambiental;
-    private JSONObject pedidos;
+    private JSONArray pedidos;
     
     public FiscalAmbiental(int id, String nome, String cidade, int idFiscal_ambiental) {
         super(id, nome, cidade, 0);
         this.idFiscal_ambiental = idFiscal_ambiental;
-        this.pedidos = new JSONObject();
+        this.pedidos = new JSONArray();
     }
 
     public void setNome(String nome) {
@@ -78,10 +79,15 @@ public class FiscalAmbiental extends Pessoa {
 
     @SuppressWarnings("unchecked")
     public void adicionaPedido(String nomePedinte, String pedido){
-        this.pedidos.put(nomePedinte, pedido);
+    	JSONObject aux = new JSONObject();
+    	
+    	aux.put("nomeAgr", nomePedinte);
+    	aux.put("pedido", pedido);
+    	
+        this.pedidos.add(aux);
     }
 
-    public JSONObject getPedidos(){
+    public JSONArray getPedidos(){
         return this.pedidos;
     }
     

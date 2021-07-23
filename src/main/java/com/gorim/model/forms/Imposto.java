@@ -28,4 +28,9 @@ public class Imposto {
 	public void setTaxa(String taxa) {
 		this.taxa = taxa;
 	}
+	
+	@Override
+	public String toString() {
+		return "[tipo=" + this.tipo + "; taxa=" + this.taxa + "]";
+	}
 }

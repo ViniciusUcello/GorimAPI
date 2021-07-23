@@ -220,9 +220,9 @@ public class Parcela {
 	    	
 	    	if (this.produtos[2] != null) {
 	    		String agrMaq = this.produtos[2].getTipo();
-	    		if(agrMaq.equals(ConstantesGorim.c_TipoAgrotoxicoA) || agrMaq.equals("maquinas 1")) prod *= 3;
-	            else if(agrMaq.equals(ConstantesGorim.c_TipoAgrotoxicoB) || agrMaq.equals("maquinas 2")) prod *= 6;
-	            else if(agrMaq.equals(ConstantesGorim.c_TipoAgrotoxicoC) || agrMaq.equals("maquinas 3")) prod *= 10;
+	    		if(agrMaq.equals(ConstantesGorim.c_TipoAgrotoxicoA) || agrMaq.equals(ConstantesGorim.c_TipoMaquinaA)) prod *= 3;
+	            else if(agrMaq.equals(ConstantesGorim.c_TipoAgrotoxicoB) || agrMaq.equals(ConstantesGorim.c_TipoMaquinaB)) prod *= 6;
+	            else if(agrMaq.equals(ConstantesGorim.c_TipoAgrotoxicoC) || agrMaq.equals(ConstantesGorim.c_TipoMaquinaC)) prod *= 10;
 	    		
 	    		String sem = this.produtos[0].getTipo();
 	    		
@@ -304,11 +304,11 @@ public class Parcela {
     	else content.put(ConstantesGorim.c_Fertilizante, null);
     	
     	if(this.produtos[2] != null) {
-    		content.put("maqAgr", this.produtos[2]);
+    		content.put("maqAgr", this.produtos[2].getTipo());
         }
     	else content.put("maqAgr", null);
     	
-    	content.put("pulverizador", this.usaPulverizador);
+    	content.put(ConstantesGorim.c_TipoMaquinaD.toLowerCase(), this.usaPulverizador);
     	content.put("seloVerde", this.seloVerde);
     	
     	return content;

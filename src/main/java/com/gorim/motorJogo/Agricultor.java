@@ -300,10 +300,8 @@ public class Agricultor extends Pessoa {
 	public JSONArray contentParcelaJSON() {
     	JSONArray content = new JSONArray();
     	
-    	//int i = 0;
     	for(Parcela parcela : this.parcelas) {
     		content.add(parcela.produtoParcelaJSON());
-    		//i++;
     	}
     	
     	return content;

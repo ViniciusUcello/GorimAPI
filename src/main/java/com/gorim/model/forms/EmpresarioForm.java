@@ -14,6 +14,10 @@ public class EmpresarioForm {
 	public int getIdEmp() {
 		return idEmp;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "EmpresarioForm [idEmp=" + this.idEmp + "]";
+	}
 	
 }

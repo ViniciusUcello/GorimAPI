@@ -1,5 +1,7 @@
 package com.gorim.model.forms;
 
+import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PrefeitoForm {
@@ -28,6 +30,11 @@ public class PrefeitoForm {
 
 	public void setIdAcoesAmbientais(int[] idAcoesAmbientais) {
 		this.idAcoesAmbientais = idAcoesAmbientais;
+	}
+	
+	@Override
+	public String toString() {
+		return "[impostos=" + Arrays.toString(this.impostos) + "; idAcoesAmbientais=" + Arrays.toString(this.idAcoesAmbientais) + "]";
 	}
 	
 	

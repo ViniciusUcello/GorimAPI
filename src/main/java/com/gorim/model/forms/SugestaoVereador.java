@@ -1,5 +1,7 @@
 package com.gorim.model.forms;
 
+import org.json.simple.JSONObject;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SugestaoVereador {
@@ -13,8 +15,8 @@ public class SugestaoVereador {
 			@JsonProperty("acaoAmbiental") String acaoAmbiental,
 			@JsonProperty("tipoSugestao") int tipoSugestao,
 			@JsonProperty("aceito") boolean aceito,
-			@JsonProperty("idSugestao") int idSugestao) {
-		super();
+			@JsonProperty("idSugestao") int idSugestao)
+	{
 		this.imposto = imposto;
 		this.acaoAmbiental = acaoAmbiental;
 		this.tipoSugestao = tipoSugestao;
@@ -62,5 +64,22 @@ public class SugestaoVereador {
 		this.idSugestao = idSugestao;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public JSONObject toJSON() {
+		JSONObject sugestaoJSON = new JSONObject();
+		
+		sugestaoJSON.put("imposto", this.imposto);
+		sugestaoJSON.put("acaoAmbiental", this.acaoAmbiental);
+		sugestaoJSON.put("tipoSugestao", this.tipoSugestao);
+		sugestaoJSON.put("aceito", this.aceito);
+		sugestaoJSON.put("idSugestao", this.idSugestao);
+		
+		return sugestaoJSON;
+	}
+	
+	@Override
+	public String toString() {
+		return "[idSugestao=" + this.idSugestao + "; tipoSugestao=" + this.tipoSugestao + "; imposto=" + this.imposto.toString() + "; acaoAmbiental=" + this.acaoAmbiental + "; aceito=" + this.aceito + "]";
+	}
 	
 }

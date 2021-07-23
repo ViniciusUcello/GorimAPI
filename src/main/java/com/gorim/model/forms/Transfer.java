@@ -40,4 +40,9 @@ public class Transfer {
 	public void setDestinatario(int destinatario) {
 		this.destinatario = destinatario;
 	}
+	
+	@Override
+	public String toString() {
+		return "[remetente=" + this.remetente + "; qunatia=" + this.quantia + "; destinatário=" + this.destinatario + "]";
+	}
 }

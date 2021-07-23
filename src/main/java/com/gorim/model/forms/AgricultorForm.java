@@ -1,9 +1,11 @@
 package com.gorim.model.forms;
 
+import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AgricultorForm {
-	
+
 	private Parcela[] parcelas;
 	private boolean pedirSeloVerde;
 	
@@ -29,6 +31,11 @@ public class AgricultorForm {
 	
 	public void setParcelas(Parcela[] parcelas) {
 		this.parcelas = parcelas;
+	}
+	
+	@Override
+	public String toString() {
+		return "AgricultorForm [parcelas=" + Arrays.toString(parcelas) + ", pedirSeloVerde=" + pedirSeloVerde + "]";
 	}
 	
 }

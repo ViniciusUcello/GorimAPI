@@ -79,7 +79,7 @@ public class Prefeito extends Pessoa {
         double cobranca = 0;
         int produtividadeEmp = emp.getProdutividade();
         if(produtividadeEmp == 0) cobranca = this.taxas[0];
-        else if(produtividadeEmp < 121) cobranca = produtividadeEmp*this.taxas[1];
+        else if(produtividadeEmp < 201) cobranca = produtividadeEmp*this.taxas[1];
         else if(produtividadeEmp > 200) cobranca = produtividadeEmp*this.taxas[2];
 
         emp.pagarImposto(cobranca, this);

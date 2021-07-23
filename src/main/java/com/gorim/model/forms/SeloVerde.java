@@ -1,5 +1,7 @@
 package com.gorim.model.forms;
 
+import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SeloVerde {
@@ -39,6 +41,11 @@ public class SeloVerde {
 	
 	public void setAtribuir(boolean atribuir) {
 		this.atribuir = atribuir;
+	}
+	
+	@Override
+	public String toString() {
+		return "[idAgr=" + this.idAgr + "; parcelas=" + Arrays.toString(this.parcelas) + "; atribuir=" + this.atribuir + "]";
 	}
 	
 	

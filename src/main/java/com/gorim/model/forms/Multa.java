@@ -29,4 +29,9 @@ public class Multa {
 	public void setTipo(int tipo) {
 		this.tipo = tipo;
 	}
+	
+	@Override
+	public String toString() {
+		return "[idPessoa=" + this.idPessoa + "; tipo=" + this.tipo + "]";
+	}
 }

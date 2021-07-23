@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gorim.api.GameEventsController;
+import com.gorim.enums.GameStatus;
 import com.gorim.model.MundoModel;
 import com.gorim.model.PessoaModel;
 import com.gorim.model.ProdutoSimplifiedModel;
@@ -38,10 +40,14 @@ import com.gorim.motorJogo.Vereador;
 @Service
 public class MundoService {
 	private List<Mundo> mundos;
-	private String filesAbsolutePath = "/usr/local/bin/gorimAPI/data/"; 
+	private String filesAbsolutePath = "/usr/local/bin/gorimAPI/data/";
+	//private String filesAbsolutePath = "data/";
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private GameEventsController geController;
 	
 	private final static Logger logger = LoggerFactory.getLogger(MundoService.class);
 	
@@ -96,7 +102,8 @@ public class MundoService {
 			
 			
 			try {
-				this.mundos.add(new Mundo(idJogoNovo, mestreForm.getQuantidadeJogadores(), userRepository, filesAbsolutePath));
+				logger.info("MundoService.ProcessaMestre: Payload=" + mestreForm.toString());
+				this.mundos.add(new Mundo(idJogoNovo, mestreForm.getQuantidadeJogadores(), filesAbsolutePath, userRepository, geController));
 				this.mundos.get(this.getIndexMundoById(idJogoNovo)).iniciarJogo();
 			} catch (Exception e) {
 				logger.error("MundoService.processaMestre: Exception : " + e.getClass() + " : " + e.getMessage());
@@ -111,7 +118,9 @@ public class MundoService {
 		int indexMundo = this.getIndexMundoById(idJogo);
 		if(indexMundo > -1) {
 			try {
+				logger.info("MundoService.finalizarJogo: Mundo " + idJogo + " requisitado para finalização.");
 				this.mundos.get(this.getIndexMundoById(idJogo)).finalizarJogo();
+				logger.info("MundoService.finalizarJogo: Mundo " + idJogo + " finalizado.");
 			} catch (IOException e) {
 				logger.error("MundoService.finalizarJogo: Exception : " + e.getClass() + " : " + e.getMessage());
 				e.printStackTrace();
@@ -168,6 +177,7 @@ public class MundoService {
 	public boolean adicionaTransferencia(int idJogo, Transfer transferencia) {
 		int indexMundo = this.getIndexMundoById(idJogo);
 		if(indexMundo > -1) {
+			logger.info("MundoService.adicionaTransferencia: Payload=" + transferencia.toString());
 			this.mundos.get(indexMundo).adicionaTransferencia(transferencia);
 			return true;
 		}
@@ -179,10 +189,11 @@ public class MundoService {
 		int indexMundo = this.getIndexMundoById(idJogo);
 		if(indexMundo > -1)
 			this.mundos.get(indexMundo).changeFlagFimEtapa();
-		logger.warn("MundoService.changeFlagFimEtapa: Flag não foi modificada pois o jogo " + idJogo + " não está na lista.");
+		else
+			logger.warn("MundoService.changeFlagFimEtapa: Flag não foi modificada pois o jogo " + idJogo + " não está na lista.");
 	}
 	
-	public boolean[] verificaFinalizados(int idJogo, int etapa) {
+	public int[] verificaFinalizados(int idJogo, int etapa) {
 		int indexMundo = this.getIndexMundoById(idJogo);
 		if(indexMundo > -1)
 			return this.mundos.get(indexMundo).verificaFinalizados(etapa);
@@ -190,17 +201,30 @@ public class MundoService {
 		return null;
 	}
 	
-	public int verificaFimEtapa(int idJogo, int etapa) {
+	public int verificaTodosTerminaramEtapa(int idJogo, int etapa) {
 		int indexMundo = this.getIndexMundoById(idJogo);
 		if(indexMundo > -1)
-			return this.mundos.get(indexMundo).verificaFimEtapa(etapa);
+			return this.mundos.get(indexMundo).hasUnfinishedPlayers(etapa);
 		
 		File tempFile = new File(filesAbsolutePath + "jogos/" + idJogo + "/gameOverData.json");
 		if(tempFile.exists())
-			return 3;
+			return GameStatus.FIM_JOGO.status;
 
 		logger.warn("MundoService.verificaFimEtapa: O jogo " + idJogo + " não está na lista e não foi finalizado.");
 		return -1;
+	}
+	
+	public int verificaTodosComecaramEtapa(int idJogo, int etapa) {
+		int indexMundo = this.getIndexMundoById(idJogo);
+		if(indexMundo > -1)
+			return this.mundos.get(indexMundo).hasEveryoneStarted(etapa);
+		
+		File tempFile = new File(filesAbsolutePath + "jogos/" + idJogo + "/gameOverData.json");
+		if(tempFile.exists())
+			return GameStatus.FIM_JOGO.status;
+
+		logger.warn("MundoService.verificaFimEtapa: O jogo " + idJogo + " não está na lista e não foi finalizado.");
+		return -2;
 	}
 	
 	public int papelSegundaEtapa(int idJogo, int idPessoa) {
@@ -215,9 +239,11 @@ public class MundoService {
 	public void processaJogadaEmpresario(int idJogo, int idEmp, EmpresarioForm empForm){
 		int indexMundo = this.getIndexMundoById(idJogo);
 		if(indexMundo > -1) {
+			logger.info("MundoService.processaJogadaEmpresario: Payload=" + empForm.toString());
 			this.mundos.get(indexMundo).processaJogadaEmpresario(idEmp, empForm);
 		}
-		logger.warn("MundoService.processaJogadaEmpresario: Não foi possível processar. O jogo " + idJogo + " não está na lista. Payload=" + empForm.toString());
+		else
+			logger.warn("MundoService.processaJogadaEmpresario: Não foi possível processar. O jogo " + idJogo + " não está na lista. Payload=" + empForm.toString());
 	}
 	
 	public Empresario getEmpresarioById(int idJogo, int id) {
@@ -239,9 +265,12 @@ public class MundoService {
 	
 	public void processaJogadaAgricultor(int idJogo, int idAgr, AgricultorForm agrForm) {
 		int indexMundo = this.getIndexMundoById(idJogo);
-		if (indexMundo > -1)
+		if (indexMundo > -1) {
+			logger.info("MundoService.processaJogadaAgricultor: Payload=" + agrForm.toString());
 			this.mundos.get(indexMundo).processaJogadaAgricultor(idAgr, agrForm);
-		logger.warn("MundoService.processaJogadaAgricultor: Jogada não processada pois o jogo " + idJogo + " não está na lista. Payload=" + agrForm.toString());
+		}
+		else
+			logger.warn("MundoService.processaJogadaAgricultor: Jogada não processada pois o jogo " + idJogo + " não está na lista. Payload=" + agrForm.toString());
 	}
 	
 	public Agricultor getAgricultorById(int idJogo, int id) {
@@ -257,34 +286,40 @@ public class MundoService {
 		int indexMundo = this.getIndexMundoById(idJogo);
 		if (indexMundo > -1) {
 			try {
+		    	logger.info("MundoService.processaJogadaFiscal: idFis=" + idFis + "; Payload=" + fisForm.toString());
 				this.mundos.get(indexMundo).processaJogadaFiscal(idFis, fisForm);
 			} catch (IOException e) {
 				logger.error("MundoService.processaJogadaFiscal: Exception : " + e.getClass() + " : " + e.getMessage());
 				e.printStackTrace();
 			}
 		}
-		logger.warn("MundoService.processaJogadaFiscal: Não foi possível processar a jogada do fiscal pois o jogo " + idJogo + " não está na lista. Payload=" + fisForm.toString());
+		else
+			logger.warn("MundoService.processaJogadaFiscal: Não foi possível processar a jogada do fiscal pois o jogo " + idJogo + " não está na lista. Payload=" + fisForm.toString());
 	}
 	
 	public void processaJogadaPrefeito(int idJogo, int idPref, PrefeitoForm prefForm) {
 		int indexMundo = this.getIndexMundoById(idJogo);
 		if (indexMundo > -1) {
 			try {
+		    	logger.info("MundoService.processaJogadaPrefeito: idPref=" + idPref + "; Payload=" + prefForm.toString());
 				this.mundos.get(indexMundo).processaJogadaPrefeito(idPref, prefForm);
 			} catch (IOException e) {
 				logger.error("MundoService.getGameOverData: Exception : " + e.getClass() + " : " + e.getMessage());
 				e.printStackTrace();
 			}
 		}
-		logger.warn("MundoService.processaJogadaPrefeito: Não foi possível processar a jogada do prefeito pois o jogo " + idJogo + " não está na lista. Payload=" + prefForm.toString());
+		else
+			logger.warn("MundoService.processaJogadaPrefeito: Não foi possível processar a jogada do prefeito pois o jogo " + idJogo + " não está na lista. Payload=" + prefForm.toString());
 	}
 	
 	public void processaJogadaVereador(int idJogo, int idVer) {
 		int indexMundo = this.getIndexMundoById(idJogo);
-		if (indexMundo > -1)
+		if (indexMundo > -1) {
+	    	logger.info("MundoService.processaJogadaVereador: idVer=" + idVer);
 			this.mundos.get(indexMundo).processaJogadaVereador(idVer);
-		
-		logger.warn("MundoService.processaJogadaVereador: Não foi possível processar a jogada do vereador id=" + idVer + " pois o jogo " + idJogo + " não está na lista.");
+		}
+		else
+			logger.warn("MundoService.processaJogadaVereador: Não foi possível processar a jogada do vereador id=" + idVer + " pois o jogo " + idJogo + " não está na lista.");
 	}
 	
 	public FiscalAmbiental getFiscalAmbientalById(int idJogo, int idFis) {
@@ -363,15 +398,11 @@ public class MundoService {
 		return null;
 	}
 	
-	public boolean finalizarEtapa(int idJogo){
+	public boolean finalizarEtapa(int idJogo, int rodada, int etapa){
 		int indexMundo = this.getIndexMundoById(idJogo);
 		if(indexMundo > -1) {
-			try {
-				this.mundos.get(indexMundo).finalizarEtapa();
-			} catch (IOException e) {
-				logger.error("MundoService.finalizarEtapa: Exception : " + e.getClass() + " : " + e.getMessage());
-				e.printStackTrace();
-			}
+	    	logger.info("MundoService.finalizarEtapa: mestre finalizando etapa. idJogo=" + idJogo + "; rodada=" + rodada + "; etapa=" + etapa);
+			this.mundos.get(indexMundo).avisoMestreFimEtapa(rodada, etapa);
 			return true;
 		}
 		logger.warn("MundoService.finalizarEtapa: Etapa não finalizada pois o jogo " + idJogo + " não está na lista.");
@@ -396,7 +427,8 @@ public class MundoService {
 		int indexMundo = this.getIndexMundoById(idJogo);
 		if(indexMundo > -1)
 			this.mundos.get(indexMundo).adicionaOrcamentoById(venda);
-		logger.warn("MundoService.adicionaOrcamentoById: Orçamento não adicionado pois o jogo " + idJogo + " não está na lista. Payload=" + venda.toString());
+		else
+			logger.warn("MundoService.adicionaOrcamentoById: Orçamento não adicionado pois o jogo " + idJogo + " não está na lista. Payload=" + venda.toString());
 	}
 	
 	public List<Venda> getOrcamentos(int idJogo, int idAgr){
@@ -411,14 +443,16 @@ public class MundoService {
 		int indexMundo = this.getIndexMundoById(idJogo);
 		if(indexMundo > -1)
 			this.mundos.get(indexMundo).removeOrcamentoById(idAgr, idEmp, idOrcamento);
-		logger.warn("MundoService.removeOrcamentoById: Não foi possível remover o orçamento pois o jogo " + idJogo + " não está na lista. idAgr=" + idAgr + "; idEmp=" + idEmp + "; idOrcamento=" + idOrcamento);
+		else
+			logger.warn("MundoService.removeOrcamentoById: Não foi possível remover o orçamento pois o jogo " + idJogo + " não está na lista. idAgr=" + idAgr + "; idEmp=" + idEmp + "; idOrcamento=" + idOrcamento);
 	}
 	
 	public void adicionaVendaById(int idJogo, Venda venda) {
 		int indexMundo = this.getIndexMundoById(idJogo);
 		if (indexMundo > -1)
 			this.mundos.get(indexMundo).adicionaVendaById(venda);
-		System.out.println("MundoService.adicionaVendaById: Não foi possível adicionar a venda pois o jogo " + idJogo + " não está na lista. Payload=" + venda.toString());
+		else
+			logger.warn("MundoService.adicionaVendaById: Não foi possível adicionar a venda pois o jogo " + idJogo + " não está na lista. Payload=" + venda.toString());
 	}
 	
 	public List<Venda> getVendas(int idJogo, int idEmp){
@@ -433,7 +467,8 @@ public class MundoService {
 		int indexMundo = this.getIndexMundoById(idJogo);
 		if(indexMundo > -1)
 			this.mundos.get(indexMundo).adicionaSugestaoOuResposta(idVer, sugestao);
-		logger.warn("MundoService.adicionaSugestaoVereador: Não foi possível adicionar a sugestão pois o jogo " + idJogo + " não está na lista. Payload=" + sugestao.toString());
+		else
+			logger.warn("MundoService.adicionaSugestaoVereador: Não foi possível adicionar a sugestão pois o jogo " + idJogo + " não está na lista. Payload=" + sugestao.toString());
 	}
 	
 	public void adicionaRespostaSugestaoVereador(int idJogo, int idPref, SugestaoVereador sugestao) {
@@ -442,7 +477,8 @@ public class MundoService {
 			this.mundos.get(indexMundo).removeSugestaoVereador(idPref, sugestao.getIdSugestao());
 			this.mundos.get(indexMundo).adicionaSugestaoOuResposta(idPref, sugestao);
 		}
-		logger.warn("MundoService.adicionaRespostaSugestaoVereador: Não foi possível adicionar a resposta pois o jogo " + idJogo + " não está na lista. Payload=" + sugestao.toString());
+		else
+			logger.warn("MundoService.adicionaRespostaSugestaoVereador: Não foi possível adicionar a resposta pois o jogo " + idJogo + " não está na lista. Payload=" + sugestao.toString());
 	}
 	
 	public List<SugestaoVereador> getSugestoesVereador(int idJogo, int idPessoa){

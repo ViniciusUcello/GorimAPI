@@ -1,5 +1,7 @@
 package com.gorim.model.forms;
 
+import org.json.simple.JSONObject;
+
 public class ChatNotification {
 	private long id;
 	private String senderId;
@@ -40,5 +42,16 @@ public class ChatNotification {
 	@Override
 	public String toString() {
 		return "ChatNotification [id=" + id + ", senderId=" + senderId + ", senderName=" + senderName + "]";
+	}
+	
+	@SuppressWarnings("unchecked")
+	public JSONObject toJSON() {
+		JSONObject aux = new JSONObject();
+		
+		aux.put("id", this.id);
+		aux.put("senderId", this.senderId);
+		aux.put("senderName", this.senderName);
+		
+		return aux;
 	}
 }

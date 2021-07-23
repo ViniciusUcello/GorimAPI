@@ -95,9 +95,9 @@ public class API {
 		this.mundoService.changeFlagFimEtapa(idJogo);
 	}
 	
-	@PostMapping(path = "/{idJogo}/mestre/finalizarEtapa")
-	public boolean finalizarEtapa(@PathVariable("idJogo") int idJogo) {
-		return this.mundoService.finalizarEtapa(idJogo);
+	@PostMapping(path = "/{idJogo}/mestre/finalizarEtapa/{rodada}/{etapa}")
+	public boolean finalizarEtapa(@PathVariable("idJogo") int idJogo, @PathVariable("rodada") int rodada, @PathVariable("etapa") int etapa) {
+		return this.mundoService.finalizarEtapa(idJogo, rodada, etapa);
 	}
 	
 	@PostMapping(path = "/{idJogo}/mestre/infoPessoasByEtapa")
@@ -140,13 +140,18 @@ public class API {
 	}
 	
 	@PostMapping(path = "/{idJogo}/mestre/verificaFinalizados")
-	public boolean[] verificaFinalizados(@PathVariable("idJogo") int idJogo, @RequestBody int etapa) {
+	public int[] verificaFinalizados(@PathVariable("idJogo") int idJogo, @RequestBody int etapa) {
 		return this.mundoService.verificaFinalizados(idJogo, etapa);
 	}
 	
-	@GetMapping(path = "/{idJogo}/mestre/verificaFimEtapa/{etapa}")
+	@GetMapping(path = "/{idJogo}/mestre/verificaTodosTerminaramEtapa/{etapa}")
 	public int verificaFimEtapa(@PathVariable("idJogo") int idJogo, @PathVariable("etapa") int etapa) {
-		return this.mundoService.verificaFimEtapa(idJogo, etapa);
+		return this.mundoService.verificaTodosTerminaramEtapa(idJogo, etapa);
+	}
+	
+	@GetMapping(path = "/{idJogo}/mestre/verificaTodosComecaramEtapa/{etapa}")
+	public int verificaTodosComecaramEtapa(@PathVariable("idJogo") int idJogo, @PathVariable("etapa") int etapa) {
+		return this.mundoService.verificaTodosComecaramEtapa(idJogo, etapa);
 	}
 	
 	@GetMapping(path = "/{idJogo}/mestre/papelSegundaEtapa/{idPessoa}")
@@ -168,7 +173,7 @@ public class API {
 	}
 
 	@PostMapping(path = "/{idJogo}/empresario/{idEmp}")
-	public void finalizaJogada(
+	public void processaJogadaEmpresario(
 			@PathVariable("idJogo") int idJogo,
 			@PathVariable("idEmp") int idEmp,
 			@RequestBody EmpresarioForm empForm
@@ -192,7 +197,7 @@ public class API {
 	}
 	
 	@PostMapping(path = "/{idJogo}/agricultor/{idAgr}")
-	public void postForm(
+	public void processaJogadaAgricultor(
 			@PathVariable("idJogo") int idJogo,
 			@PathVariable("idAgr") int idAgr,
 			@RequestBody AgricultorForm postForm
