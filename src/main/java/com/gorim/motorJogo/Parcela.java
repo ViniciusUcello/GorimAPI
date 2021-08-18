@@ -208,14 +208,15 @@ public class Parcela {
     }
 
     public void calculaProdutividade(){
+    	this.produtividade = 0;
     	if( (this.produtos[0] != null) ) {
 	        int prod = 10;
 	    	
 	    	if (this.produtos[1] != null) {
 	    		String fert = this.produtos[1].getTipo();
-	    		if(fert.equals(ConstantesGorim.c_TipoAgrotoxicoA)) prod *= 2;
-	            else if(fert.equals(ConstantesGorim.c_TipoAgrotoxicoB)) prod *= 3;
-	            else if(fert.equals(ConstantesGorim.c_TipoAgrotoxicoC)) prod *= 4;
+	    		if(fert.equals(ConstantesGorim.c_TipoFertilizanteA)) prod *= 2;
+	            else if(fert.equals(ConstantesGorim.c_TipoFertilizanteB)) prod *= 3;
+	            else if(fert.equals(ConstantesGorim.c_TipoFertilizanteC)) prod *= 4;
 	    	}
 	    	
 	    	if (this.produtos[2] != null) {
@@ -226,14 +227,16 @@ public class Parcela {
 	    		
 	    		String sem = this.produtos[0].getTipo();
 	    		
-	            if(agrMaq.contains(ConstantesGorim.c_TipoAgrotoxicoA) || agrMaq.contains(ConstantesGorim.c_TipoAgrotoxicoB)){
+	            if(
+	        		agrMaq.equals(ConstantesGorim.c_TipoAgrotoxicoA) ||
+	        		agrMaq.contains(ConstantesGorim.c_TipoAgrotoxicoB)
+	        	){
 	                if(sem.equals(ConstantesGorim.c_TipoSementeB)) prod *= 2;
 	                else if(sem.equals(ConstantesGorim.c_TipoSementeC)) prod *= 3;
 	            }
 	    	}
 	        this.produtividade = prod;
     	}
-    	else this.produtividade = 0;
     }
 
     public int getProdutividade(){
@@ -241,8 +244,8 @@ public class Parcela {
     }
 
     public void calculaPoluicao(){
-        if( (this.produtos[0] != null) ) {
-        	double polu = 0;
+    	double polu = 0;
+        if(this.produtos[0] != null) {
         	
         	String sem = this.produtos[0].getTipo();
         	
@@ -258,11 +261,9 @@ public class Parcela {
                 else if(agr.equals(ConstantesGorim.c_TipoAgrotoxicoC)) polu *= 3;
         	}
 
-            if(usaPulverizador) polu /= 2;
-
-            this.poluicao = polu;
+            if (usaPulverizador) polu /= 2;
         }
-        else this.poluicao = (double)0;
+    	this.poluicao = polu;
     	
     }
 

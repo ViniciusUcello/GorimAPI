@@ -97,9 +97,7 @@ public class FiscalAmbiental extends Pessoa {
     	return "Id do eleito fiscal: " + this.idFiscal_ambiental +"\n"+ "Dados do fiscal:\nID: " + this.id + "\nNome: " + this.nome + "\nCidade: " + this.cidade + "\nSaldo: " + this.saldo + ".\n";
     }
 
-    void finalizarRodada(Pessoa pessoa){
-        if(this.getSaldo() > 0) pessoa.setSaldo(pessoa.getSaldo() + this.getSaldo());
-        this.setSaldo(0);
+    void finalizarRodada(){
         if(this.pedidos.size() > 0) {
         	for (int i = this.pedidos.size()-1; i >= 0; i--) {
     			this.pedidos.remove(i);

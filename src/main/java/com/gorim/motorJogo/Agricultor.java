@@ -54,7 +54,7 @@ public class Agricultor extends Pessoa {
             this.parcelas[parcela].setSemente(produto);
         } else if (setor.equals(ConstantesGorim.c_Fertilizante)) {
             this.parcelas[parcela].setFetilizante(produto);
-        } else if (produto.getTipo().equals("pulverizador")) {
+        } else if (produto.getTipo().equals(ConstantesGorim.c_TipoMaquinaD.toLowerCase())) {
             this.parcelas[parcela].setPulverizador(true);
         } else if (setor.equals(ConstantesGorim.c_Agrotoxico)) {
             this.parcelas[parcela].setAgrMaq(produto);
@@ -65,20 +65,16 @@ public class Agricultor extends Pessoa {
     }
 
     public boolean checkProdutoParcela(int parcela, int tipoProduto) {
-        if (tipoProduto == 1 && this.parcelas[parcela].getProdutoByTipo(tipoProduto)) {
-            return true;
-        } else if (tipoProduto == 2 && this.parcelas[parcela].getProdutoByTipo(tipoProduto)) {
-            return true;
-        } else if (tipoProduto == 3 && this.parcelas[parcela].getProdutoByTipo(tipoProduto)) {
-            return true;
-        } else if (tipoProduto == 4 && this.parcelas[parcela].getProdutoByTipo(tipoProduto)) {
-            return true;
-        }
+        if (
+        		(tipoProduto > 0) &&
+        		(tipoProduto < 5) &&
+        		(this.parcelas[parcela].getProdutoByTipo(tipoProduto))
+        	) return true;
+        
         return false;
     }
 
     public void devolveProdutoParcela(int produto, int parcela, Empresario emp, double precoCompra) {
-        //System.out.println("devolveProdutoParcela(" + produto + ", " + parcela + ", " + emp.getNome() + ", " + precoCompra + ");");
         emp.recebeProduto(this.parcelas[parcela].getIdProduto(produto), this, precoCompra);
         this.gastos += precoCompra;
 
@@ -141,7 +137,6 @@ public class Agricultor extends Pessoa {
         else if(poluicaoMundo >= 0.7 && poluicaoMundo < 0.8) peso = 0.6;
         else if(poluicaoMundo >= 0.8 && poluicaoMundo < 0.9) peso = 0.4;
         else if(poluicaoMundo >= 0.9 && poluicaoMundo < 0.99) peso = 0.2;
-        else peso = 0;
 
         prod *= peso;
 

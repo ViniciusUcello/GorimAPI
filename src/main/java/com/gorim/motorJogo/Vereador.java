@@ -37,8 +37,7 @@ public class Vereador extends Pessoa {
     	return "Id do eleito vereador: " + this.idEleito +"\n"+ "Dados do vereador: \nID: " + this.id + ";\nNome: " + this.nome + ";\nCidade: " + this.cidade + ";\nSaldo: " + this.saldo + ".\n";
     }
 
-    void finalizarRodada(Pessoa pessoa){
-        if(this.getSaldo() > 0) pessoa.setSaldo(pessoa.getSaldo() + this.getSaldo());
-        this.setSaldo(0);
+    void finalizarRodada(){
+    	// dont do anything
     }
 }
