@@ -428,7 +428,9 @@ public class Mundo {
 	    	int contagemMaximaCD = 0;
 	    	ArrayList<Integer> empateFiscalCD = new ArrayList<Integer>();
 	    	
+	    	String log = "Votação Fiscal = [";
 	    	for (int votosCandidato : this.votacaoFiscal) {
+	    		log += "[idFis=" + i + "; votos=" + votosCandidato + "], ";
 	    		if(i%2 != 0) {
 					if(votosCandidato > contagemMaximaAT) {
 						contagemMaximaAT = votosCandidato;
@@ -453,6 +455,7 @@ public class Mundo {
 	    		}
 				i++;
 			}
+	    	logger.info("Mundo.ProcessaEleicao: idJogo=" + this.idJogo + "; " + log + "]");
 	
 	    	i = 1;
 	    	
@@ -464,7 +467,9 @@ public class Mundo {
 	    	contagemMaximaCD = 0;
 	    	ArrayList<Integer> empatePrefeitoCD = new ArrayList<Integer>();
 	    	
+	    	log = "Votação Prefeito = [";
 	    	for (int votosCandidato : this.votacaoPrefeito) {
+	    		log += "[idPref=" + i + "; votos=" + votosCandidato + "], ";
 	    		if(i%2 != 0) {
 	    			if(votosCandidato > contagemMaximaAT) {
 	    				contagemMaximaAT = votosCandidato;
@@ -489,6 +494,7 @@ public class Mundo {
 	    		}
 				i++;
 			}
+	    	logger.info("Mundo.ProcessaEleicao: idJogo=" + this.idJogo + "; " + log + "]");
 	
 	    	i = 1;
 	    	
@@ -499,8 +505,10 @@ public class Mundo {
 	    	int idEleitoVereadorCD = 0;
 	    	contagemMaximaCD = 0;
 	    	ArrayList<Integer> empateVereadorCD = new ArrayList<Integer>();
-	    	
+
+	    	log = "Votação Vereador = [";
 	    	for (int votosCandidato : this.votacaoVereador) {
+	    		log += "[idVer=" + i + "; votos=" + votosCandidato + "], ";
 				if(i%2 != 0) {
 					if(votosCandidato > contagemMaximaAT) {
 						contagemMaximaAT = votosCandidato;
@@ -525,71 +533,77 @@ public class Mundo {
 				}
 				i++;
 			}
+	    	logger.info("Mundo.ProcessaEleicao: idJogo=" + this.idJogo + "; " + log + "]");
 	    	
 			Random rand = new Random();
 	    	
 	    	if(empateFiscalAT.size() > 1) {
-	    		if(empatePrefeitoAT.size() == 0) if(empateFiscalAT.contains(idEleitoPrefeitoAT)) empateFiscalAT.remove(empateFiscalAT.indexOf(idEleitoPrefeitoAT));
-	    		if(empateVereadorAT.size() == 0) if(empateFiscalAT.contains(idEleitoVereadorAT)) empateFiscalAT.remove(empateFiscalAT.indexOf(idEleitoVereadorAT));
-	    		
-	    		empateFiscalAT.add(idEleitoFiscalAT);
-	    		
+	    		if(empatePrefeitoAT.size() == 1) if(empateFiscalAT.contains(idEleitoPrefeitoAT)) empateFiscalAT.remove(empateFiscalAT.indexOf(idEleitoPrefeitoAT));
+	    		if(empateVereadorAT.size() == 1) if(empateFiscalAT.contains(idEleitoVereadorAT)) empateFiscalAT.remove(empateFiscalAT.indexOf(idEleitoVereadorAT));
+	    			    		
 	    		idEleitoFiscalAT = empateFiscalAT.get(rand.nextInt(empateFiscalAT.size()));    		
+	    	}
+	    	else if(empateFiscalAT.size() == 0) {
+	    		idEleitoFiscalAT = rand.nextInt(this.quantidadeJogadores/2)*2 +1;
 	    	}
 	    	
 	    	if(empatePrefeitoAT.size() > 1) {
 	    		if(empatePrefeitoAT.contains(idEleitoFiscalAT)) empatePrefeitoAT.remove(empatePrefeitoAT.indexOf(idEleitoFiscalAT));
-	    		if(empateVereadorAT.size() == 0) if(empatePrefeitoAT.contains(idEleitoVereadorAT)) empatePrefeitoAT.remove(empatePrefeitoAT.indexOf(idEleitoVereadorAT));
-	    		
-	    		empatePrefeitoAT.add(idEleitoPrefeitoAT);
-	    		
+	    		if(empateVereadorAT.size() == 1) if(empatePrefeitoAT.contains(idEleitoVereadorAT)) empatePrefeitoAT.remove(empatePrefeitoAT.indexOf(idEleitoVereadorAT));
+	    			    		
 	    		idEleitoPrefeitoAT = empatePrefeitoAT.get(rand.nextInt(empatePrefeitoAT.size()));
+	    	}
+	    	else if(empatePrefeitoAT.size() == 0) {
+	    		do { idEleitoPrefeitoAT = rand.nextInt(this.quantidadeJogadores/2)*2 +1; } while (idEleitoPrefeitoAT != idEleitoFiscalAT);
 	    	}
 	    	
 	    	if(empateVereadorAT.size() > 1) {
 	    		if(empateVereadorAT.contains(idEleitoFiscalAT)) empateVereadorAT.remove(empateVereadorAT.indexOf(idEleitoFiscalAT));
 	    		if(empateVereadorAT.contains(idEleitoPrefeitoAT)) empateVereadorAT.remove(empateVereadorAT.indexOf(idEleitoPrefeitoAT));
-	    		
-	    		empateVereadorAT.add(idEleitoVereadorAT);
-	    		
+	    			    		
 	    		idEleitoVereadorAT = empateVereadorAT.get(rand.nextInt(empateVereadorAT.size()));    		
 	    	}
-	    	
+	    	else if(empateVereadorAT.size() == 0) {
+	    		do { idEleitoVereadorAT = rand.nextInt(this.quantidadeJogadores/2)*2 +1; } while ((idEleitoVereadorAT != idEleitoFiscalAT) && (idEleitoVereadorAT != idEleitoPrefeitoAT));
+	    	}
 	
 	
 			if(empateFiscalCD.size() > 1) {
-			    if(empatePrefeitoCD.size() == 0) if(empateFiscalCD.contains(idEleitoPrefeitoCD)) empateFiscalCD.remove(empateFiscalCD.indexOf(idEleitoPrefeitoCD));
-			    if(empateVereadorCD.size() == 0) if(empateFiscalCD.contains(idEleitoVereadorCD)) empateFiscalCD.remove(empateFiscalCD.indexOf(idEleitoVereadorCD));
-			    
-			    empateFiscalCD.add(idEleitoFiscalCD);
+			    if(empatePrefeitoCD.size() == 1) if(empateFiscalCD.contains(idEleitoPrefeitoCD)) empateFiscalCD.remove(empateFiscalCD.indexOf(idEleitoPrefeitoCD));
+			    if(empateVereadorCD.size() == 1) if(empateFiscalCD.contains(idEleitoVereadorCD)) empateFiscalCD.remove(empateFiscalCD.indexOf(idEleitoVereadorCD));
 			    
 			    idEleitoFiscalCD = empateFiscalCD.get(rand.nextInt(empateFiscalCD.size()));    		
 			}
+	    	else if(empateFiscalCD.size() == 0) {
+	    		idEleitoFiscalCD = (rand.nextInt(this.quantidadeJogadores/2)+1) * 2;
+	    	}
 			
 			if(empatePrefeitoCD.size() > 1) {
 			    if(empatePrefeitoCD.contains(idEleitoFiscalCD)) empatePrefeitoCD.remove(empatePrefeitoCD.indexOf(idEleitoFiscalCD));
-			    if(empateVereadorCD.size() == 0) if(empatePrefeitoCD.contains(idEleitoVereadorCD)) empatePrefeitoCD.remove(empatePrefeitoCD.indexOf(idEleitoVereadorCD));
-			    
-			    empatePrefeitoCD.add(idEleitoPrefeitoCD);
+			    if(empateVereadorCD.size() == 1) if(empatePrefeitoCD.contains(idEleitoVereadorCD)) empatePrefeitoCD.remove(empatePrefeitoCD.indexOf(idEleitoVereadorCD));
 			    
 			    idEleitoPrefeitoCD = empatePrefeitoCD.get(rand.nextInt(empatePrefeitoCD.size()));
 			}
+	    	else if(empatePrefeitoCD.size() == 0) {
+	    		do { idEleitoPrefeitoCD = (rand.nextInt(this.quantidadeJogadores/2)+1) * 2; } while (idEleitoPrefeitoCD != idEleitoFiscalCD);
+	    	}
 			
 			if(empateVereadorCD.size() > 1) {
 			    if(empateVereadorCD.contains(idEleitoFiscalCD)) empateVereadorCD.remove(empateVereadorCD.indexOf(idEleitoFiscalCD));
 			    if(empateVereadorCD.contains(idEleitoPrefeitoCD)) empateVereadorCD.remove(empateVereadorCD.indexOf(idEleitoPrefeitoCD));
 			    
-			    empateVereadorCD.add(idEleitoVereadorCD);
-			    
 			    idEleitoVereadorCD = empateVereadorCD.get(rand.nextInt(empateVereadorCD.size()));
 			}
+	    	else if(empateVereadorCD.size() == 0) {
+	    		do { idEleitoVereadorCD = (rand.nextInt(this.quantidadeJogadores/2)+1) * 2; } while ((idEleitoVereadorCD != idEleitoFiscalCD) && (idEleitoVereadorCD != idEleitoPrefeitoCD));
+	    	}
 			
-			System.out.println("Mundo.processaEleicao: AT: idFis=" + idEleitoFiscalAT + " ; idPref=" + idEleitoPrefeitoAT + " ; idVer=" + idEleitoVereadorAT);    	
+			logger.info("Mundo.processaEleicao: AT: idFis=" + idEleitoFiscalAT + " ; idPref=" + idEleitoPrefeitoAT + " ; idVer=" + idEleitoVereadorAT);    	
 	    	this.eleger(idEleitoFiscalAT, 0);
 	    	this.eleger(idEleitoPrefeitoAT, 1);
 	    	this.eleger(idEleitoVereadorAT, 2);
 	
-			System.out.println("Mundo.processaEleicao: CD: idFis=" + idEleitoFiscalCD + " ; idPref=" + idEleitoPrefeitoCD + " ; idVer=" + idEleitoVereadorCD);
+			logger.info("Mundo.processaEleicao: CD: idFis=" + idEleitoFiscalCD + " ; idPref=" + idEleitoPrefeitoCD + " ; idVer=" + idEleitoVereadorCD);
 	    	this.eleger(idEleitoFiscalCD, 0);
 	    	this.eleger(idEleitoPrefeitoCD, 1);
 	    	this.eleger(idEleitoVereadorCD, 2);

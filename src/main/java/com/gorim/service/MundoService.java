@@ -40,8 +40,8 @@ import com.gorim.motorJogo.Vereador;
 @Service
 public class MundoService {
 	private List<Mundo> mundos;
-	private String filesAbsolutePath = "/usr/local/bin/gorimAPI/data/";
-	//private String filesAbsolutePath = "data/";
+	private String filesAbsolutePath = "/usr/local/bin/gorimAPI/data/"; // PARA PRODUÇÃO USAR ESSE
+	//private String filesAbsolutePath = "data/";							// PARA EXECUTAR LOCAL, USAR ESSE
 	
 	@Autowired
 	private UserRepository userRepository;
