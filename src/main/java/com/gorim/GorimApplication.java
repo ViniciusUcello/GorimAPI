@@ -1,3 +1,6 @@
+/**
+ * Classe de inicialização do jogo
+*/
 package com.gorim;
 
 import java.util.TimeZone;

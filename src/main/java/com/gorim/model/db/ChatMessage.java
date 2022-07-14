@@ -1,3 +1,8 @@
+/**
+ * Modelo da tabela do banco de dados sobre
+ * as mensagens do chat (ChatMessage) com os
+ * setters e getters
+*/
 package com.gorim.model.db;
 
 import java.util.Date;

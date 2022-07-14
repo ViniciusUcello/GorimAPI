@@ -1,3 +1,7 @@
+/**
+ * Serviço que implementa uma customização do UserDetailsService
+ * já existente no framework
+*/
 package com.gorim.service;
 
 import java.util.Arrays;
@@ -18,6 +22,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Autowired
 	private UserRepository userRepository;
 
+	/**
+	 * Carrega o usuário a partir do username
+	 * @param username
+     * @return UserDetails
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		List<SimpleGrantedAuthority> roles = Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));

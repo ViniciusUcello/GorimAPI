@@ -1,5 +1,8 @@
 package com.gorim.enums;
 
+/**
+ * Código que identifica o status do jogo
+ */
 public enum GameStatus {
 	
 	INICIO_ETAPA(0),

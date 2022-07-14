@@ -1,3 +1,7 @@
+/**
+ * Tipo para definir o formato da mensagem do
+ * furmulário enviado pelo empresário
+*/
 package com.gorim.model.forms;
 
 import com.fasterxml.jackson.annotation.JsonProperty;

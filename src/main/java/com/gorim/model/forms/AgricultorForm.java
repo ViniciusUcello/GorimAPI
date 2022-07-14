@@ -1,3 +1,7 @@
+/**
+ * Tipo para definir o formato da mensagem do
+ * furmulário enviado pelo agricultor
+*/
 package com.gorim.model.forms;
 
 import java.util.Arrays;

@@ -1,3 +1,7 @@
+/**
+ * Modelo da tabela do banco de dados sobre
+ * as salas de chat (ChatRoom)
+*/
 package com.gorim.model.db;
 
 import javax.persistence.Entity;

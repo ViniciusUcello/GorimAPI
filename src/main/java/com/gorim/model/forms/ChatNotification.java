@@ -1,3 +1,7 @@
+/**
+ * Tipo para definir o formato da mensagem da
+ * notificação de mensagem
+*/
 package com.gorim.model.forms;
 
 import org.json.simple.JSONObject;

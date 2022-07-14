@@ -1,3 +1,7 @@
+/**
+ * Modelo da tabela do banco de dados para
+ * usuários
+*/
 package com.gorim.model.db;
 
 import javax.persistence.Entity;
