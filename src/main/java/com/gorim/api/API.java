@@ -69,22 +69,44 @@ public class API {
 
 		return ResponseEntity.ok(new AuthenticationResponse(jwt));
 	}
-	
+	/**
+	 * Endpoint para o recebimento do sinal de novo jogo (oriunda da página inicial)
+	 * 
+	 * @param mestreForm
+	 * @return id do jogo novo (mundo novo)
+	 */
 	@PostMapping(path = "/mestre")
 	public int postForm(@RequestBody MestreForm mestreForm) {
 		return this.mundoService.processaMestre(mestreForm);
 	}
 	
+	/**
+	 * Endpoint que recebe o sinal de que o jogo tem que acabar
+	 * 
+	 * @param idJogo
+	 * @return boolean para deu certo ou não a finalização
+	 */
 	@GetMapping(path = "/{idJogo}/mestre/finalizarJogo")
 	public boolean terminarJogo(@PathVariable("idJogo") int idJogo) {
 		return this.mundoService.finalizarJogo(idJogo);
 	}
 	
+	/**
+	 * Enpoint para pegar as informações de fim de jogo (resumo dos personagens)
+	 * 
+	 * @param idJogo
+	 * @return JSON com os resultados finais dos jogadores
+	 */
 	@GetMapping(path = "/{idJogo}/mestre/gameover")
 	public JSONObject getGameOverData(@PathVariable("idJogo") int idJogo) {
 		return this.mundoService.getGameOverData(idJogo);
 	}
 	
+	/**
+	 * 
+	 * @param idJogo
+	 * @return
+	 */
 	@GetMapping(path = "/{idJogo}/mestre/infoMundo")
 	public MundoModel infoMundo(@PathVariable("idJogo") int idJogo) {
 		return this.mundoService.getInfoMundo(idJogo);
